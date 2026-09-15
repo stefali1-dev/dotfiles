@@ -44,3 +44,4 @@ Ask in a sentence or two, with a recommendation. Everything else the task needs 
 - Before a change across many files, check for other sessions in this checkout (ListAgents). If one is editing, suggest a worktree. Reviews and research share the checkout.
 - A worktree isolates files only. Deployed stacks, fixed ports, local containers and shared temp dirs still collide.
 - In a new worktree, install dependencies before running anything.
+- Claims, only when sessions must share something a worktree can't split (a deploy stack, a fixed port, files two sessions edit in one checkout): read `~/agent-docs/<repo>/claims.md` first; don't take a claimed item without asking me. Then add one line: `<session name> · <what> · <files or resource> · <start time>`. Remove it when done; a claim older than 2 hours is stale.
