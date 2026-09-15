@@ -9,6 +9,7 @@ Personal Claude Code setup, versioned in place. `.gitignore` allows only the han
 | `hooks/agent-docs.sh` | SessionStart: links `~/agent-docs/<repo>` into the checkout and lists open work |
 | `file-suggestion.sh` | `@` picker: tracked files plus ignored `agent-docs/`, `CLAUDE.local.md`, `.git/info/exclude` paths |
 | `skills/` | `review-comments`, `decision-questions`, `caveman` |
+| `rules/comments.md` | Comment standard; loads when a `.ts`/`.tsx` file is read |
 | `agents/reviewer.md` | Fresh-context reviewer used by `review-comments` |
 | `commands/q.md` | `/q`: queue a follow-up |
 | `git-ignore-global` | Global git ignore; `~/.config/git/ignore` is a symlink to it |
