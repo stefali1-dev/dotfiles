@@ -26,7 +26,7 @@ Not findings:
 
 When the fix would extend the change (new state, schema, retries, a new module) or goes against the plan, the remedy starts with "Needs your call:" and says why.
 
-Output, one block per finding, in file order:
+Output, one block per finding, in file order, paths relative to the repo root:
 
 ```
 ### <n> · <path>:<line>
@@ -53,4 +53,4 @@ Report a finding when:
 
 Then review the fix code itself with the Review rules above. It is new, unreviewed code; Done lines and replies are claims, not evidence. If a fix grew well past what its finding needed, recommend cutting it back to the minimal fix.
 
-Output: one line with how many findings stand. Then only the problems, two lines each: `### <n> · <verdict>` and why.
+Output: one line with how many findings stand. Then only the problems, two lines each: `### <n> · <verdict>` and why. Nothing wrong: that one line is the whole report.

@@ -9,6 +9,8 @@ argument-hint: "[range] | <PR#> | <review file> | address | post <PR#>"
 
 One file per review round. Each command does one pass and stops; the user reads the file between passes.
 
+When spawning `reviewer`, the prompt is the listed fields only; its own file says how to review or audit.
+
 ## The file
 
 `~/agent-docs/<repo>/work/<feature>/review-<n>.md`, next to the plan you are working from; `<n>` is the next number there. No plan: ask which feature folder.
@@ -19,7 +21,9 @@ Source: reviewer | Bitbucket PR #<N> | <file>   ·   Range: <base>..<head> + unc
 
 ### <n> · <path>:<line>
 - [ ] Addressed
-**Severity:** …   **Finding:** …   **Remedy:** …
+**Severity:** …
+**Finding:** …
+**Remedy:** …
 <details><summary>code</summary> excerpt </details>
 ```
 
@@ -74,7 +78,7 @@ Under each finding add `**Done:**` with what actually changed, or why nothing di
 
 Replace the triage table with: #, location, status, what happened. Then list the files touched.
 
-Then audit, without being asked: spawn the `reviewer` subagent (not a fork) with task "audit", the review file and the files touched. Append its report as `## Audit` at the end of the file, and summarise it for the user in a few lines. Act on it only when the user says so.
+Then audit, without being asked: spawn the `reviewer` subagent (not a fork) with task "audit", the review file and the files touched. Append its report as written, under `## Audit` at the end of the file, and summarise it for the user in a few lines. Act on it only when the user says so.
 
 ## Never
 
