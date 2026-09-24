@@ -92,6 +92,7 @@ o.bind("SUPER + CTRL + SHIFT + F", "Tiled full screen", "omarchy-hyprland-window
 o.bind("SUPER + ALT + T", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
 o.bind("SUPER + ALT + S", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 o.bind("SUPER + SHIFT + ALT + S", "Move window to scratchpad", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
+o.bind("SUPER + B", "Browser", { omarchy = "browser" })
 
 o.bind("SUPER + W", "Close tab", mac_shortcut("CTRL", "W", close_window))
 o.bind("SUPER + T", "New tab", mac_shortcut("CTRL", "T", new_terminal))

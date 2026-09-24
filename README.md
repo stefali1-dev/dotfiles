@@ -57,6 +57,7 @@ Omarchy actions that moved:
 | Toggle floating | Cmd + Alt + T |
 | Toggle scratchpad | Cmd + Alt + S |
 | Move window to scratchpad | Cmd + Shift + Alt + S |
+| Browser (also Omarchy's Cmd + Shift + B) | Cmd + B |
 
 `mac/` doesn't exist yet. To get the same layout on macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys.
 
