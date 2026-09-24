@@ -38,6 +38,7 @@ The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
 | Win (left of Alt) | Alt | `hypr/input.lua` (`altwin:swap_lalt_lwin`) |
 | Left Alt (next to Space) | Super = Cmd | same |
 | Copilot | Ctrl | `keyd/default.conf` |
+| Magic Keyboard: right Option | Ctrl | `hypr/input.lua` (`ctrl:ralt_rctrl`, this keyboard only; no Alt/Super swap, Cmd is already next to Space) |
 
 `hypr/bindings.lua` maps Cmd shortcuts:
 - **Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W** sends the matching Ctrl shortcut to the app. Terminals get a terminal-safe action instead.
@@ -45,7 +46,6 @@ The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
 - **Cmd + 1–9** switches workspaces.
 - **Cmd + Space** opens the launcher.
 - **Cmd + K** lists all bindings.
-| Magic Keyboard: right Option | Ctrl | `hypr/input.lua` (`ctrl:ralt_rctrl`, this keyboard only; no Alt/Super swap, Cmd is already next to Space) |
 
 Omarchy actions that moved:
 
