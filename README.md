@@ -45,6 +45,7 @@ The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
 - **Cmd + 1–9** switches workspaces.
 - **Cmd + Space** opens the launcher.
 - **Cmd + K** lists all bindings.
+| Magic Keyboard: right Option | Ctrl | `hypr/input.lua` (`ctrl:ralt_rctrl`, this keyboard only; no Alt/Super swap, Cmd is already next to Space) |
 
 Omarchy actions that moved:
 

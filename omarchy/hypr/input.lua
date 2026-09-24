@@ -64,3 +64,10 @@ hl.config({
     kb_options = "ctrl:nocaps,altwin:swap_lalt_lwin,shift:both_capslock_cancel",
   },
 })
+
+-- The Magic Keyboard already has Cmd next to Space, so no swap; its right
+-- Option takes the Copilot key's role as Ctrl.
+hl.device({
+  name = "magic-keyboard",
+  kb_options = "ctrl:nocaps,ctrl:ralt_rctrl,shift:both_capslock_cancel",
+})
