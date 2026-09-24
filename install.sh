@@ -62,10 +62,11 @@ install_zsh() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
+  link "$DOTFILES/omarchy/claude-rules.md" "$HOME/.claude/rules/omarchy.md"
 
   # keyd runs as root and reads /etc, so this one is copied, not linked.
   if ! command -v keyd >/dev/null; then
