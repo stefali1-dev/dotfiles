@@ -29,6 +29,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `omarchy/mpv/scripts/onepiece.lua` | `~/.config/mpv/scripts/onepiece.lua`: remembers the last One Piece episode and its position, for the `onepiece` command in `zsh/zshrc` (`onepiece` resumes, `onepiece <file or folder>` starts there) | Omarchy Linux |
 | `omarchy/claude-rules.md` | `~/.claude/rules/omarchy.md`: Claude Code rules for Omarchy only (root via `pkexec`) | Omarchy Linux |
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
+| `omarchy/modprobe/` | `/etc/modprobe.d/hid_apple.conf` (copied, needs sudo; rebuilds the boot image): the US Magic Keyboard's `` ` `` `~` key types `<` `>` without it | Omarchy Linux |
 | `omarchy/libinput/` | `/etc/libinput/local-overrides.quirks` (copied, needs sudo): keeps touchpad disable-while-typing working through keyd | Omarchy Linux |
 
 ## Before installing, check

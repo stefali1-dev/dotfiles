@@ -86,6 +86,13 @@ install_omarchy() {
     echo "  installed /etc/libinput/local-overrides.quirks (log out and back in)"
   fi
 
+  # The boot image carries its own copy of modprobe.d, so rebuild it too.
+  if ! cmp -s "$DOTFILES/omarchy/modprobe/hid_apple.conf" /etc/modprobe.d/hid_apple.conf; then
+    sudo install -Dm644 "$DOTFILES/omarchy/modprobe/hid_apple.conf" /etc/modprobe.d/hid_apple.conf
+    sudo limine-mkinitcpio
+    echo "  installed /etc/modprobe.d/hid_apple.conf (reboot)"
+  fi
+
   if command -v hyprctl >/dev/null && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
     hyprctl reload >/dev/null
   fi
