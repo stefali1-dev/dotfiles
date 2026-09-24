@@ -71,3 +71,5 @@ hl.device({
   name = "magic-keyboard",
   kb_options = "ctrl:nocaps,ctrl:ralt_rctrl,shift:both_capslock_cancel",
 })
+
+hl.device({ name = "logitech-usb-receiver-mouse", accel_profile = "flat" })
