@@ -21,8 +21,8 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 
 ## Before installing, check
 
-- `claude/settings.json` was written on a work Mac: `additionalDirectories` and `autoMode.environment` name `/Users/stefan.leustean/...` and a work repo. Adjust or trim them on another machine.
-- `claude/hooks/agent-docs.sh` expects `~/agent-docs/`. It does nothing if that folder is missing.
+- **Work Mac:** run `CLAUDE_PROFILE=work ./install.sh claude`. It merges `claude/settings.work.json` (`autoMode` context and CDK permissions) into `~/.claude/settings.json`. That file is a copy, not a link, so edit the repo files and re-run. Everywhere else, `settings.json` is a symlink to the portable shared file.
+- `~/agent-docs/` holds plans and notes (see `claude/CLAUDE.md`). It isn't in this repo. Create it with `mkdir ~/agent-docs`; the SessionStart hook does nothing until a `~/agent-docs/<repo>/` exists.
 - `omarchy/keyd/default.conf` has an `[ids]` line for one laptop's built-in keyboard. On new hardware, find the ID with `sudo keyd monitor`, press the Copilot key, and update the line.
 - Don't commit anything from `~/.claude` except the items listed in `install.sh`. The rest is state: history, sessions and credentials.
 
@@ -63,7 +63,8 @@ Omarchy actions that moved:
 | Path | What it does |
 |---|---|
 | `CLAUDE.md` | Working style instructions |
-| `settings.json` | Hooks, `@` file suggestions, permissions, worktree base |
+| `settings.json` | Hooks, `@` file suggestions, `~/agent-docs` access, worktree base (any machine) |
+| `settings.work.json` | Work-Mac layer: auto mode context, CDK permissions |
 | `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
 | `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
 | `skills/` | `review-comments`, `decision-questions`, `caveman` |

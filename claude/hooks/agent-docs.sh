@@ -22,7 +22,8 @@ for dir in "$docs"/work/*/; do
   name=$(basename "$dir")
   status=$(grep -m1 '^\*\*Status:\*\*' "$dir/plan.md" 2>/dev/null |
     sed 's/^\*\*Status:\*\* *//; s/\. .*//; s/;.*//' | cut -c1-80)
-  newest=$(find "$dir" -type f -exec stat -f %m {} + 2>/dev/null | sort -n | tail -1)
+  # stat -c is GNU (Linux), stat -f is BSD (macOS).
+  newest=$(find "$dir" -type f -exec sh -c 'stat -c %Y "$@" 2>/dev/null || stat -f %m "$@"' _ {} + 2>/dev/null | sort -n | tail -1)
   days=$(( (now - ${newest:-$now}) / 86400 ))
   note=""
   case "$status" in

@@ -3,16 +3,8 @@
   "theme": "dark",
   "agentPushNotifEnabled": true,
   "permissions": {
-    "allow": [
-      "Bash(cdk deploy:*)",
-      "Bash(npx cdk deploy:*)",
-      "Bash(./my-docs/ui-testing/serve.sh:*)",
-      "Bash(./my-docs/ui-testing/stop.sh:*)",
-      "Bash(node my-docs/ui-testing/:*)",
-      "Bash(npm run infrastructure:cdk:*)"
-    ],
     "additionalDirectories": [
-      "/Users/stefan.leustean/agent-docs"
+      "~/agent-docs"
     ]
   },
   "fileSuggestion": {
