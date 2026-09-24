@@ -68,6 +68,19 @@ Omarchy actions that moved:
 | Toggle scratchpad | Cmd + Alt + S |
 | Move window to scratchpad | Cmd + Shift + Alt + S |
 | Browser (also Omarchy's Cmd + Shift + B) | Cmd + B |
+| Move window to workspace 1–10 | Cmd + Ctrl + 1–0 |
+| Move window silently to workspace 1–10 | Cmd + Ctrl + Alt + 1–0 |
+
+Cmd + Ctrl + 1–9 no longer opens bar panels; they keep their letter shortcuts (Cmd + Ctrl + A, B, D, W, P, T).
+
+Screenshots use Omasnap (installed by `install.sh`):
+
+| Shortcut | Does |
+|---|---|
+| Print, Cmd + Shift + 2 | Region or window, then annotate |
+| Cmd + Shift + 1 | Full screen |
+| Cmd + Shift + 3 | Scrolling capture |
+| Cmd + Shift + 4 | Copy text from a region (OCR) |
 
 `mac/` doesn't exist yet. To get the same layout on macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys.
 

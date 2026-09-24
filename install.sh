@@ -70,6 +70,9 @@ install_omarchy() {
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
 
+  # Screenshot tool bound in hypr/bindings.lua; from Omarchy's package repo.
+  omarchy-pkg-add omasnap
+
   # keyd runs as root and reads /etc, so this one is copied, not linked.
   if ! command -v keyd >/dev/null; then
     echo "  keyd not installed; skipping Copilot key (sudo pacman -S keyd, then re-run)"

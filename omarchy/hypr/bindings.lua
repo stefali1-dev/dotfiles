@@ -104,3 +104,22 @@ o.bind("SUPER + Z", "Undo", mac_shortcut("CTRL", "Z"))
 o.bind("SUPER + SHIFT + Z", "Redo", mac_shortcut("CTRL SHIFT", "Z"))
 o.bind("SUPER + R", "Reload", mac_shortcut("CTRL", "R"))
 o.bind("SUPER + F", "Find", mac_shortcut("CTRL", "F", send_shortcut_once("CTRL SHIFT", "R")))
+
+-- Window moves go on SUPER + CTRL + number, as on macOS, which frees
+-- SUPER + SHIFT + number for screenshots. SUPER + CTRL + number opened bar
+-- panels; the panels keep their letter shortcuts (SUPER + CTRL + A, B, W, ...).
+for workspace = 1, 10 do
+  local key = "code:" .. tostring(workspace + 9)
+  hl.unbind("SUPER + SHIFT + " .. key)
+  hl.unbind("SUPER + SHIFT + ALT + " .. key)
+  hl.unbind("SUPER + CTRL + " .. key)
+  o.bind("SUPER + CTRL + " .. key, "Move window to workspace " .. workspace, hl.dsp.window.move({ workspace = tostring(workspace) }))
+  o.bind("SUPER + CTRL + ALT + " .. key, "Move window silently to workspace " .. workspace, hl.dsp.window.move({ workspace = tostring(workspace), follow = false }))
+end
+
+hl.unbind("PRINT")
+o.bind("PRINT", "Screenshot", "omasnap")
+o.bind("SUPER + SHIFT + code:10", "Screenshot full screen", "omasnap --capture-fullscreen")
+o.bind("SUPER + SHIFT + code:11", "Screenshot", "omasnap")
+o.bind("SUPER + SHIFT + code:12", "Scrolling screenshot", "omasnap --scroll")
+o.bind("SUPER + SHIFT + code:13", "Extract text (OCR) from screenshot", "omarchy-capture-text")
