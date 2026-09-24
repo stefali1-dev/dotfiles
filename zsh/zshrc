@@ -58,6 +58,17 @@ claude() {
   command claude "$@"
 }
 
+# One Piece in mpv: resume the last episode, or start at a file or folder (`onepiece .`).
+# ~/.config/mpv/scripts/onepiece.lua records the last episode.
+onepiece() {
+  local last=~/.local/state/onepiece/last
+  if [[ -z $1 && ! -f $last ]]; then
+    echo "No episode yet. Run: onepiece <file or folder>" >&2
+    return 1
+  fi
+  setsid -f mpv --autocreate-playlist=same "${1:-$(<$last)}" >/dev/null 2>&1
+}
+
 # Plugins. Syntax highlighting must be sourced last.
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
