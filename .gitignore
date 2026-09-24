@@ -1,14 +1,3 @@
-# Track only hand-written config. Everything else in ~/.claude is Claude Code state
-# (history, sessions, caches, credentials) and never belongs here.
-/*
-!/.gitignore
-!/README.md
-!/CLAUDE.md
-!/settings.json
-!/file-suggestion.sh
-!/hooks/
-!/skills/
-!/agents/
-!/rules/
-!/commands/
-!/git-ignore-global
+*.bak
+*.bak.*
+.DS_Store

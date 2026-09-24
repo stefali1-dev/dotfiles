@@ -1,18 +1,72 @@
-# ~/.claude
+# dotfiles
 
-Personal Claude Code setup, versioned in place. `.gitignore` allows only the hand-written files.
+Personal machine setup. The repo is the source of truth: `install.sh` symlinks each file into place, so editing the live file edits the repo.
 
-| Path | What |
+## Set up a new machine
+
+```sh
+git clone git@github.com:stefali1-dev/dotfiles.git ~/dotfiles
+~/dotfiles/install.sh              # everything that fits this OS
+~/dotfiles/install.sh claude git   # or pick components
+```
+
+Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running is a no-op.
+
+| Folder | Installs to | OS |
+|---|---|---|
+| `claude/` | `~/.claude/` (per item; skills per folder) | any |
+| `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
+| `omarchy/hypr/` | `~/.config/hypr/{input,bindings}.lua` | Omarchy Linux |
+| `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
+
+## Before installing, check
+
+- `claude/settings.json` was written on a work Mac: `additionalDirectories` and `autoMode.environment` name `/Users/stefan.leustean/...` and a work repo. Adjust or trim them on another machine.
+- `claude/hooks/agent-docs.sh` expects `~/agent-docs/`. It does nothing if that folder is missing.
+- `omarchy/keyd/default.conf` has an `[ids]` line for one laptop's built-in keyboard. On new hardware, find the ID with `sudo keyd monitor`, press the Copilot key, and update the line.
+- Don't commit anything from `~/.claude` except the items listed in `install.sh`. The rest is state: history, sessions and credentials.
+
+## Keyboard (Omarchy)
+
+The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
+
+| Physical key | Acts as | Set in |
+|---|---|---|
+| Caps Lock | Ctrl | `hypr/input.lua` (`ctrl:nocaps`) |
+| Win (left of Alt) | Alt | `hypr/input.lua` (`altwin:swap_lalt_lwin`) |
+| Left Alt (next to Space) | Super = Cmd | same |
+| Copilot | Ctrl | `keyd/default.conf` |
+
+`hypr/bindings.lua` maps Cmd shortcuts:
+- **Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W** sends the matching Ctrl shortcut to the app. Terminals get a terminal-safe action instead.
+- **Cmd + Q** closes the window.
+- **Cmd + 1–9** switches workspaces.
+- **Cmd + Space** opens the launcher.
+- **Cmd + K** lists all bindings.
+
+Omarchy actions that moved:
+
+| Action | Shortcut |
 |---|---|
-| `CLAUDE.md` | How I work: loaded in every project |
-| `settings.json` | Hooks, `@` file suggestions, worktree base, allowed dirs, permissions |
-| `hooks/agent-docs.sh` | SessionStart: links `~/agent-docs/<repo>` into the checkout and lists open work |
-| `file-suggestion.sh` | `@` picker: tracked files plus ignored `agent-docs/`, `CLAUDE.local.md`, `.git/info/exclude` paths |
-| `skills/` | `review-comments`, `decision-questions`, `caveman` |
-| `rules/comments.md` | Comment standard; loads when a `.ts`/`.tsx` file is read |
-| `agents/reviewer.md` | Fresh-context reviewer used by `review-comments` |
-| `commands/q.md` | `/q`: queue a follow-up |
-| `git-ignore-global` | Global git ignore; `~/.config/git/ignore` is a symlink to it |
+| Full screen | Cmd + Ctrl + F |
+| Tiled full screen | Cmd + Ctrl + Shift + F |
+| Toggle floating | Cmd + Alt + T |
+| Toggle scratchpad | Cmd + Alt + S |
+| Move window to scratchpad | Cmd + Shift + Alt + S |
 
-New machine: clone into `~/.claude`, then `ln -s ~/.claude/git-ignore-global ~/.config/git/ignore`.
-`settings.json` has absolute paths under `/Users/stefan.leustean/`; adjust them for another user.
+`mac/` doesn't exist yet. To get the same layout on macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys.
+
+## Claude Code
+
+`claude/` holds the personal Claude Code config that applies to every project:
+
+| Path | What it does |
+|---|---|
+| `CLAUDE.md` | Working style instructions |
+| `settings.json` | Hooks, `@` file suggestions, permissions, worktree base |
+| `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
+| `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
+| `skills/` | `review-comments`, `decision-questions`, `caveman` |
+| `rules/comments.md` | Comment standard for `.ts`/`.tsx` files |
+| `agents/reviewer.md` | Fresh-context reviewer used by `review-comments` |
+| `commands/q.md` | `/q` queues a follow-up |
