@@ -13,6 +13,9 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy
 -- Portrait/rotated secondary monitor (transform: 1 = 90°, 3 = 270°).
 -- hl.monitor({ output = "DP-2", mode = "preferred", position = "auto", scale = 1, transform = 1 })
 
+-- AOC 34" ultrawide: its preferred mode is 60 Hz, though it does 120.
+hl.monitor({ output = "desc:AOC CU34E4CV", mode = "3440x1440@120", position = "auto", scale = omarchy_monitor_scale })
+
 -- With an external monitor, workspace 1 stays on the laptop screen and 2-5 go
 -- to the external one. Clamshell and unplugging need nothing here: Hyprland
 -- moves workspaces off a monitor that goes away.
