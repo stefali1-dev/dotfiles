@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Symlink this repo's config into place. Safe to re-run.
-# Usage: ./install.sh [claude] [git] [omarchy]   (no args: everything that fits this OS)
+# Usage: ./install.sh [claude] [git] [zsh] [omarchy]   (no args: everything that fits this OS)
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -56,6 +56,11 @@ install_git() {
   link "$DOTFILES/git/ignore" "$HOME/.config/git/ignore"
 }
 
+install_zsh() {
+  echo "zsh -> ~/.zshrc"
+  link "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
+}
+
 install_omarchy() {
   echo "omarchy -> ~/.config/hypr, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
@@ -71,6 +76,12 @@ install_omarchy() {
     echo "  installed /etc/keyd/default.conf"
   fi
 
+  # Read by libinput when the session starts; takes effect after logging in again.
+  if ! cmp -s "$DOTFILES/omarchy/libinput/local-overrides.quirks" /etc/libinput/local-overrides.quirks; then
+    sudo install -Dm644 "$DOTFILES/omarchy/libinput/local-overrides.quirks" /etc/libinput/local-overrides.quirks
+    echo "  installed /etc/libinput/local-overrides.quirks (log out and back in)"
+  fi
+
   if command -v hyprctl >/dev/null && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
     hyprctl reload >/dev/null
   fi
@@ -79,13 +90,13 @@ install_omarchy() {
 if [ $# -eq 0 ]; then
   set -- claude git
   if [ "$(uname -s)" = Linux ] && [ -d /usr/share/omarchy ]; then
-    set -- "$@" omarchy
+    set -- "$@" zsh omarchy
   fi
 fi
 
 for component in "$@"; do
   case "$component" in
-    claude | git | omarchy) "install_$component" ;;
+    claude | git | zsh | omarchy) "install_$component" ;;
     *) echo "unknown component: $component" >&2; exit 1 ;;
   esac
 done

@@ -16,8 +16,10 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder) | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
+| `zsh/zshrc` | `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings}.lua` | Omarchy Linux |
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
+| `omarchy/libinput/` | `/etc/libinput/local-overrides.quirks` (copied, needs sudo): keeps touchpad disable-while-typing working through keyd | Omarchy Linux |
 
 ## Before installing, check
 
