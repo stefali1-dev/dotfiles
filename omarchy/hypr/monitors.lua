@@ -14,7 +14,17 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy
 -- hl.monitor({ output = "DP-2", mode = "preferred", position = "auto", scale = 1, transform = 1 })
 
 -- AOC 34" ultrawide: its preferred mode is 60 Hz, though it does 120.
-hl.monitor({ output = "desc:AOC CU34E4CV", mode = "3440x1440@120", position = "auto", scale = omarchy_monitor_scale })
+-- The laptop sits centred below it. Positions are in scaled pixels.
+local ultrawide_width = 3440 / omarchy_monitor_scale
+local ultrawide_height = 1440 / omarchy_monitor_scale
+local laptop_width = 1920 / omarchy_monitor_scale
+hl.monitor({ output = "desc:AOC CU34E4CV", mode = "3440x1440@120", position = "0x0", scale = omarchy_monitor_scale })
+hl.monitor({
+  output = "eDP-1",
+  mode = "preferred",
+  position = string.format("%dx%d", (ultrawide_width - laptop_width) / 2, ultrawide_height),
+  scale = omarchy_monitor_scale,
+})
 
 -- With an external monitor, workspace 1 stays on the laptop screen and 2-5 go
 -- to the external one. Clamshell and unplugging need nothing here: Hyprland
