@@ -12,6 +12,13 @@ git clone git@github.com:stefali1-dev/dotfiles.git ~/dotfiles
 
 Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running is a no-op.
 
+## Editing this repo
+
+- Change only what the task needs. Keep it small.
+- New config: wire it into `install.sh` and add one table row here. Nothing else.
+- README: tables and bullets, blunt. No history, no changelog, no restating what a file says.
+- Comments: only a non-obvious why, one or two short lines.
+
 | Folder | Installs to | OS |
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder) | any |
