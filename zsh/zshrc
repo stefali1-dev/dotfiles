@@ -46,6 +46,18 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 alias cl='clear'
 alias gs='git status'
 
+# Trust every folder: Claude Code has no setting for it, and some features only
+# honour trust recorded for the exact launch folder, not a parent.
+claude() {
+  local config=~/.claude.json tmp
+  if [[ -f $config ]]; then
+    tmp=$(mktemp) &&
+      jq --arg dir "$PWD" '.projects[$dir].hasTrustDialogAccepted = true' "$config" >"$tmp" &&
+      mv "$tmp" "$config"
+  fi
+  command claude "$@"
+}
+
 # Plugins. Syntax highlighting must be sourced last.
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
