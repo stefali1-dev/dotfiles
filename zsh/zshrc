@@ -66,7 +66,7 @@ onepiece() {
     echo "No episode yet. Run: onepiece <file or folder>" >&2
     return 1
   fi
-  setsid -f mpv --autocreate-playlist=same "${1:-$(<$last)}" >/dev/null 2>&1
+  setsid -f mpv --autocreate-playlist=same --script-opts=onepiece-track=yes "${1:-$(<$last)}" >/dev/null 2>&1
 }
 
 # Plugins. Syntax highlighting must be sourced last.
