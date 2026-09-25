@@ -49,6 +49,49 @@ onepiece() {
   setsid -f mpv --autocreate-playlist=same --script-opts=onepiece-track=yes "${1:-$(<$last)}" >/dev/null 2>&1
 }
 
+# Neovim workspace: replaces every window on this workspace, including this
+# terminal, with small terminal | Neovim | small terminal, all in a directory
+# (`ide`, `ide ~/code/app`). Detached, so it survives closing this terminal; the
+# inner subshell keeps its helper functions out of the shell.
+ide() {
+  (
+    dir=${${1:-$PWD}:a}
+    ws=$(hyprctl activeworkspace -j | jq .id)
+    hl() { hyprctl dispatch "hl.dsp.$1" >/dev/null }
+    windows() { hyprctl activeworkspace -j | jq .windows }
+
+    # Launch a terminal and wait for its window, so the panes open in order.
+    open_pane() {
+      local before=$(windows)
+      setsid -f uwsm-app -- xdg-terminal-exec --dir="$dir" "$@"
+      until (( $(windows) > before )); do sleep 0.05; done
+    }
+
+    for address in $(hyprctl clients -j | jq -r ".[] | select(.workspace.id == $ws) | .address"); do
+      hl "window.close({ window = \"address:$address\" })"
+    done
+    # An app can refuse to close, e.g. to ask about unsaved work.
+    for i in {1..60}; do (( $(windows) == 0 )) && break; sleep 0.05; done
+    if (( $(windows) > 0 )); then
+      notify-send "ide" "A window on this workspace didn't close"
+      exit 1
+    fi
+
+    open_pane
+    hl 'layout("preselect r")'
+    open_pane nvim
+    hl 'layout("preselect r")'
+    open_pane
+
+    # Dwindle split ratios run 0.1-1.9, where 1 is an even split.
+    hl 'focus({ direction = "l" })'
+    hl 'layout("splitratio 1.5 exact")' # Neovim: 3/4 of the right 80%
+    hl 'focus({ direction = "l" })'
+    hl 'layout("splitratio 0.4 exact")' # left pane: 20%
+    hl 'focus({ direction = "r" })'
+  ) &>/dev/null &!
+}
+
 # Plugins. Syntax highlighting must be sourced last.
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
