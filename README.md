@@ -31,6 +31,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
 | `omarchy/modprobe/` | `/etc/modprobe.d/hid_apple.conf` (copied, needs sudo; rebuilds the boot image): the US Magic Keyboard's `` ` `` `~` key types `<` `>` without it | Omarchy Linux |
 | `omarchy/libinput/` | `/etc/libinput/local-overrides.quirks` (copied, needs sudo): keeps touchpad disable-while-typing working through keyd | Omarchy Linux |
+| (no file) | `~/.local/state/omarchy/toggles/screensaver-off`: an empty marker `install.sh` creates to keep Omarchy's screensaver off | Omarchy Linux |
 
 ## Before installing, check
 

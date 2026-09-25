@@ -73,6 +73,10 @@ install_omarchy() {
   # Screenshot tool bound in hypr/bindings.lua; from Omarchy's package repo.
   omarchy-pkg-add omasnap
 
+  # Omarchy reads this marker to keep the screensaver off. Not omarchy-toggle-screensaver: it flips on each run.
+  mkdir -p "$HOME/.local/state/omarchy/toggles"
+  touch "$HOME/.local/state/omarchy/toggles/screensaver-off"
+
   # keyd runs as root and reads /etc, so this one is copied, not linked.
   if ! command -v keyd >/dev/null; then
     echo "  keyd not installed; skipping Copilot key (sudo pacman -S keyd, then re-run)"
