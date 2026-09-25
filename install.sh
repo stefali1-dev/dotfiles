@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Symlink this repo's config into place. Safe to re-run.
-# Usage: ./install.sh [claude] [git] [zsh] [mac] [omarchy]   (no args: everything that fits this OS)
+# Usage: ./install.sh [claude] [git] [zsh] [nvim] [mac] [omarchy]   (no args: everything that fits this OS)
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -66,6 +66,11 @@ install_zsh() {
   link "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
 }
 
+install_nvim() {
+  echo "nvim -> ~/.config/nvim"
+  link "$DOTFILES/nvim" "$HOME/.config/nvim"
+}
+
 install_mac() {
   echo "mac -> ~/.claude/rules, macOS preferences"
   link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
@@ -73,13 +78,16 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, ~/.config/mpv, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, ~/.config/mpv, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
   link "$DOTFILES/omarchy/claude-rules.md" "$HOME/.claude/rules/omarchy.md"
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
+
+  # Neovim follows the Omarchy theme. Untracked (it would dangle on macOS) and relinked by Omarchy migrations, so not link().
+  ln -snf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$DOTFILES/nvim/lua/plugins/theme.lua"
 
   # Screenshot tool bound in hypr/bindings.lua; from Omarchy's package repo.
   omarchy-pkg-add omasnap
@@ -121,7 +129,7 @@ git -C "$DOTFILES" config core.hooksPath .githooks
 git -C "$DOTFILES" config user.email stefanleustean56@gmail.com
 
 if [ $# -eq 0 ]; then
-  set -- claude git zsh
+  set -- claude git zsh nvim
   if [ "$(uname -s)" = Darwin ]; then
     set -- "$@" mac
   elif [ "$(uname -s)" = Linux ] && [ -d /usr/share/omarchy ]; then
@@ -131,7 +139,7 @@ fi
 
 for component in "$@"; do
   case "$component" in
-    claude | git | zsh | mac | omarchy) "install_$component" ;;
+    claude | git | zsh | nvim | mac | omarchy) "install_$component" ;;
     *) echo "unknown component: $component" >&2; exit 1 ;;
   esac
 done

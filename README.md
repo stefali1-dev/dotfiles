@@ -19,12 +19,14 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 - New config: wire it into `install.sh` and add one table row here. Nothing else.
 - README: tables and bullets, blunt. No history, no changelog, no restating what a file says.
 - Comments: only a non-obvious why, one or two short lines.
+- Temporary workarounds for upstream bugs: start the comment with `Workaround:` and say when to remove it. `grep -rn 'Workaround:' ~/dotfiles` lists them.
 
 | Folder | Installs to | OS |
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder, rules per file) | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
 | `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets) | any |
+| `nvim/` | `~/.config/nvim`: Omarchy's LazyVim config, shared. `lua/plugins/theme.lua` is untracked: on Omarchy it links the current theme, on macOS it's absent (LazyVim's tokyonight). Omarchy migrations edit files here; commit what they change. `omarchy-nvim-refresh` replaces the link, so re-run `install.sh nvim` after it. macOS needs `brew install neovim ripgrep fd` and a Nerd Font | any |
 | `.githooks/` | Used by this repo (`install.sh` sets `core.hooksPath` and the repo's personal `user.email`): adds a `Machine: mac` or `Machine: omarchy` trailer to every commit | any |
 | `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`. Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |
 | `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
