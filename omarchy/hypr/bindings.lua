@@ -105,6 +105,21 @@ o.bind("SUPER + SHIFT + Z", "Redo", mac_shortcut("CTRL SHIFT", "Z"))
 o.bind("SUPER + R", "Reload", mac_shortcut("CTRL", "R"))
 o.bind("SUPER + F", "Find", mac_shortcut("CTRL", "F", send_shortcut_once("CTRL SHIFT", "R")))
 
+-- Mac-style word editing: ALT + arrows jump words, ALT + Backspace/Delete delete
+-- them, and SHIFT selects. Apps do this with CTRL, so they get the CTRL version;
+-- terminals already handle ALT (zsh, Claude Code), so they get the ALT key back.
+-- Replaces ALT + Left/Right as browser Back/Forward.
+local function word_shortcut(mods, key)
+  return mac_shortcut("CTRL" .. mods, key, send_shortcut_once("ALT" .. mods, key))
+end
+
+o.bind("ALT + Left", "Previous word", word_shortcut("", "Left"), { repeating = true })
+o.bind("ALT + Right", "Next word", word_shortcut("", "Right"), { repeating = true })
+o.bind("ALT + SHIFT + Left", "Select previous word", word_shortcut(" SHIFT", "Left"), { repeating = true })
+o.bind("ALT + SHIFT + Right", "Select next word", word_shortcut(" SHIFT", "Right"), { repeating = true })
+o.bind("ALT + BackSpace", "Delete previous word", word_shortcut("", "BackSpace"), { repeating = true })
+o.bind("ALT + Delete", "Delete next word", word_shortcut("", "Delete"), { repeating = true })
+
 -- Window moves go on SUPER + CTRL + number, as on macOS, which frees
 -- SUPER + SHIFT + number for screenshots. SUPER + CTRL + number opened bar
 -- panels; the panels keep their letter shortcuts (SUPER + CTRL + A, B, W, ...).

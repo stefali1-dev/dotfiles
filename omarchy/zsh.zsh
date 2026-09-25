@@ -20,10 +20,14 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# Emacs-style line editing, with Ctrl+arrows jumping words and Home/End/Delete working
+# Emacs-style line editing, with Ctrl+arrows or Alt+arrows jumping words (Alt as
+# on macOS; Alt+Backspace is built in), and Home/End/Delete working
 bindkey -e
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+bindkey '^[[3;3~' kill-word
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 bindkey '^[[3~' delete-char
