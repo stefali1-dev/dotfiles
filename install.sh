@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Symlink this repo's config into place. Safe to re-run.
-# Usage: ./install.sh [claude] [git] [zsh] [omarchy]   (no args: everything that fits this OS)
+# Usage: ./install.sh [claude] [git] [zsh] [mac] [omarchy]   (no args: everything that fits this OS)
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -24,8 +24,17 @@ link() {
 install_claude() {
   echo "claude -> ~/.claude"
   local item
-  for item in CLAUDE.md file-suggestion.sh hooks agents rules commands; do
+  for item in CLAUDE.md file-suggestion.sh hooks agents commands; do
     link "$DOTFILES/claude/$item" "$HOME/.claude/$item"
+  done
+
+  # rules/ used to be one link to the repo folder, so OS rules installed through it landed in the repo.
+  if [ -L "$HOME/.claude/rules" ]; then
+    rm -f "$HOME/.claude/rules" "$DOTFILES/claude/rules/omarchy.md"
+  fi
+  # Per file, so each OS adds its own rules file alongside.
+  for item in "$DOTFILES"/claude/rules/*.md; do
+    link "$item" "$HOME/.claude/rules/$(basename "$item")"
   done
 
   # CLAUDE_PROFILE=work layers settings.work.json on top. autoMode is only read from
@@ -59,6 +68,12 @@ install_git() {
 install_zsh() {
   echo "zsh -> ~/.zshrc"
   link "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
+}
+
+install_mac() {
+  echo "mac -> ~/.claude/rules, macOS preferences"
+  link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
+  "$DOTFILES/mac/defaults.sh"
 }
 
 install_omarchy() {
@@ -105,16 +120,22 @@ install_omarchy() {
   fi
 }
 
+# Commits from either machine: personal email, and a Machine trailer from .githooks.
+git -C "$DOTFILES" config core.hooksPath .githooks
+git -C "$DOTFILES" config user.email stefanleustean56@gmail.com
+
 if [ $# -eq 0 ]; then
-  set -- claude git
-  if [ "$(uname -s)" = Linux ] && [ -d /usr/share/omarchy ]; then
-    set -- "$@" zsh omarchy
+  set -- claude git zsh
+  if [ "$(uname -s)" = Darwin ]; then
+    set -- "$@" mac
+  elif [ "$(uname -s)" = Linux ] && [ -d /usr/share/omarchy ]; then
+    set -- "$@" omarchy
   fi
 fi
 
 for component in "$@"; do
   case "$component" in
-    claude | git | zsh | omarchy) "install_$component" ;;
+    claude | git | zsh | mac | omarchy) "install_$component" ;;
     *) echo "unknown component: $component" >&2; exit 1 ;;
   esac
 done

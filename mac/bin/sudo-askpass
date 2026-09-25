@@ -1,0 +1,8 @@
+#!/bin/sh
+# SUDO_ASKPASS helper: asks for the sudo password in a macOS dialog showing the command being run.
+command=$(ps -o args= -p "$PPID")
+exec osascript - "$command" <<'EOF'
+on run argv
+	text returned of (display dialog "sudo wants your password to run:" & return & return & item 1 of argv default answer "" with hidden answer with title "sudo" with icon caution)
+end run
+EOF

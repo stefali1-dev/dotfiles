@@ -1,0 +1,9 @@
+#!/bin/sh
+# Adds a Machine trailer, so a change to shared config shows where it was made and tried.
+# An empty message gets none, so git still aborts it.
+grep -q '^[^#]' "$1" || exit 0
+case "$(uname -s)" in
+  Darwin) machine=mac ;;
+  *) machine=omarchy ;;
+esac
+git interpret-trailers --in-place --if-exists doNothing --trailer "Machine: $machine" "$1"

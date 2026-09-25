@@ -15,18 +15,25 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 ## Editing this repo
 
 - Change only what the task needs. Keep it small.
+- Top-level folders are shared by both machines; `mac/` and `omarchy/` hold config for one OS only. OS-only config goes in its folder, and OS differences go in `<os>/zsh.zsh` (env) or `<os>/claude-rules.md`, not in `claude/settings.json`.
 - New config: wire it into `install.sh` and add one table row here. Nothing else.
 - README: tables and bullets, blunt. No history, no changelog, no restating what a file says.
 - Comments: only a non-obvious why, one or two short lines.
 
 | Folder | Installs to | OS |
 |---|---|---|
-| `claude/` | `~/.claude/` (per item; skills per folder) | any |
+| `claude/` | `~/.claude/` (per item; skills per folder, rules per file) | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
-| `zsh/zshrc` | `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
+| `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets) | any |
+| `.githooks/` | Used by this repo (`install.sh` sets `core.hooksPath` and the repo's personal `user.email`): adds a `Machine: mac` or `Machine: omarchy` trailer to every commit | any |
+| `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`. Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |
+| `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
+| `mac/claude-rules.md` | `~/.claude/rules/mac.md`: Claude Code rules for macOS only (root via `sudo -A`) | macOS |
+| `mac/defaults.sh` | Run by `install.sh`: Ctrl+←/→ no longer switch spaces | macOS |
+| `omarchy/zsh.zsh` | Loaded by `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings,monitors}.lua`. With an external monitor, workspace 1 stays on the laptop and 2–5 go to the monitor. The AOC ultrawide runs at 120 Hz with the laptop centred below it | Omarchy Linux |
 | `omarchy/brave-flags.conf` | `~/.config/brave-flags.conf`: Omarchy's Chromium flags plus `--force-device-scale-factor=0.9`, so Brave (tabs and pages) is smaller while screens stay at 125% | Omarchy Linux |
-| `omarchy/mpv/scripts/onepiece.lua` | `~/.config/mpv/scripts/onepiece.lua`: for the `onepiece` command in `zsh/zshrc`, remembers the last episode and its position, only in mpv windows that command opened, not ones opened from the file manager (`onepiece` resumes, `onepiece <file or folder>` starts there) | Omarchy Linux |
+| `omarchy/mpv/scripts/onepiece.lua` | `~/.config/mpv/scripts/onepiece.lua`: for the `onepiece` command in `omarchy/zsh.zsh`, remembers the last episode and its position, only in mpv windows that command opened, not ones opened from the file manager (`onepiece` resumes, `onepiece <file or folder>` starts there) | Omarchy Linux |
 | `omarchy/claude-rules.md` | `~/.claude/rules/omarchy.md`: Claude Code rules for Omarchy only (root via `pkexec`) | Omarchy Linux |
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
 | `omarchy/modprobe/` | `/etc/modprobe.d/hid_apple.conf` (copied, needs sudo; rebuilds the boot image): the US Magic Keyboard's `` ` `` `~` key types `<` `>` without it | Omarchy Linux |
@@ -35,7 +42,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 
 ## Before installing, check
 
-- **Work Mac:** run `CLAUDE_PROFILE=work ./install.sh claude`. It merges `claude/settings.work.json` (`autoMode` context and CDK permissions) into `~/.claude/settings.json`. That file is a copy, not a link, so edit the repo files and re-run. Everywhere else, `settings.json` is a symlink to the portable shared file.
+- **Work Mac:** clone over HTTPS (`git clone https://stefali1-dev@github.com/stefali1-dev/dotfiles.git ~/dotfiles`); its SSH key belongs to the work GitHub account. Then run `CLAUDE_PROFILE=work ./install.sh`. It merges `claude/settings.work.json` (`autoMode` context and CDK permissions) into `~/.claude/settings.json`. That file is a copy, not a link, so edit the repo files and re-run. Everywhere else, `settings.json` is a symlink to the portable shared file.
 - `~/agent-docs/` holds plans and notes (see `claude/CLAUDE.md`). It isn't in this repo. Create it with `mkdir ~/agent-docs`; the SessionStart hook does nothing until a `~/agent-docs/<repo>/` exists.
 - `omarchy/keyd/default.conf` has an `[ids]` line for one laptop's built-in keyboard. On new hardware, find the ID with `sudo keyd monitor`, press the Copilot key, and update the line.
 - Don't commit anything from `~/.claude` except the items listed in `install.sh`. The rest is state: history, sessions and credentials.
@@ -83,7 +90,7 @@ Screenshots use Omasnap (installed by `install.sh`):
 | Cmd + Shift + 3 | Scrolling capture |
 | Cmd + Shift + 4 | Copy text from a region (OCR) |
 
-`mac/` doesn't exist yet. To get the same layout on macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys.
+On macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys for the same layout.
 
 ## Claude Code
 
