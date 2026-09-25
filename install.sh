@@ -28,10 +28,6 @@ install_claude() {
     link "$DOTFILES/claude/$item" "$HOME/.claude/$item"
   done
 
-  # rules/ used to be one link to the repo folder, so OS rules installed through it landed in the repo.
-  if [ -L "$HOME/.claude/rules" ]; then
-    rm -f "$HOME/.claude/rules" "$DOTFILES/claude/rules/omarchy.md"
-  fi
   # Per file, so each OS adds its own rules file alongside.
   for item in "$DOTFILES"/claude/rules/*.md; do
     link "$item" "$HOME/.claude/rules/$(basename "$item")"
