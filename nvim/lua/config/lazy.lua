@@ -45,7 +45,7 @@ require("lazy").setup({
         -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
-        -- "tutor", -- enabled for :Tutor while learning Vim; uncomment once done
+        -- "tutor", -- TODO: uncomment once done with :Tutor (enabled while learning Vim)
         "zipPlugin",
       },
     },

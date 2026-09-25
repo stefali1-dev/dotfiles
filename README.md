@@ -19,7 +19,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 - New config: wire it into `install.sh` and add one table row here. Nothing else.
 - README: tables and bullets, blunt. No history, no changelog, no restating what a file says.
 - Comments: only a non-obvious why, one or two short lines.
-- Temporary workarounds for upstream bugs: start the comment with `Workaround:` and say when to remove it. `grep -rn 'Workaround:' ~/dotfiles` lists them.
+- Temporary changes: mark the comment `HACK:` (workaround for an upstream bug) or `TODO:` (to undo later), and say when to remove it. `grep -rnE '(HACK|TODO):' ~/dotfiles` lists them.
 
 | Folder | Installs to | OS |
 |---|---|---|
