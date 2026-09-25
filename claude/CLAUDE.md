@@ -20,7 +20,7 @@
 - writing to cloud resources outside this project's stack
 - weakening or deleting a test to make it pass
 
-Ask in a sentence or two, with a recommendation. Everything else the task needs is yours to decide, including changes to shared types or contracts that touch several places. Name those decisions in your report.
+Ask in a sentence or two, with a recommendation. Several choices at once, or when I say "ask me questions": use the `decision-questions` skill, never the interactive question tool. Everything else the task needs is yours to decide, including changes to shared types or contracts that touch several places. Name those decisions in your report.
 
 - When making technical decisions, do not give much weight to development cost.
 

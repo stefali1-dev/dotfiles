@@ -45,9 +45,12 @@ Triage and address add lines under each finding; they never rewrite the finding 
 
 One todo per finding, in file order. Judge against the current code, not the excerpt.
 
-- Every finding is a claim. Agent reviews are often wrong; humans misread code too.
+- Every finding is a claim. Agent reviews are often wrong; humans misread code too. Plausible is not correct.
+- Take the time each finding needs: understand the code before the verdict.
 - Read the code it points at and what calls it. Verify claims about services and libraries: docs, or read-only CLI calls with the project's credentials. Ask before anything that writes or costs money.
+- `address` needs proof too: trace the finding's sequence in the current code from a real caller. Not reproduced: not `address`.
 - Before rejecting, state the reviewer's strongest version of the point, and answer that.
+- Re-judge severity; don't inherit it.
 
 Verdicts:
 - `address`: right, and worth changing.
@@ -59,6 +62,7 @@ Under each finding, one line each:
 ```
 **Status:** …
 **Checked:** what you opened: file:lines, doc URL, command
+**Severity:** yours, if it differs from the reviewer's, and why
 **Fix:** what to change and where        (address, ask)
 **Reason:** why not, against the strong version   (reject)
 ```

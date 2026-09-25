@@ -12,10 +12,14 @@ Never use the interactive question tool for these. Plain markdown in the respons
 
 ## Format
 
-One numbered list, most consequential first. Per decision:
+Decisions go most consequential first. Per decision:
 
-1. **A heading naming the choice**, not the topic. "Where traces are stored", not "Storage".
+1. **A `### N. …` heading naming the choice**, not the topic. "Where traces are stored", not
+   "Storage". Tables and paragraphs sit at top level, never indented under a list item: the
+   terminal shows an indented table as raw pipes.
 2. A small table: one row per option, one column for the trade-off. Bold the recommended row.
+   Keep every cell short enough to fit a narrow terminal (~45 characters, no wrapping); anything
+   longer goes in the paragraph below, not in the table.
 3. One short paragraph: the recommendation and **why** — the reason that actually decides it, not a
    summary of the table.
 
