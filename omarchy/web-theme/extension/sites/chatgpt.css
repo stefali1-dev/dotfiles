@@ -1,0 +1,45 @@
+/* ChatGPT marks its dark mode with html.dark, and sets these variables on every element in it
+   (except light islands), so the same selector is needed here. */
+html.dark,
+html.dark :not(:where(.light, .light *)) {
+  --main-surface-primary: var(--omarchy-background) !important;
+  --bg-secondary-surface: var(--omarchy-background) !important;
+  --bg-elevated-secondary: var(--omarchy-background) !important;
+
+  /* Sidebar: one step darker, like Neovim's */
+  --sidebar-surface-primary: var(--omarchy-dark-background) !important;
+  --sidebar-surface: var(--omarchy-dark-background) !important;
+  --component-sidebar-bg: var(--omarchy-dark-background) !important;
+
+  /* Message box, menus, tooltips */
+  --bg-primary: var(--omarchy-lighter-background) !important;
+  --main-surface-secondary: var(--omarchy-lighter-background) !important;
+  --composer-surface-primary: var(--omarchy-lighter-background) !important;
+  --bg-elevated-primary: var(--omarchy-lighter-background) !important;
+  --bg-tooltip: var(--omarchy-lighter-background) !important;
+  --interactive-bg-tertiary-default: var(--omarchy-lighter-background) !important;
+  --interactive-bg-tertiary-inactive: var(--omarchy-lighter-background) !important;
+
+  /* Hovered and selected items */
+  --main-surface-tertiary: var(--omarchy-selection) !important;
+  --bg-secondary: var(--omarchy-selection) !important;
+  --sidebar-surface-secondary: var(--omarchy-selection) !important;
+  --interactive-bg-tertiary-hover: var(--omarchy-selection) !important;
+  --interactive-bg-tertiary-selected: var(--omarchy-selection) !important;
+
+  --bg-tertiary: var(--omarchy-muted) !important;
+  --sidebar-surface-tertiary: var(--omarchy-muted) !important;
+  --default-theme-secondary-btn-bg: var(--omarchy-muted) !important;
+  --black-theme-secondary-btn-bg: var(--omarchy-muted) !important;
+  --tw-prose-inline-code-bg: var(--omarchy-muted) !important;
+}
+
+/* Menus and popovers stay a step lighter than the page */
+html.dark .popover {
+  --main-surface-primary: var(--omarchy-lighter-background) !important;
+}
+
+/* A hard-coded near-black, e.g. behind the Chat/Work toggle */
+html.dark .dark\:bg-\[\#131313\] {
+  background-color: var(--omarchy-dark-background) !important;
+}

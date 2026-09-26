@@ -78,7 +78,7 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, Brave theme hook, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, Brave theme hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
@@ -86,6 +86,8 @@ install_omarchy() {
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
   link "$DOTFILES/omarchy/brave-theme.sh" "$HOME/.config/omarchy/hooks/theme-set.d/brave-theme.sh"
   "$DOTFILES/omarchy/brave-theme.sh"
+  link "$DOTFILES/omarchy/web-theme/generate.sh" "$HOME/.config/omarchy/hooks/theme-set.d/web-theme.sh"
+  "$DOTFILES/omarchy/web-theme/generate.sh"
 
   # Without this folder, Omarchy's theme switch stops forcing its one-color (gray) policy on Brave, which would block the theme above.
   if [ -d /etc/brave/policies/managed ]; then

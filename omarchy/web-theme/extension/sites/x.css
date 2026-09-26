@@ -1,0 +1,53 @@
+/* X has no color variables. Its class names are hashes of a single declaration, so .r-kemksi always
+   means "background-color: rgb(0, 0, 0)". These are the "Lights out" theme's colors; "Dim" and light
+   use other classes and stay as they are. Each gray keeps its place in the order: black is the page,
+   lighter grays are cards, hovers and lines. */
+
+/* rgb(0, 0, 0): the page, set as a class and as inline style */
+.r-kemksi,
+[style*="background-color: rgb(0, 0, 0)"] {
+  background-color: var(--omarchy-background) !important;
+}
+
+/* The see-through top bar */
+.r-5zmot {
+  background-color: color-mix(in srgb, var(--omarchy-background) 65%, transparent) !important;
+}
+
+/* rgb(22, 24, 28) */
+.r-g2wdr4 {
+  background-color: var(--omarchy-lighter-background) !important;
+}
+
+/* rgb(32, 35, 39) */
+.r-z32n2g {
+  background-color: var(--omarchy-selection) !important;
+}
+
+/* rgb(47, 51, 54) and rgb(51, 54, 57) */
+.r-gu4em3,
+.r-1bnu78o {
+  background-color: var(--omarchy-muted) !important;
+}
+
+/* Lines: rgb(47, 51, 54), rgb(51, 54, 57), rgb(32, 35, 39), rgb(22, 24, 28) */
+.r-1kqtdi0,
+.r-1roi411,
+.r-16cnnyw,
+.r-14wv3jr {
+  border-color: var(--omarchy-selection) !important;
+}
+.r-2sztyj,
+.r-12s0y0c,
+.r-fyhzqi {
+  border-top-color: var(--omarchy-selection) !important;
+}
+.r-1igl3o0 {
+  border-bottom-color: var(--omarchy-selection) !important;
+}
+.r-motplv {
+  border-left-color: var(--omarchy-selection) !important;
+}
+.r-1hm43qg {
+  border-right-color: var(--omarchy-selection) !important;
+}

@@ -1,0 +1,33 @@
+/* Grok marks its dark mode with html.dark. Its surface variables hold bare HSL numbers
+   ("0 0% 8%"), which a hex color can't replace, so its surface classes are set instead. */
+html.dark body,
+html.dark .bg-background,
+html.dark .bg-surface,
+html.dark .chat-input-backdrop {
+  background-color: var(--omarchy-background) !important;
+}
+
+/* The fade under the top bar, made from the page color */
+html.dark .bg-gradient-to-b.from-surface-base {
+  background-image: linear-gradient(var(--omarchy-background) 25%, transparent) !important;
+}
+
+/* Sidebar and code blocks: one step darker, like Neovim's. The body has this class too. */
+html.dark .bg-surface-base:not(body),
+html.dark .dark\:bg-surface-inset,
+html.dark .shiki {
+  background-color: var(--omarchy-dark-background) !important;
+}
+
+/* Message box, your messages, cards, menus */
+html.dark .query-bar,
+html.dark .bg-\[hsl\(var\(--wd-user-bubble\)\)\],
+html.dark .bg-surface-l1,
+html.dark .bg-surface-l2,
+html.dark .bg-surface-elevated {
+  background-color: var(--omarchy-lighter-background) !important;
+}
+
+html.dark .hover\:bg-surface-l1-hover:hover {
+  background-color: var(--omarchy-selection) !important;
+}

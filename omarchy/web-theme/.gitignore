@@ -1,0 +1,5 @@
+node_modules/
+extension/palette.css
+tests/screenshots/
+test-results/
+playwright-report/

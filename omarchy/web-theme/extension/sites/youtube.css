@@ -1,0 +1,39 @@
+/* YouTube marks its dark mode with html[dark]. */
+html[dark] {
+  --yt-sys-color-baseline--base-background: var(--omarchy-background) !important;
+  --yt-deprecated-general-background-a: var(--omarchy-background) !important;
+  --yt-deprecated-general-background-b: var(--omarchy-background) !important;
+  --yt-deprecated-general-background-c: var(--omarchy-background) !important;
+  --yt-live-chat-background-color: var(--omarchy-background) !important;
+  --yt-live-chat-header-background-color: var(--omarchy-background) !important;
+
+  /* Menus, dialogs, cards */
+  --yt-sys-color-baseline--raised-background: var(--omarchy-lighter-background) !important;
+  --yt-sys-color-baseline--menu-background: var(--omarchy-lighter-background) !important;
+  --dark-theme-background-color: var(--omarchy-lighter-background) !important;
+  --paper-menu-background-color: var(--omarchy-lighter-background) !important;
+  --paper-listbox-background-color: var(--omarchy-lighter-background) !important;
+  --paper-dialog-background-color: var(--omarchy-lighter-background) !important;
+
+  --ytd-searchbox-background: var(--omarchy-dark-background) !important;
+  --ytd-searchbox-legacy-border-color: var(--omarchy-selection) !important;
+  --ytd-searchbox-legacy-button-border-color: var(--omarchy-selection) !important;
+  --yt-sys-color-baseline--outline-opaque: var(--omarchy-selection) !important;
+  --dark-theme-divider-color: var(--omarchy-selection) !important;
+}
+
+/* These paint with hashed internal variables, so they're set by element instead. */
+html[dark],
+html[dark] ytd-app,
+html[dark] ytd-masthead #background {
+  background: var(--omarchy-background) !important;
+}
+
+/* The see-through top bar content scrolls under */
+html[dark] #frosted-glass {
+  background: color-mix(in srgb, var(--omarchy-background) 80%, transparent) !important;
+}
+
+html[dark] .ytSearchboxComponentInputBox {
+  background: var(--omarchy-dark-background) !important;
+}

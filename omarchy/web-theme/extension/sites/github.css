@@ -1,0 +1,30 @@
+/* GitHub's Primer themes set these on every [data-color-mode] element. Only the "dark" setting is
+   covered, not "sync with system". */
+[data-color-mode="dark"] {
+  --bgColor-default: var(--omarchy-background) !important;
+  --page-header-bgColor: var(--omarchy-background) !important;
+  --codeMirror-bgColor: var(--omarchy-background) !important;
+  --bgColor-inset: var(--omarchy-dark-background) !important;
+  --header-bgColor: var(--omarchy-dark-background) !important;
+
+  /* Boxes, menus, dialogs */
+  --bgColor-muted: var(--omarchy-lighter-background) !important;
+  --overlay-bgColor: var(--omarchy-lighter-background) !important;
+  --bgColor-disabled: var(--omarchy-lighter-background) !important;
+
+  /* Buttons and inputs */
+  --button-default-bgColor-rest: var(--omarchy-lighter-background) !important;
+  --button-default-bgColor-disabled: var(--omarchy-lighter-background) !important;
+  --button-default-bgColor-hover: var(--omarchy-selection) !important;
+  --button-default-bgColor-active: var(--omarchy-muted) !important;
+  --button-default-bgColor-selected: var(--omarchy-muted) !important;
+  --control-bgColor-rest: var(--omarchy-lighter-background) !important;
+  --control-bgColor-disabled: var(--omarchy-lighter-background) !important;
+  --control-bgColor-hover: var(--omarchy-selection) !important;
+  --control-bgColor-active: var(--omarchy-muted) !important;
+  --control-bgColor-selected: var(--omarchy-muted) !important;
+
+  --bgColor-emphasis: var(--omarchy-muted) !important;
+  --borderColor-default: var(--omarchy-muted) !important;
+  --borderColor-muted: var(--omarchy-selection) !important;
+}

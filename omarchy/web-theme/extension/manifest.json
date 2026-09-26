@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Omarchy Web Theme",
+  "description": "Recolors some sites' dark modes with the current Omarchy theme.",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "css": ["palette.css", "sites/youtube.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "css": ["palette.css", "sites/chatgpt.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://github.com/*"],
+      "css": ["palette.css", "sites/github.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://x.com/*"],
+      "css": ["palette.css", "sites/x.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://grok.com/*"],
+      "css": ["palette.css", "sites/grok.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
