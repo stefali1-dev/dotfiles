@@ -5,3 +5,7 @@
 vim.keymap.set("n", "<leader>fy", function()
   vim.fn.setreg("+", vim.fn.expand("%"))
 end, { desc = "Copy relative file path" })
+
+vim.keymap.set("n", "<leader>fY", function()
+  vim.fn.setreg("+", vim.fn.expand("%:p"))
+end, { desc = "Copy full file path" })
