@@ -24,6 +24,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | Folder | Installs to | OS |
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder, rules per file) | any |
+| `claude/hooks/herdr-agent-state.sh`, `claude/skills/herdr/` | herdr's Claude integration (written by `herdr integration install claude`; its `SessionStart` entry in `settings.json` uses `~` so it works on both machines) and herdr's upstream skill. The hook lets herdr resume Claude sessions after a restart; it does nothing outside herdr | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
 | `starship/starship.toml` | `~/.config/starship.toml`: Omarchy's prompt on both machines | any |
 | `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets). `cheatsheet` prints `nvim/cheatsheet.md` and needs `glow` (`pacman -S glow`, `brew install glow`) | any |
@@ -36,6 +37,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `mac/aerospace.toml` | `~/.config/aerospace/aerospace.toml`: AeroSpace tiling with Omarchy's Cmd shortcuts (workspaces, moves, resize, Cmd + Enter for a Ghostty window). Starts `borders` | macOS |
 | `mac/karabiner/` | `~/.config/karabiner` (the whole folder: Karabiner rewrites `karabiner.json` and won't follow a linked file). Caps Lock and right Option as Ctrl, plus Cmd + B (Brave) and Cmd + Shift + F (Yazi), skipped in apps where those keys already mean something | macOS |
 | `mac/ghostty/config` | `~/.config/ghostty/config`: Ghostty set up like Omarchy's foot — JetBrainsMono Nerd Font, 14px padding, no title bar, colors from `theme/`. `font-size = 15` matches foot's 9pt at Omarchy's 125%, since the Mac runs its screens at 1x | macOS |
+| `mac/herdr/config.toml` | `~/.config/herdr/config.toml`: Omarchy's herdr config verbatim (prefix `ctrl+space`), copied from `/usr/share/omarchy/config/herdr/` by `install.sh omarchy`, so the Mac's herdr works like Omarchy's. `install.sh mac` also runs `brew install herdr`. On Omarchy, herdr and its config are Omarchy's own and untouched | macOS |
 | `mac/borders/bordersrc` | `~/.config/borders/bordersrc`: JankyBorders draws the accent-colored border Hyprland draws on Omarchy. Started by AeroSpace | macOS |
 | `mac/theme-set.sh` | Not linked; run by `install.sh` and by `.githooks/post-merge` when a pull changes `theme/`: applies the theme to Brave, Ghostty, VS Code, Obsidian, btop, the border, the wallpaper and the text-selection color | macOS |
 | `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, on a folder if it gets one. Reachable from Cmd + Shift + F, Spotlight, a folder's "Open With" and `open -a Yazi <dir>`. It can't become the default for folders: macOS 26 refuses to reassign `public.folder` or the `file:` scheme, even to Finder itself, so double-clicking a folder and "Show in folder" stay Finder. First use asks to let Yazi control Ghostty | macOS |

@@ -59,12 +59,14 @@ install_nvim() {
 }
 
 install_mac() {
-  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty}, ~/Applications/Yazi.app, macOS preferences"
+  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty,herdr}, ~/Applications/Yazi.app, macOS preferences"
   link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
   link "$DOTFILES/mac/aerospace.toml" "$HOME/.config/aerospace/aerospace.toml"
   # The whole folder: Karabiner rewrites karabiner.json and doesn't follow a symlinked file.
   link "$DOTFILES/mac/karabiner" "$HOME/.config/karabiner"
   link "$DOTFILES/mac/ghostty/config" "$HOME/.config/ghostty/config"
+  link "$DOTFILES/mac/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+  command -v herdr >/dev/null || brew install herdr
 
   # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
   local app="$HOME/Applications/Yazi.app"
@@ -117,6 +119,8 @@ install_omarchy() {
   "$DOTFILES/brave/web-theme/generate.sh"
   link "$DOTFILES/omarchy/theme-export.sh" "$HOME/.config/omarchy/hooks/theme-set.d/theme-export.sh"
   "$DOTFILES/omarchy/theme-export.sh"
+  # Omarchy ships herdr and its config; the Mac uses the same config. Commit what this changes.
+  install -Dm644 /usr/share/omarchy/config/herdr/config.toml "$DOTFILES/mac/herdr/config.toml"
 
   # Without this folder, Omarchy's theme switch stops forcing its one-color (gray) policy on Brave, which would block the theme above.
   if [ -d /etc/brave/policies/managed ]; then
