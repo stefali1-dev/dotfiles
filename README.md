@@ -25,7 +25,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder, rules per file) | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
-| `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets) | any |
+| `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets). `cheatsheet` prints `nvim/cheatsheet.md` and needs `glow` (`pacman -S glow`, `brew install glow`) | any |
 | `nvim/` | `~/.config/nvim`: Omarchy's LazyVim config, shared. `lua/plugins/theme.lua` is untracked: on Omarchy it links the current theme, on macOS it's absent (LazyVim's tokyonight). Omarchy migrations edit files here; commit what they change. `omarchy-nvim-refresh` replaces the link, so re-run `install.sh nvim` after it. macOS needs `brew install neovim ripgrep fd` and a Nerd Font | any |
 | `.githooks/` | Used by this repo (`install.sh` sets `core.hooksPath` and the repo's personal `user.email`): adds a `Machine: mac` or `Machine: omarchy` trailer to every commit | any |
 | `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`. Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |

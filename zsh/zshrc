@@ -12,6 +12,7 @@ setopt auto_cd interactive_comments no_beep
 # Aliases
 alias cl='clear'
 alias gs='git status'
+alias cheatsheet='glow ~/dotfiles/nvim/cheatsheet.md'
 
 # Claude Code: trust every folder. Undocumented flag; unlike trust recorded in
 # ~/.claude.json, it also covers features that check only the exact launch folder.
