@@ -38,10 +38,10 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `mac/ghostty/config` | `~/.config/ghostty/config`: Ghostty set up like Omarchy's foot — JetBrainsMono Nerd Font, 14px padding, no title bar, colors from `theme/`. `font-size = 15` matches foot's 9pt at Omarchy's 125%, since the Mac runs its screens at 1x | macOS |
 | `mac/borders/bordersrc` | `~/.config/borders/bordersrc`: JankyBorders draws the accent-colored border Hyprland draws on Omarchy. Started by AeroSpace | macOS |
 | `mac/theme-set.sh` | Not linked; run by `install.sh` and by `.githooks/post-merge` when a pull changes `theme/`: applies the theme to Brave, Ghostty, VS Code, Obsidian, btop, the border, the wallpaper and the text-selection color | macOS |
-| `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, and is the folder handler, so Cmd + Space, `open <dir>` and "Show in folder" reach it. Finder still owns the Desktop, Dock stacks and file dialogs. First use asks to let Yazi control Ghostty | macOS |
+| `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, on a folder if it gets one. Reachable from Cmd + Shift + F, Spotlight, a folder's "Open With" and `open -a Yazi <dir>`. It can't become the default for folders: macOS 26 refuses to reassign `public.folder` or the `file:` scheme, even to Finder itself, so double-clicking a folder and "Show in folder" stay Finder. First use asks to let Yazi control Ghostty | macOS |
 | `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
 | `mac/claude-rules.md` | `~/.claude/rules/mac.md`: Claude Code rules for macOS only (root via `sudo -A`) | macOS |
-| `mac/defaults.sh` | Run by `install.sh`: Ctrl+←/→ no longer switch spaces, and folders open in Yazi (`NSFileViewer`, takes effect after logging out; undo with `defaults delete -g NSFileViewer`) | macOS |
+| `mac/defaults.sh` | Run by `install.sh`: Ctrl+←/→ no longer switch spaces | macOS |
 | `omarchy/zsh.zsh` | Loaded by `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. `ide [dir]` replaces every window on the current workspace (including its own terminal) with small terminal, Neovim, small terminal side by side. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings,monitors}.lua`. With an external monitor, workspace 1 stays on the laptop and 2–5 go to the monitor. The AOC ultrawide runs at 120 Hz with the laptop centred below it | Omarchy Linux |
 | `omarchy/brave-flags.conf` | `~/.config/brave-flags.conf`: Omarchy's Chromium flags plus `--force-device-scale-factor=0.9`, so Brave (tabs and pages) is smaller while screens stay at 125%. Also loads the theme `brave/theme.sh` writes, and the `brave/web-theme` extension | Omarchy Linux |
@@ -100,7 +100,6 @@ Set by hand, once (the rest is `install.sh`):
       c["foreground"], c["green"], c["red"], c["background"], c["bright_foreground"] }'
   ```
 
-- **Log out and back in** once, so folders start opening in Yazi.
 - **Yazi's first launch** asks to let it control Ghostty; allow it.
 
 ## Keyboard
