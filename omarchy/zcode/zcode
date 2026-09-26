@@ -1,0 +1,5 @@
+#!/bin/bash
+# Runs the TUI update.sh built, with the Node version its checkout pins (so re-pointing `current` is a full rollback).
+dir=~/.local/share/zcode-tui/current
+node=$(sed -n 's/^node = "\(.*\)"$/\1/p' "$dir/mise.toml")
+exec mise x "node@$node" -- node "$dir/apps/zcode-cli/packages/cli/dist/zcode.cjs" "$@"
