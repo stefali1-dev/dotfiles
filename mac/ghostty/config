@@ -22,3 +22,6 @@ macos-option-as-alt = true
 # Quitting outright is still Ghostty > Quit, or Cmd + Shift + Q.
 keybind = super+q=close_window
 keybind = super+shift+q=quit
+
+# Close without the "All terminal sessions in this window will be terminated" prompt, as on Omarchy.
+confirm-close-surface = false
