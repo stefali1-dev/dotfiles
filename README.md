@@ -87,10 +87,9 @@ Screenshots use Omasnap (installed by `install.sh`):
 
 | Shortcut | Does |
 |---|---|
+| Cmd + Shift + 1 | Copy text from a region (OCR) |
 | Print, Cmd + Shift + 2 | Region or window, then annotate |
-| Cmd + Shift + 1 | Full screen |
 | Cmd + Shift + 3 | Scrolling capture |
-| Cmd + Shift + 4 | Copy text from a region (OCR) |
 
 On macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys for the same layout.
 
