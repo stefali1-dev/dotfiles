@@ -81,9 +81,13 @@ brew install --cask ghostty aerospace karabiner-elements font-jetbrains-mono-ner
 
 Set by hand, once (the rest is `install.sh`):
 
-- **Brave** — brave://extensions → Developer mode → Load unpacked, twice:
+- **Brave** — macOS has no `brave-flags.conf`, so the two extensions are loaded by hand once:
+  `brave://extensions` → **Developer mode** on (top right) → **Load unpacked** (top left) → in the
+  picker press Cmd + Shift + G and paste the path, twice:
   `~/.local/share/brave-omarchy-theme` (the tab strip) and `~/dotfiles/brave/web-theme/extension`
-  (site colors). macOS has no `brave-flags.conf`, so this replaces it; both are re-read on restart.
+  (site colors). **Developer mode has to stay on**: since Chromium 134 an unpacked extension is
+  disabled while it is off ("Developer Mode Off. Some extensions were disabled."). They survive
+  restarts and re-read their files each start, so a new theme needs only a Brave restart.
   Then Settings → Appearance → Fonts → Fixed-width: JetBrainsMono Nerd Font, and Page zoom 110%.
 - **Slack** — Preferences → Appearance → Dark, then Custom theme → paste the string from the current
   palette, and turn the window gradient off. Slack maps these onto its own colors, so the message
