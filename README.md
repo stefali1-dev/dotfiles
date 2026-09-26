@@ -75,7 +75,7 @@ Packages:
 
 ```sh
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide resvg imagemagick \
-  eza starship btop neovim tree-sitter-cli FelixKratz/formulae/borders
+  eza starship btop glow neovim tree-sitter-cli FelixKratz/formulae/borders
 brew install --cask ghostty aerospace karabiner-elements font-jetbrains-mono-nerd-font
 ```
 
