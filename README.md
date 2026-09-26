@@ -65,7 +65,8 @@ The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
 `hypr/bindings.lua` maps Cmd shortcuts:
 - **Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W** sends the matching Ctrl shortcut to the app. Terminals get a terminal-safe action instead.
 - **Cmd + Q** closes the window.
-- **Cmd + 1–9** switches workspaces.
+- **Cmd + 1–9** switches workspaces. Cmd + 0 does nothing, so workspace 10 can't be opened by accident.
+- **Cmd + - / =** (plus Shift, Alt, Ctrl) keep resizing the window while held, about 10 steps a second.
 - **Cmd + Space** opens the launcher.
 - **Cmd + K** lists all bindings.
 

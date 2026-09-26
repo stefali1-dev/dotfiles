@@ -143,3 +143,38 @@ o.bind("PRINT", "Screenshot", "omasnap")
 o.bind("SUPER + SHIFT + code:10", "Extract text (OCR) from screenshot", "omarchy-capture-text")
 o.bind("SUPER + SHIFT + code:11", "Screenshot", "omasnap")
 o.bind("SUPER + SHIFT + code:12", "Scrolling screenshot", "omasnap --scroll")
+
+-- Hold SUPER + -/= (plus SHIFT, ALT, CTRL variants) to keep resizing. Key repeat
+-- fires 40 times a second, so steps are spaced at least 100ms apart.
+local resize_cooling_down = false
+
+local function held_resize(x, y)
+  return function()
+    if resize_cooling_down then
+      return
+    end
+
+    resize_cooling_down = true
+    hl.dispatch(hl.dsp.window.resize({ x = x, y = y, relative = true }))
+    hl.timer(function()
+      resize_cooling_down = false
+    end, { timeout = 100, type = "oneshot" })
+  end
+end
+
+for _, size in ipairs({
+  { mods = "SUPER", shift = "SUPER + SHIFT", step = 100, desc = "" },
+  { mods = "SUPER + ALT", shift = "SUPER + SHIFT + ALT", step = 25, desc = " a little" },
+  { mods = "SUPER + CTRL", shift = "SUPER + CTRL + SHIFT", step = 300, desc = " a lot" },
+}) do
+  hl.unbind(size.mods .. " + code:20")
+  hl.unbind(size.mods .. " + code:21")
+  hl.unbind(size.shift .. " + code:20")
+  hl.unbind(size.shift .. " + code:21")
+  o.bind(size.mods .. " + code:20", "Expand window left" .. size.desc, held_resize(-size.step, 0), { repeating = true })
+  o.bind(size.mods .. " + code:21", "Shrink window left" .. size.desc, held_resize(size.step, 0), { repeating = true })
+  o.bind(size.shift .. " + code:20", "Shrink window up" .. size.desc, held_resize(0, -size.step), { repeating = true })
+  o.bind(size.shift .. " + code:21", "Expand window down" .. size.desc, held_resize(0, size.step), { repeating = true })
+end
+
+hl.unbind("SUPER + code:19") -- was: Switch to workspace 10 (too easy to hit by mistake)
