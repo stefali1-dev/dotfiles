@@ -1,22 +1,14 @@
 {
-  "model": "opus",
-  "modelSettings": {
-    "claude-opus-5-5": {
-      "effortLevel": "high"
-    }
+  "fileSuggestion": {
+    "type": "command",
+    "command": "~/.claude/file-suggestion.sh"
   },
-  "switchModelsOnFlag": true,
-  "theme": "dark",
-  "agentPushNotifEnabled": true,
   "permissions": {
     "additionalDirectories": [
       "~/agent-docs"
     ]
   },
-  "fileSuggestion": {
-    "type": "command",
-    "command": "~/.claude/file-suggestion.sh"
-  },
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -31,5 +23,13 @@
   },
   "worktree": {
     "baseRef": "head"
-  }
+  },
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "theme": "dark",
+  "switchModelsOnFlag": true,
+  "agentPushNotifEnabled": true
 }
