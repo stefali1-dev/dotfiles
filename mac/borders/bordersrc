@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Accent-colored border around the focused window, as Hyprland draws on Omarchy (2px, square, and
+# rgba(595959aa) when unfocused). AeroSpace starts it; mac/theme-set.sh re-runs it after a theme change.
+
+accent=$(sed -n 's/^accent *= *"#\([0-9a-fA-F]\{6\}\)"/\1/p' "$HOME/.local/state/omarchy/current/theme/colors.toml")
+
+exec borders \
+  style=square \
+  width=2.0 \
+  active_color="0xff${accent:-7aa2f7}" \
+  inactive_color=0xaa595959

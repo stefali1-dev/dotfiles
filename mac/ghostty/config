@@ -1,0 +1,19 @@
+# Ghostty on the Mac, set up like foot on Omarchy.
+
+# Colors from the current Omarchy theme (theme/ in this repo).
+config-file = ?~/.local/state/omarchy/current/theme/ghostty.conf
+
+font-family = JetBrainsMono Nerd Font
+# 15 px letters on the ultrawide at 1x, as foot's 9 pt at Omarchy's 125%.
+font-size = 15
+
+window-padding-x = 14
+window-padding-y = 14
+macos-titlebar-style = hidden
+
+cursor-style-blink = false
+# Keeps the block cursor at the prompt too, instead of the shell integration's bar.
+shell-integration-features = no-cursor
+
+# Option+arrows and Option+Backspace work on words (bound in mac/zsh.zsh).
+macos-option-as-alt = true

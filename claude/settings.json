@@ -29,7 +29,7 @@
       "effortLevel": "medium"
     }
   },
-  "theme": "dark",
+  "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
   "agentPushNotifEnabled": true
 }

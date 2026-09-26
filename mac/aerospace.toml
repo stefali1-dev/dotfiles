@@ -1,0 +1,91 @@
+# Omarchy-style AeroSpace setup: macOS cmd maps to Linux Super.
+
+config-version = 2
+
+# Accent-colored border around the focused window, as Hyprland draws (reads ~/.config/borders/bordersrc).
+after-startup-command = ['exec-and-forget borders']
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = []
+automatically-unhide-macos-hidden-apps = false
+persistent-workspaces = [
+    '1',
+    '2',
+    '3',
+    '4',
+    # '5', # Restore workspace 5 by uncommenting this and the related lines below.
+]
+on-mode-changed = []
+
+[key-mapping]
+    preset = 'qwerty'
+
+[gaps]
+    inner.horizontal = 8
+    inner.vertical = 8
+    outer.left = 12
+    outer.bottom = 8
+    outer.top = 0
+    outer.right = 12
+
+[workspace-to-monitor-force-assignment]
+    1 = 'built-in'
+    2 = 'secondary'
+    3 = 'secondary'
+    4 = 'secondary'
+    # 5 = 'secondary' # Workspace 5 disabled for now.
+
+[mode.main.binding]
+    # Focus tiles.
+    cmd-left = 'focus left'
+    cmd-down = 'focus down'
+    cmd-up = 'focus up'
+    cmd-right = 'focus right'
+
+    # Move tiles.
+    cmd-shift-left = 'move left'
+    cmd-shift-down = 'move down'
+    cmd-shift-up = 'move up'
+    cmd-shift-right = 'move right'
+
+    # Resize focused tile (no left/right distinction; shrink/grow, layout decides which neighbor adjusts).
+    cmd-minus = 'resize smart -100'
+    cmd-equal = 'resize smart +100'
+
+    # Switch workspaces.
+    cmd-1 = 'workspace 1'
+    cmd-2 = 'workspace 2'
+    cmd-3 = 'workspace 3'
+    cmd-4 = 'workspace 4'
+    # cmd-5 = 'workspace 5' # Workspace 5 disabled for now.
+
+    # Move window to workspace and follow.
+    ctrl-cmd-1 = 'move-node-to-workspace --focus-follows-window 1'
+    ctrl-cmd-2 = 'move-node-to-workspace --focus-follows-window 2'
+    ctrl-cmd-3 = 'move-node-to-workspace --focus-follows-window 3'
+    ctrl-cmd-4 = 'move-node-to-workspace --focus-follows-window 4'
+    # ctrl-cmd-5 = 'move-node-to-workspace --focus-follows-window 5' # Workspace 5 disabled for now.
+
+    # New terminal: a window in the running Ghostty, rather than a second copy of the app.
+    cmd-enter = '''exec-and-forget osascript -e 'if application "Ghostty" is running then' -e 'tell application "Ghostty" to new window' -e 'else' -e 'tell application "Ghostty" to activate' -e 'end if' '''
+
+    # As on Omarchy. Cmd+Ctrl+F would otherwise be macOS full screen, which moves the window to its own Space.
+    cmd-alt-t = 'layout floating tiling'
+    cmd-ctrl-f = 'fullscreen'
+
+    # Small service mode for maintenance.
+    cmd-shift-semicolon = 'mode service'
+
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main']
+    f = ['layout floating tiling', 'mode main']
+    slash = ['layout tiles horizontal vertical', 'mode main']
+    comma = ['layout accordion horizontal vertical', 'mode main']

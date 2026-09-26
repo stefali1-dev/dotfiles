@@ -25,16 +25,23 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 |---|---|---|
 | `claude/` | `~/.claude/` (per item; skills per folder, rules per file) | any |
 | `git/ignore` | `~/.config/git/ignore` (global gitignore) | any |
+| `starship/starship.toml` | `~/.config/starship.toml`: Omarchy's prompt on both machines | any |
 | `zsh/zshrc` | `~/.zshrc`: history, aliases, Claude folder trust; then loads `<os>/zsh.zsh` and the untracked `~/.zshrc.local` (machine-only env and secrets). `cheatsheet` prints `nvim/cheatsheet.md` and needs `glow` (`pacman -S glow`, `brew install glow`) | any |
-| `nvim/` | `~/.config/nvim`: Omarchy's LazyVim config, shared. `lua/plugins/theme.lua` is untracked: on Omarchy it links the current theme, on macOS it's absent (LazyVim's tokyonight). Omarchy migrations edit files here; commit what they change. `omarchy-nvim-refresh` replaces the link, so re-run `install.sh nvim` after it. macOS needs `brew install neovim ripgrep fd tree-sitter-cli` and a Nerd Font (`brew install --cask font-jetbrains-mono-nerd-font`) | any |
-| `.githooks/` | Used by this repo (`install.sh` sets `core.hooksPath` and the repo's personal `user.email`): adds a `Machine: mac` or `Machine: omarchy` trailer to every commit | any |
+| `nvim/` | `~/.config/nvim`: Omarchy's LazyVim config, shared. `lua/plugins/theme.lua` is untracked: on Omarchy it links the current theme, on macOS it's absent (LazyVim's tokyonight). Omarchy migrations edit files here; commit what they change. `omarchy-nvim-refresh` replaces the link, so re-run `install.sh nvim` after it | any |
+| `.githooks/` | Used by this repo (`install.sh` sets `core.hooksPath` and the repo's personal `user.email`): `commit-msg` adds a `Machine: mac` or `Machine: omarchy` trailer to every commit; `post-merge` applies a pulled `theme/` to this Mac | any |
 | `theme/` | Not installed: the current Omarchy theme's palette, generated app configs and wallpaper, written by `omarchy/theme-export.sh`. Commit it after a theme switch | any |
 | `brave/theme.sh` | `~/.config/omarchy/hooks/theme-set.d/brave-theme.sh`: on each Omarchy theme switch, writes a Brave theme from the theme's `colors.toml` to `~/.local/share/brave-omarchy-theme` (applies on Brave's next start). Replaces Omarchy's one-color browser policy, whose tones came out a washed gray: `install.sh` deletes `/etc/brave/policies/managed` (needs sudo) so Omarchy skips Brave. If an Omarchy update brings the gray back, re-run `install.sh omarchy` | Omarchy Linux |
 | `brave/web-theme/` | A Brave extension (loaded by `brave-flags.conf`) that recolors YouTube, ChatGPT, GitHub, X and Grok's dark modes with the current Omarchy theme. `generate.sh` writes its palette and is linked as `~/.config/omarchy/hooks/theme-set.d/web-theme.sh`. Tests and how to add a site: its README | Omarchy Linux |
-| `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`. Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |
+| `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`, and Omarchy's prompt and shell tools (Starship, `eza` as `ls`, `zoxide` behind `cd`, fzf). Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |
+| `mac/aerospace.toml` | `~/.config/aerospace/aerospace.toml`: AeroSpace tiling with Omarchy's Cmd shortcuts (workspaces, moves, resize, Cmd + Enter for a Ghostty window). Starts `borders` | macOS |
+| `mac/karabiner/` | `~/.config/karabiner` (the whole folder: Karabiner rewrites `karabiner.json` and won't follow a linked file). Caps Lock and right Option as Ctrl, plus Cmd + B (Brave) and Cmd + Shift + F (Yazi), skipped in apps where those keys already mean something | macOS |
+| `mac/ghostty/config` | `~/.config/ghostty/config`: Ghostty set up like Omarchy's foot — JetBrainsMono Nerd Font, 14px padding, no title bar, colors from `theme/`. `font-size = 15` matches foot's 9pt at Omarchy's 125%, since the Mac runs its screens at 1x | macOS |
+| `mac/borders/bordersrc` | `~/.config/borders/bordersrc`: JankyBorders draws the accent-colored border Hyprland draws on Omarchy. Started by AeroSpace | macOS |
+| `mac/theme-set.sh` | Not linked; run by `install.sh` and by `.githooks/post-merge` when a pull changes `theme/`: applies the theme to Brave, Ghostty, VS Code, Obsidian, btop, the border, the wallpaper and the text-selection color | macOS |
+| `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, and is the folder handler, so Cmd + Space, `open <dir>` and "Show in folder" reach it. Finder still owns the Desktop, Dock stacks and file dialogs. First use asks to let Yazi control Ghostty | macOS |
 | `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
 | `mac/claude-rules.md` | `~/.claude/rules/mac.md`: Claude Code rules for macOS only (root via `sudo -A`) | macOS |
-| `mac/defaults.sh` | Run by `install.sh`: Ctrl+←/→ no longer switch spaces | macOS |
+| `mac/defaults.sh` | Run by `install.sh`: Ctrl+←/→ no longer switch spaces, and folders open in Yazi (`NSFileViewer`, takes effect after logging out; undo with `defaults delete -g NSFileViewer`) | macOS |
 | `omarchy/zsh.zsh` | Loaded by `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. `ide [dir]` replaces every window on the current workspace (including its own terminal) with small terminal, Neovim, small terminal side by side. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings,monitors}.lua`. With an external monitor, workspace 1 stays on the laptop and 2–5 go to the monitor. The AOC ultrawide runs at 120 Hz with the laptop centred below it | Omarchy Linux |
 | `omarchy/brave-flags.conf` | `~/.config/brave-flags.conf`: Omarchy's Chromium flags plus `--force-device-scale-factor=0.9`, so Brave (tabs and pages) is smaller while screens stay at 125%. Also loads the theme `brave/theme.sh` writes, and the `brave/web-theme` extension | Omarchy Linux |
@@ -53,9 +60,49 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 - `omarchy/keyd/default.conf` has an `[ids]` line for one laptop's built-in keyboard. On new hardware, find the ID with `sudo keyd monitor`, press the Copilot key, and update the line.
 - Don't commit anything from `~/.claude` except the items listed in `install.sh`. The rest is state: history, sessions and credentials.
 
-## Keyboard (Omarchy)
+## macOS: the Omarchy look
 
-The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
+The Mac follows whichever theme Omarchy exported into `theme/`. `install.sh mac` links that folder as
+`~/.local/state/omarchy/current/theme`, the path both machines read, and runs `mac/theme-set.sh`.
+After a theme switch on Omarchy: commit `theme/` there, `git pull` here, and `.githooks/post-merge`
+retints everything.
+
+Screens run at 1x (no HiDPI scaling) so text stays crisp, and each app is sized to match Omarchy's
+125% instead: Ghostty's `font-size = 15` gives the same 9px-wide cell as foot, and VS Code uses
+`window.zoomLevel` 1.2. Brave, Slack and Obsidian are set below.
+
+Packages:
+
+```sh
+brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide resvg imagemagick \
+  eza starship btop neovim tree-sitter-cli FelixKratz/formulae/borders
+brew install --cask ghostty aerospace karabiner-elements font-jetbrains-mono-nerd-font
+```
+
+Set by hand, once (the rest is `install.sh`):
+
+- **Brave** — brave://extensions → Developer mode → Load unpacked, twice:
+  `~/.local/share/brave-omarchy-theme` (the tab strip) and `~/dotfiles/brave/web-theme/extension`
+  (site colors). macOS has no `brave-flags.conf`, so this replaces it; both are re-read on restart.
+  Then Settings → Appearance → Fonts → Fixed-width: JetBrainsMono Nerd Font, and Page zoom 110%.
+- **Slack** — Preferences → Appearance → Dark, then Custom theme → paste the string from the current
+  palette, and turn the window gradient off. Slack maps these onto its own colors, so the message
+  area stays its own gray; there is no way around that. Print the string with:
+
+  ```sh
+  sed -n 's/^\([a-z_]*\) *= *"\(#[0-9a-fA-F]\{6\}\)".*/\1 \2/p' ~/dotfiles/theme/colors.toml |
+    awk '{ c[$1]=$2 } END { printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+      c["dark_background"], c["lighter_background"], c["accent"], c["background"], c["selection"],
+      c["foreground"], c["green"], c["red"], c["background"], c["bright_foreground"] }'
+  ```
+
+- **Log out and back in** once, so folders start opening in Yazi.
+- **Yazi's first launch** asks to let it control Ghostty; allow it.
+
+## Keyboard
+
+The goal is Mac-style muscle memory on both machines: on Omarchy the key next to Space acts as Cmd,
+and the Mac keeps macOS's own Cmd.
 
 | Physical key | Acts as | Set in |
 |---|---|---|
@@ -64,40 +111,47 @@ The goal is Mac-style muscle memory, with the key next to Space acting as Cmd.
 | Left Alt (next to Space) | Super = Cmd | same |
 | Copilot | Ctrl | `keyd/default.conf` |
 | Magic Keyboard: right Option | Ctrl | `hypr/input.lua` (`ctrl:ralt_rctrl`, this keyboard only; no Alt/Super swap, Cmd is already next to Space) |
+| macOS: Caps Lock and right Option | Ctrl | `mac/karabiner/karabiner.json`, so System Settings → Keyboard → Modifier Keys can stay at its defaults |
 
-`hypr/bindings.lua` maps Cmd shortcuts:
-- **Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W** sends the matching Ctrl shortcut to the app. Terminals get a terminal-safe action instead.
-- **Cmd + Q** closes the window.
-- **Cmd + 1–9** switches workspaces. Cmd + 0 does nothing, so workspace 10 can't be opened by accident.
-- **Cmd + - / =** (plus Shift, Alt, Ctrl) keep resizing the window while held, about 10 steps a second.
-- **Cmd + Space** opens the launcher.
-- **Cmd + K** lists all bindings.
+Window and app shortcuts, and how far the Mac follows. On the Mac they come from
+`mac/aerospace.toml`, except Cmd + B and Cmd + Shift + F, which are Karabiner rules so that apps
+where those keys already mean something (bold, Find in Files) keep them.
 
-Omarchy actions that moved:
+| Action | Omarchy | macOS |
+|---|---|---|
+| Switch workspace | Cmd + 1–9 | Cmd + 1–4 |
+| Move window to workspace | Cmd + Ctrl + 1–0 | Cmd + Ctrl + 1–4 |
+| Move window silently | Cmd + Ctrl + Alt + 1–0 | – |
+| Focus/move window in a direction | Cmd + arrows, Cmd + Shift + arrows | same |
+| Resize window | Cmd + - / = (held) | Cmd + - / = |
+| New terminal | Cmd + Enter | same (a Ghostty window) |
+| Browser | Cmd + B | same |
+| File manager (Yazi) | Cmd + Shift + F | same |
+| Yazi in the terminal's folder | Cmd + Alt + Shift + F | – |
+| Full screen | Cmd + Ctrl + F | same (AeroSpace's, not macOS's own Space) |
+| Tiled full screen | Cmd + Ctrl + Shift + F | – |
+| Toggle floating | Cmd + Alt + T | same |
+| Close window | Cmd + Q | Cmd + Q (macOS quits the app) |
+| Launcher | Cmd + Space | Cmd + Space (Spotlight) |
+| Scratchpad, and moving a window to it | Cmd + Alt + S, Cmd + Shift + Alt + S | – |
+| List all bindings | Cmd + K | – |
+| Service mode (reload, flatten, layout) | – | Cmd + Shift + ; |
 
-| Action | Shortcut |
-|---|---|
-| Full screen | Cmd + Ctrl + F |
-| Tiled full screen | Cmd + Ctrl + Shift + F |
-| Toggle floating | Cmd + Alt + T |
-| Toggle scratchpad | Cmd + Alt + S |
-| Move window to scratchpad | Cmd + Shift + Alt + S |
-| Browser (also Omarchy's Cmd + Shift + B) | Cmd + B |
-| File manager: Yazi instead of Nautilus (Cmd + Alt + Shift + F opens it in the terminal's folder) | Cmd + Shift + F |
-| Move window to workspace 1–10 | Cmd + Ctrl + 1–0 |
-| Move window silently to workspace 1–10 | Cmd + Ctrl + Alt + 1–0 |
+On Omarchy, Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W send the matching Ctrl shortcut to the app
+(terminals get a terminal-safe action instead); macOS apps already use Cmd for these. Cmd + 0 is
+unbound on Omarchy so workspace 10 can't be opened by accident, and Cmd + Ctrl + 1–9 no longer opens
+bar panels there — those keep their letter shortcuts (Cmd + Ctrl + A, B, D, W, P, T).
 
-Cmd + Ctrl + 1–9 no longer opens bar panels; they keep their letter shortcuts (Cmd + Ctrl + A, B, D, W, P, T).
+Two macOS shortcuts are given up to AeroSpace: Cmd + ←/→ no longer jump to the start and end of a
+line (Ctrl + A and Ctrl + E still do), and Cmd + - / = no longer zoom in apps.
 
-Screenshots use Omasnap (installed by `install.sh`):
+Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its own Cmd + Shift + 3/4/5:
 
 | Shortcut | Does |
 |---|---|
 | Cmd + Shift + 1 | Copy text from a region (OCR) |
 | Print, Cmd + Shift + 2 | Region or window, then annotate |
 | Cmd + Shift + 3 | Scrolling capture |
-
-On macOS, remap Caps Lock to Control in System Settings → Keyboard → Modifier Keys for the same layout.
 
 ## Claude Code
 

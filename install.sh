@@ -48,8 +48,9 @@ install_git() {
 }
 
 install_zsh() {
-  echo "zsh -> ~/.zshrc"
+  echo "zsh -> ~/.zshrc, ~/.config/starship.toml"
   link "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
+  link "$DOTFILES/starship/starship.toml" "$HOME/.config/starship.toml"
 }
 
 install_nvim() {
@@ -58,8 +59,46 @@ install_nvim() {
 }
 
 install_mac() {
-  echo "mac -> ~/.claude/rules, macOS preferences"
+  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty}, ~/Applications/Yazi.app, macOS preferences"
   link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
+  link "$DOTFILES/mac/aerospace.toml" "$HOME/.config/aerospace/aerospace.toml"
+  # The whole folder: Karabiner rewrites karabiner.json and doesn't follow a symlinked file.
+  link "$DOTFILES/mac/karabiner" "$HOME/.config/karabiner"
+  link "$DOTFILES/mac/ghostty/config" "$HOME/.config/ghostty/config"
+
+  # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
+  local app="$HOME/Applications/Yazi.app"
+  if [ "$DOTFILES/mac/yazi.applescript" -nt "$app/Contents/Resources/Scripts/main.scpt" ]; then
+    rm -rf "$app"
+    osacompile -o "$app" "$DOTFILES/mac/yazi.applescript"
+    /usr/libexec/PlistBuddy \
+      -c "Add :CFBundleIdentifier string local.yazi" \
+      -c "Delete :CFBundleDocumentTypes" \
+      -c "Add :CFBundleDocumentTypes array" \
+      -c "Add :CFBundleDocumentTypes:0 dict" \
+      -c "Add :CFBundleDocumentTypes:0:CFBundleTypeRole string Viewer" \
+      -c "Add :CFBundleDocumentTypes:0:LSItemContentTypes array" \
+      -c "Add :CFBundleDocumentTypes:0:LSItemContentTypes:0 string public.folder" \
+      "$app/Contents/Info.plist"
+    # Editing Info.plist breaks the signature osacompile made.
+    codesign --force --sign - "$app"
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$app"
+    echo "  built $app"
+  fi
+
+  # The Mac follows the theme Omarchy exported into theme/, through the same path Omarchy uses.
+  mkdir -p "$HOME/.local/state/omarchy/current"
+  ln -snf "$DOTFILES/theme" "$HOME/.local/state/omarchy/current/theme"
+  ln -snf "$DOTFILES/theme/theme.name" "$HOME/.local/state/omarchy/current/theme.name"
+  link "$DOTFILES/mac/borders/bordersrc" "$HOME/.config/borders/bordersrc"
+  link "$DOTFILES/theme/claude.json" "$HOME/.claude/themes/omarchy.json"
+  # btop rewrites btop.conf on exit, so only the theme is linked; the setting is written once.
+  link "$DOTFILES/theme/btop.theme" "$HOME/.config/btop/themes/current.theme"
+  if ! grep -qs '^color_theme = "current"' "$HOME/.config/btop/btop.conf"; then
+    printf 'color_theme = "current"\ntheme_background = False\n' >>"$HOME/.config/btop/btop.conf"
+  fi
+  "$DOTFILES/mac/theme-set.sh"
+
   "$DOTFILES/mac/defaults.sh"
 }
 
