@@ -17,3 +17,8 @@ shell-integration-features = no-cursor
 
 # Option+arrows and Option+Backspace work on words (bound in mac/zsh.zsh).
 macos-option-as-alt = true
+
+# Cmd + Q closes this window, as on Omarchy, instead of quitting every Ghostty window.
+# Quitting outright is still Ghostty > Quit, or Cmd + Shift + Q.
+keybind = super+q=close_window
+keybind = super+shift+q=quit

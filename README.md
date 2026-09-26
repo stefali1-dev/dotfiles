@@ -134,7 +134,7 @@ where those keys already mean something (bold, Find in Files) keep them.
 | Full screen | Cmd + Ctrl + F | same (AeroSpace's, not macOS's own Space) |
 | Tiled full screen | Cmd + Ctrl + Shift + F | – |
 | Toggle floating | Cmd + Alt + T | same |
-| Close window | Cmd + Q | Cmd + Q (macOS quits the app) |
+| Close window | Cmd + Q | Cmd + Q quits the app, except in Ghostty, where it closes the window (Cmd + Shift + Q quits it) |
 | Launcher | Cmd + Space | Cmd + Space (Spotlight) |
 | Scratchpad, and moving a window to it | Cmd + Alt + S, Cmd + Shift + Alt + S | – |
 | List all bindings | Cmd + K | – |
