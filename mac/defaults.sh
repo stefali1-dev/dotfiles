@@ -15,3 +15,15 @@ for shortcut in "79 123 8650752" "81 124 8650752" "32 126 8650752" "34 126 87818
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>$2</integer><integer>$3</integer></array><key>type</key><string>standard</string></dict></dict>"
 done
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+# Key repeat as on Omarchy (repeat_delay 250, repeat_rate 40). 15 is the shortest delay the Keyboard
+# pane offers, about 250ms; 2 is the closest rate, about 33/s, since macOS can't express 40.
+# Takes effect after logging out.
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
+
+# Holding a letter that has accents (a, e, s, ...) opens the accent picker instead of repeating, in
+# apps that use macOS's own text input. Off for VS Code, where repeating beats typing diacritics, and
+# left alone everywhere else so Romanian text still works. Ghostty repeats either way, so it needs
+# nothing. Letters without accents, the arrows and Backspace always repeat.
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false

@@ -41,7 +41,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, on a folder if it gets one. Reachable from Cmd + Shift + F, Spotlight, a folder's "Open With" and `open -a Yazi <dir>`. It can't become the default for folders: macOS 26 refuses to reassign `public.folder` or the `file:` scheme, even to Finder itself, so double-clicking a folder and "Show in folder" stay Finder. First use asks to let Yazi control Ghostty | macOS |
 | `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
 | `mac/claude-rules.md` | `~/.claude/rules/mac.md`: Claude Code rules for macOS only (root via `sudo -A`) | macOS |
-| `mac/defaults.sh` | Run by `install.sh`: turns off the macOS shortcuts AeroSpace replaces — Ctrl+←/→ (switch space), Ctrl+↑ (Mission Control), Ctrl+↓ (App Exposé) and Switch to Desktop 1–5, which would take the Cmd+1–4 used for workspaces | macOS |
+| `mac/defaults.sh` | Run by `install.sh`: turns off the macOS shortcuts AeroSpace replaces — Ctrl+←/→ (switch space), Ctrl+↑ (Mission Control), Ctrl+↓ (App Exposé) and Switch to Desktop 1–5, which would take the Cmd+1–4 used for workspaces. Also Omarchy's key repeat: ~250 ms delay, then ~33/s (macOS can't express Omarchy's 40/s), with press-and-hold off in VS Code so a held letter repeats instead of offering accents | macOS |
 | `omarchy/zsh.zsh` | Loaded by `~/.zshrc`: Omarchy's bash aliases and tools in zsh, plus autosuggestions and syntax highlighting. `ide [dir]` replaces every window on the current workspace (including its own terminal) with small terminal, Neovim, small terminal side by side. Needs `zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions` and `chsh -s /usr/bin/zsh` | Omarchy Linux |
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings,monitors}.lua`. With an external monitor, workspace 1 stays on the laptop and 2–5 go to the monitor. The AOC ultrawide runs at 120 Hz with the laptop centred below it | Omarchy Linux |
 | `omarchy/brave-flags.conf` | `~/.config/brave-flags.conf`: Omarchy's Chromium flags plus `--force-device-scale-factor=0.9`, so Brave (tabs and pages) is smaller while screens stay at 125%. Also loads the theme `brave/theme.sh` writes, and the `brave/web-theme` extension | Omarchy Linux |
@@ -114,6 +114,7 @@ Set by hand, once (the rest is `install.sh`):
   `JetBrainsMono Nerd Font`, and `window.zoomLevel` to `1.2`. The color theme is automatic, these are
   not: `settings.json` stays untracked (work extension settings), and Neovim is replacing it anyway.
 - **Yazi's first launch** asks to let it control Ghostty; allow it.
+- **Log out and back in** once, so the key repeat settings take effect.
 
 ## Keyboard
 
