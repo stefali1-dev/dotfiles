@@ -32,7 +32,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `theme/` | Not installed: the current Omarchy theme's palette, generated app configs and wallpaper, written by `omarchy/theme-export.sh`. Commit it after a theme switch | any |
 | `brave/theme.sh` | `~/.config/omarchy/hooks/theme-set.d/brave-theme.sh`: on each Omarchy theme switch, writes a Brave theme from the theme's `colors.toml` to `~/.local/share/brave-omarchy-theme` (applies on Brave's next start). Replaces Omarchy's one-color browser policy, whose tones came out a washed gray: `install.sh` deletes `/etc/brave/policies/managed` (needs sudo) so Omarchy skips Brave. If an Omarchy update brings the gray back, re-run `install.sh omarchy` | Omarchy Linux |
 | `brave/web-theme/` | A Brave extension (loaded by `brave-flags.conf`) that recolors YouTube, ChatGPT, GitHub, X and Grok's dark modes with the current Omarchy theme. `generate.sh` writes its palette and is linked as `~/.config/omarchy/hooks/theme-set.d/web-theme.sh`. Tests and how to add a site: its README | Omarchy Linux |
-| `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`, and Omarchy's prompt and shell tools (Starship, `eza` as `ls`, `zoxide` behind `cd`, fzf). Needs Oh My Zsh with `zsh-autosuggestions` and `zsh-syntax-highlighting` cloned into `~/.oh-my-zsh/custom/plugins` | macOS |
+| `mac/zsh.zsh` | Loaded by `~/.zshrc`: Oh My Zsh, Option-key word editing, `SUDO_ASKPASS`, and Omarchy's prompt and shell tools (Starship, `eza` as `ls`, `zoxide` behind `cd`, fzf) | macOS |
 | `mac/aerospace.toml` | `~/.config/aerospace/aerospace.toml`: AeroSpace tiling with Omarchy's Cmd shortcuts (workspaces, moves, resize, Cmd + Enter for a Ghostty window). Starts `borders` | macOS |
 | `mac/karabiner/` | `~/.config/karabiner` (the whole folder: Karabiner rewrites `karabiner.json` and won't follow a linked file). Caps Lock and right Option as Ctrl, plus Cmd + B (Brave) and Cmd + Shift + F (Yazi), skipped in apps where those keys already mean something | macOS |
 | `mac/ghostty/config` | `~/.config/ghostty/config`: Ghostty set up like Omarchy's foot — JetBrainsMono Nerd Font, 14px padding, no title bar, colors from `theme/`. `font-size = 15` matches foot's 9pt at Omarchy's 125%, since the Mac runs its screens at 1x | macOS |
@@ -71,6 +71,16 @@ Screens run at 1x (no HiDPI scaling) so text stays crisp, and each app is sized 
 125% instead: Ghostty's `font-size = 15` gives the same 9px-wide cell as foot, and VS Code uses
 `window.zoomLevel` 1.2. Brave, Slack and Obsidian are set below.
 
+Before `install.sh` on a fresh Mac:
+
+- [Homebrew](https://brew.sh), then the packages below.
+- Oh My Zsh, with its two plugins: `git clone https://github.com/zsh-users/zsh-autosuggestions
+  ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions` and the same for
+  `https://github.com/zsh-users/zsh-syntax-highlighting`.
+- Permissions, or the keyboard and tiling silently do nothing: AeroSpace needs Accessibility
+  (System Settings → Privacy & Security → Accessibility), and Karabiner-Elements needs Input
+  Monitoring plus its driver extension, which it prompts for on first launch.
+
 Packages:
 
 ```sh
@@ -100,6 +110,9 @@ Set by hand, once (the rest is `install.sh`):
       c["foreground"], c["green"], c["red"], c["background"], c["bright_foreground"] }'
   ```
 
+- **VS Code** — set `editor.fontFamily` and `terminal.integrated.fontFamily` to
+  `JetBrainsMono Nerd Font`, and `window.zoomLevel` to `1.2`. The color theme is automatic, these are
+  not: `settings.json` stays untracked (work extension settings), and Neovim is replacing it anyway.
 - **Yazi's first launch** asks to let it control Ghostty; allow it.
 
 ## Keyboard

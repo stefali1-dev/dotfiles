@@ -69,6 +69,8 @@ install_mac() {
   # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
   local app="$HOME/Applications/Yazi.app"
   if [ "$DOTFILES/mac/yazi.applescript" -nt "$app/Contents/Resources/Scripts/main.scpt" ]; then
+    # osacompile won't create the folder, and a fresh Mac has no ~/Applications.
+    mkdir -p "$HOME/Applications"
     rm -rf "$app"
     osacompile -o "$app" "$DOTFILES/mac/yazi.applescript"
     /usr/libexec/PlistBuddy \
