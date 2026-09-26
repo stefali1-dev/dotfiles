@@ -2,3 +2,5 @@
 *.bak.*
 .DS_Store
 nvim/lua/plugins/theme.lua
+# A leftover machine-only layer; keep it off GitHub.
+claude/settings.work.json

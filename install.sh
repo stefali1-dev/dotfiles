@@ -33,22 +33,8 @@ install_claude() {
     link "$item" "$HOME/.claude/rules/$(basename "$item")"
   done
 
-  # CLAUDE_PROFILE=work layers settings.work.json on top. autoMode is only read from
-  # user settings, so that layer can't live in a project file; the merge is a copy.
-  if [ -z "${CLAUDE_PROFILE:-}" ]; then
-    link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
-  else
-    local dest="$HOME/.claude/settings.json" merged
-    merged=$(jq -s '.[0] * .[1]' "$DOTFILES/claude/settings.json" "$DOTFILES/claude/settings.$CLAUDE_PROFILE.json")
-    if [ -L "$dest" ] || ! printf '%s\n' "$merged" | cmp -s - "$dest"; then
-      if [ -e "$dest" ] || [ -L "$dest" ]; then
-        mv "$dest" "$dest.bak.$(date +%s)"
-        echo "  backed up $dest"
-      fi
-      printf '%s\n' "$merged" > "$dest"
-      echo "  wrote $dest (settings.json + settings.$CLAUDE_PROFILE.json)"
-    fi
-  fi
+  link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
+
   # Per skill, so skills installed by other tools (e.g. Omarchy's) stay alongside.
   for item in "$DOTFILES"/claude/skills/*/; do
     item="${item%/}"
