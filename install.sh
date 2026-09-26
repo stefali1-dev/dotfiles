@@ -111,6 +111,8 @@ install_omarchy() {
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
+  link "$DOTFILES/omarchy/hypr/autostart.lua" "$HOME/.config/hypr/autostart.lua"
+  link "$DOTFILES/omarchy/hypr/hyprsunset.conf" "$HOME/.config/hypr/hyprsunset.conf"
   link "$DOTFILES/omarchy/claude-rules.md" "$HOME/.claude/rules/omarchy.md"
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
   link "$DOTFILES/brave/theme.sh" "$HOME/.config/omarchy/hooks/theme-set.d/brave-theme.sh"
