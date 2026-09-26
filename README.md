@@ -36,6 +36,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `omarchy/hypr/` | `~/.config/hypr/{input,bindings,monitors}.lua`. With an external monitor, workspace 1 stays on the laptop and 2–5 go to the monitor. The AOC ultrawide runs at 120 Hz with the laptop centred below it | Omarchy Linux |
 | `omarchy/brave-flags.conf` | `~/.config/brave-flags.conf`: Omarchy's Chromium flags plus `--force-device-scale-factor=0.9`, so Brave (tabs and pages) is smaller while screens stay at 125% | Omarchy Linux |
 | `omarchy/mpv/scripts/onepiece.lua` | `~/.config/mpv/scripts/onepiece.lua`: for the `onepiece` command in `omarchy/zsh.zsh`, remembers the last episode and its position, only in mpv windows that command opened, not ones opened from the file manager (`onepiece` resumes, `onepiece <file or folder>` starts there) | Omarchy Linux |
+| `omarchy/applications/` | `~/.local/share/applications/`: Yazi replaces Nautilus as the file manager. `yazi.desktop` is "Files" in the launcher (first for "file") and opens folders (`install.sh` sets it for `inode/directory`); `org.gnome.Nautilus.desktop` hides Nautilus from the launcher. "Show in folder" in browsers still opens Nautilus | Omarchy Linux |
 | `omarchy/claude-rules.md` | `~/.claude/rules/omarchy.md`: Claude Code rules for Omarchy only (root via `pkexec`) | Omarchy Linux |
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
 | `omarchy/modprobe/` | `/etc/modprobe.d/hid_apple.conf` (copied, needs sudo; rebuilds the boot image): the US Magic Keyboard's `` ` `` `~` key types `<` `>` without it | Omarchy Linux |
@@ -78,6 +79,7 @@ Omarchy actions that moved:
 | Toggle scratchpad | Cmd + Alt + S |
 | Move window to scratchpad | Cmd + Shift + Alt + S |
 | Browser (also Omarchy's Cmd + Shift + B) | Cmd + B |
+| File manager: Yazi instead of Nautilus (Cmd + Alt + Shift + F opens it in the terminal's folder) | Cmd + Shift + F |
 | Move window to workspace 1–10 | Cmd + Ctrl + 1–0 |
 | Move window silently to workspace 1–10 | Cmd + Ctrl + Alt + 1–0 |
 

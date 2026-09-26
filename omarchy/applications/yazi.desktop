@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Files
+GenericName=Yazi
+Comment=Terminal file manager
+Icon=yazi
+Exec=omarchy-launch-tui yazi %f
+Terminal=false
+MimeType=inode/directory;
+Categories=System;FileManager;
+Keywords=File;Manager;Explorer;Yazi;

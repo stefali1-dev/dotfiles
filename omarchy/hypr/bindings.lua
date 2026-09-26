@@ -94,6 +94,12 @@ o.bind("SUPER + ALT + S", "Toggle scratchpad", hl.dsp.workspace.toggle_special("
 o.bind("SUPER + SHIFT + ALT + S", "Move window to scratchpad", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
 o.bind("SUPER + B", "Browser", { omarchy = "browser" })
 
+-- Yazi replaces Nautilus as the file manager.
+hl.unbind("SUPER + SHIFT + F") -- was: Nautilus
+hl.unbind("SUPER + ALT + SHIFT + F") -- was: Nautilus in the terminal's cwd
+o.bind("SUPER + SHIFT + F", "File manager", { tui = "yazi" })
+o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", 'omarchy-launch-tui yazi "$(omarchy-cmd-terminal-cwd)"')
+
 o.bind("SUPER + W", "Close tab", mac_shortcut("CTRL", "W", close_window))
 o.bind("SUPER + T", "New tab", mac_shortcut("CTRL", "T", new_terminal))
 o.bind("SUPER + SHIFT + T", "Reopen closed tab", mac_shortcut("CTRL SHIFT", "T"))
@@ -134,7 +140,6 @@ end
 
 hl.unbind("PRINT")
 o.bind("PRINT", "Screenshot", "omasnap")
-o.bind("SUPER + SHIFT + code:10", "Screenshot full screen", "omasnap --capture-fullscreen")
+o.bind("SUPER + SHIFT + code:10", "Extract text (OCR) from screenshot", "omarchy-capture-text")
 o.bind("SUPER + SHIFT + code:11", "Screenshot", "omasnap")
 o.bind("SUPER + SHIFT + code:12", "Scrolling screenshot", "omasnap --scroll")
-o.bind("SUPER + SHIFT + code:13", "Extract text (OCR) from screenshot", "omarchy-capture-text")

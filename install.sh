@@ -78,19 +78,25 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, ~/.config/mpv, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
   link "$DOTFILES/omarchy/claude-rules.md" "$HOME/.claude/rules/omarchy.md"
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
+  link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
+  link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
 
   # Neovim follows the Omarchy theme. Untracked (it would dangle on macOS) and relinked by Omarchy migrations, so not link().
   ln -snf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$DOTFILES/nvim/lua/plugins/theme.lua"
 
   # Screenshot tool bound in hypr/bindings.lua; from Omarchy's package repo.
   omarchy-pkg-add omasnap
+
+  # Yazi replaces Nautilus as the file manager: bound in hypr/bindings.lua, and opens folders.
+  omarchy-pkg-add yazi
+  xdg-mime default yazi.desktop inode/directory
 
   # Omarchy reads this marker to keep the screensaver off. Not omarchy-toggle-screensaver: it flips on each run.
   mkdir -p "$HOME/.local/state/omarchy/toggles"

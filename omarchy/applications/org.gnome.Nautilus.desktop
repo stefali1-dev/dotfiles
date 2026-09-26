@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Nautilus
+Exec=nautilus --new-window %U
+Icon=org.gnome.Nautilus
+MimeType=inode/directory;
+NoDisplay=true
