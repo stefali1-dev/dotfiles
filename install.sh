@@ -78,12 +78,20 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, Brave theme hook, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
   link "$DOTFILES/omarchy/claude-rules.md" "$HOME/.claude/rules/omarchy.md"
   link "$DOTFILES/omarchy/brave-flags.conf" "$HOME/.config/brave-flags.conf"
+  link "$DOTFILES/omarchy/brave-theme.sh" "$HOME/.config/omarchy/hooks/theme-set.d/brave-theme.sh"
+  "$DOTFILES/omarchy/brave-theme.sh"
+
+  # Without this folder, Omarchy's theme switch stops forcing its one-color (gray) policy on Brave, which would block the theme above.
+  if [ -d /etc/brave/policies/managed ]; then
+    sudo rm -rf /etc/brave/policies/managed
+    echo "  removed /etc/brave/policies/managed"
+  fi
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
   link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
