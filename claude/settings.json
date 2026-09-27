@@ -56,9 +56,5 @@
   },
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  }
+  "agentPushNotifEnabled": true
 }

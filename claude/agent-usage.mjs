@@ -7,7 +7,7 @@ import { homedir, platform } from "node:os";
 const windowNames = { session: "5-hour", weekly_all: "weekly" };
 
 /** Live from the endpoint behind Claude Code's /usage. The token is only read: refreshing it would log out running sessions. */
-// Undocumented endpoint: if Anthropic changes it, this throws and claude() falls back to the status line's cache.
+// Undocumented endpoint: if Anthropic changes it, this throws and the claude entry shows the error.
 async function claudeLive() {
   const credentials =
     platform() === "darwin"
@@ -19,9 +19,10 @@ async function claudeLive() {
   });
   if (!response.ok) throw new Error(`usage API ${response.status}`);
   const { limits } = await response.json();
+  const { emailAddress } = JSON.parse(readFileSync(`${homedir()}/.claude.json`, "utf8")).oauthAccount;
   return {
     plan: subscriptionType,
-    source: "live",
+    email: emailAddress,
     limits: limits.map((limit) => ({
       window: windowNames[limit.kind] ?? limit.kind,
       usedPercent: limit.percent,
@@ -30,41 +31,17 @@ async function claudeLive() {
   };
 }
 
-/** What claude/statusline.sh saved at the last reply of any session. */
-function claudeCache(error) {
-  const cache = JSON.parse(readFileSync(`${homedir()}/.cache/claude-usage.json`, "utf8"));
-  return {
-    source: "cache",
-    updatedAt: new Date(cache.updated_at * 1000).toISOString(),
-    liveError: error.message,
-    limits: [
-      ["5-hour", cache.five_hour],
-      ["weekly", cache.seven_day],
-    ]
-      .filter(([, window]) => window)
-      .map(([window, { used_percentage, resets_at }]) => ({
-        window,
-        usedPercent: used_percentage,
-        resetsAt: new Date(resets_at * 1000).toISOString(),
-      })),
-  };
-}
-
 async function claude() {
   try {
     return await claudeLive();
   } catch (error) {
-    try {
-      return claudeCache(error);
-    } catch {
-      return { error: error.message };
-    }
+    return { error: error.message };
   }
 }
 
 function zcode() {
   try {
-    return { source: "live", ...JSON.parse(execFileSync("zcode-usage", ["--json"], { encoding: "utf8" })) };
+    return JSON.parse(execFileSync("zcode-usage", ["--json"], { encoding: "utf8" }));
   } catch (error) {
     return { error: error.code === "ENOENT" ? "zcode-usage not installed" : error.message.split("\n")[0] };
   }
@@ -75,16 +52,13 @@ const usage = { claude: await claude(), zcode: zcode() };
 if (process.argv.includes("--json")) {
   console.log(JSON.stringify(usage, null, 2));
 } else {
-  for (const [provider, { plan, source, updatedAt, limits, error }] of Object.entries(usage)) {
-    if (error) {
-      console.log(`${provider}: ${error}`);
-      continue;
-    }
-    const note = source === "cache" ? ` (cached ${new Date(updatedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })})` : "";
-    console.log(`${provider}${plan ? ` (${plan})` : ""}${note}`);
-    for (const { window, usedPercent, resetsAt } of limits) {
+  const blocks = Object.entries(usage).map(([provider, { plan, email, limits, error }]) => {
+    if (error) return `${provider}: ${error}`;
+    const lines = limits.map(({ window, usedPercent, resetsAt }) => {
       const resets = new Date(resetsAt).toLocaleString("en-GB", { weekday: "short", hour: "2-digit", minute: "2-digit" });
-      console.log(`  ${window.padEnd(8)} ${String(usedPercent).padStart(5)}% used  resets ${resets}`);
-    }
-  }
+      return `  ${window.padEnd(8)} ${String(usedPercent).padStart(5)}% used  resets ${resets}`;
+    });
+    return [`${provider} · ${plan} · ${email}`, ...lines].join("\n");
+  });
+  console.log(blocks.join("\n\n"));
 }

@@ -24,7 +24,7 @@ link() {
 install_claude() {
   echo "claude -> ~/.claude"
   local item
-  for item in CLAUDE.md file-suggestion.sh statusline.sh hooks agents commands; do
+  for item in CLAUDE.md file-suggestion.sh hooks agents commands; do
     link "$DOTFILES/claude/$item" "$HOME/.claude/$item"
   done
 

@@ -23,6 +23,7 @@ function windowName({ type, unit, number }) {
 
 const credentials = JSON.parse(readFileSync(`${homedir()}/.zcode/v2/credentials.json`, "utf8"));
 const apiKey = decrypt(Object.entries(credentials).find(([name]) => name.endsWith(":api-key"))[1]);
+const { email } = JSON.parse(decrypt(credentials["oauth:zai:user_info"]));
 
 // The monitor API takes the bare key, no "Bearer".
 const response = await fetch("https://api.z.ai/api/monitor/usage/quota/limit", { headers: { authorization: apiKey } });
@@ -48,9 +49,9 @@ const limits = body.data.limits.map((limit) => ({
 }));
 
 if (process.argv.includes("--json")) {
-  console.log(JSON.stringify({ plan: body.data.level, limits }, null, 2));
+  console.log(JSON.stringify({ plan: body.data.level, email, limits }, null, 2));
 } else {
-  console.log(`Z.ai Coding Plan: ${body.data.level}`);
+  console.log(`Z.ai Coding Plan · ${body.data.level} · ${email}`);
   for (const limit of limits) {
     const resets = new Date(limit.resetsAt).toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     console.log(`  ${limit.window.padEnd(8)} ${String(limit.usedPercent).padStart(5)}% used  ${limit.used} / ${limit.total}  resets ${resets}`);
