@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "events": {
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "PreToolUse": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "PermissionRequest": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "PostToolUse": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "PostToolUseFailure": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "$HOME/.local/bin/zcode-herdr-agent-state" }] }]
+  }
+}

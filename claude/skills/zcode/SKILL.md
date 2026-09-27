@@ -5,7 +5,11 @@ description: "Spawn and drive ZCode (Z.ai's GLM coding agent TUI, the `zcode` co
 
 # ZCode in Herdr panes
 
-`zcode` is the ZCode TUI (setup: `~/dotfiles/omarchy/zcode/README.md`). Herdr doesn't know it as an agent kind, so `herdr agent ...` commands don't work on it: drive it with `herdr pane ...` and read the screen. Follow the herdr skill's rules on layout and focus.
+`zcode` is the ZCode TUI (setup: `~/dotfiles/omarchy/zcode/README.md`). Its hooks report its state to herdr (`omarchy/zcode/herdr-agent-state.sh`), so `herdr agent wait|get|read` work on it: idle, working, blocked (approval dialog), done. `herdr agent prompt` and `agent start` don't (herdr doesn't know it as an agent kind): type into it with `herdr pane ...`. Follow the herdr skill's rules on layout and focus.
+
+## Usage left
+
+`zcode-usage --json`: the plan's 5-hour and weekly limits (`usedPercent`, `resetsAt`). Check it before handing zcode a big task.
 
 ## Start, prompt, wait
 
@@ -16,13 +20,14 @@ herdr pane wait-output "$pane" --match "Type a prompt" --timeout 30000
 
 herdr pane send-text "$pane" "<task>"
 herdr pane send-keys "$pane" enter
-sleep 2
-while herdr pane read "$pane" --source visible | grep -q 'esc to interrupt'; do sleep 2; done
-herdr pane read "$pane" --source visible
+herdr agent wait "$pane" --until working --timeout 10000
+herdr agent wait "$pane" --timeout 600000   # returns done, idle or blocked
+herdr agent read "$pane" --source visible
 ```
 
-- The turn is over when `esc to interrupt` is gone. It is also gone while an approval dialog waits, so check for `Approval required` next.
-- The whole prompt can go in one `send-text`; send Enter separately.
+- Send the prompt with `send-text`, then Enter separately. `pane run` submits but leaves the text in the prompt box, and the next prompt gets appended to it.
+- Wait for `working` first: right after Enter the state is still the previous `done`, so a plain `agent wait` returns at once.
+- `blocked` means an approval dialog (`Approval required: <Tool>`).
 - It starts in Build mode: edits and non-read-only commands ask for approval. Read-only commands run without asking.
 
 ## Approvals
@@ -35,7 +40,9 @@ The dialog (`Approval required: <Tool>`) starts on Deny. Options: Allow once, Al
 
 ## Rules
 
-- Stop a running turn with `esc`. Never send `ctrl+c` except to quit: one Ctrl+C quits at once, even mid-task.
+- Stop a running turn with `esc`. zcode fires no hook on an interrupt, so the state stays `working`: reset it with `HERDR_PANE_ID="$pane" zcode-herdr-agent-state start`. Never send `ctrl+c` except to quit: one Ctrl+C quits at once, even mid-task.
+- Clear the prompt box with `ctrl+u`.
+- Model: `/model` lists them (a picker: Enter selects the highlighted one, Esc closes it); `/model account:zai-individual-coding-plan/GLM-5.3` switches. Effort: `/effort list`, `/effort low|high|max`. Effort is per model: switching model resets it. Send these like a prompt; they don't change the herdr state.
 - Only the visible screen is readable (alternate screen, no scrollback). For long results, ask zcode to write them to a file and read the file.
 - Keep the pane at least 50 columns; below about 45 the right edge is cut off.
 - `zcode -c` resumes the folder's last session but shows a blank transcript; wait for `Type a prompt`, not the account footer.

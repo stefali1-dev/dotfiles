@@ -24,7 +24,7 @@ link() {
 install_claude() {
   echo "claude -> ~/.claude"
   local item
-  for item in CLAUDE.md file-suggestion.sh hooks agents commands; do
+  for item in CLAUDE.md file-suggestion.sh statusline.sh hooks agents commands; do
     link "$DOTFILES/claude/$item" "$HOME/.claude/$item"
   done
 
@@ -135,6 +135,14 @@ install_omarchy() {
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
   link "$DOTFILES/omarchy/zcode/zcode" "$HOME/.local/bin/zcode"
   link "$DOTFILES/omarchy/zcode/update.sh" "$HOME/.local/bin/zcode-update"
+  link "$DOTFILES/omarchy/zcode/herdr-agent-state.sh" "$HOME/.local/bin/zcode-herdr-agent-state"
+  link "$DOTFILES/omarchy/zcode/usage.mjs" "$HOME/.local/bin/zcode-usage"
+  # zcode rewrites its config.json (temp file + rename), so the hooks are merged in, not linked.
+  zcode_config="$HOME/.zcode/cli/config.json"
+  mkdir -p "$(dirname "$zcode_config")"
+  [ -s "$zcode_config" ] || echo '{}' >"$zcode_config"
+  jq --slurpfile hooks "$DOTFILES/omarchy/zcode/hooks.json" '.hooks = $hooks[0]' "$zcode_config" >"$zcode_config.tmp" &&
+    mv "$zcode_config.tmp" "$zcode_config"
 
   # Neovim follows the Omarchy theme. Untracked (it would dangle on macOS) and relinked by Omarchy migrations, so not link().
   ln -snf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$DOTFILES/nvim/lua/plugins/theme.lua"

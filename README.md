@@ -52,7 +52,7 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `omarchy/theme-export.sh` | `~/.config/omarchy/hooks/theme-set.d/theme-export.sh`: on each Omarchy theme switch, copies the files other machines use from the current theme into `theme/` (video wallpapers stay out) | Omarchy Linux |
 | `omarchy/mpv/scripts/onepiece.lua` | `~/.config/mpv/scripts/onepiece.lua`: for the `onepiece` command in `omarchy/zsh.zsh`, remembers the last episode and its position, only in mpv windows that command opened, not ones opened from the file manager (`onepiece` resumes, `onepiece <file or folder>` starts there) | Omarchy Linux |
 | `omarchy/applications/` | `~/.local/share/applications/`: Yazi replaces Nautilus as the file manager. `yazi.desktop` is "Files" in the launcher (first for "file") and opens folders (`install.sh` sets it for `inode/directory`); `org.gnome.Nautilus.desktop` hides Nautilus from the launcher. "Show in folder" in browsers still opens Nautilus | Omarchy Linux |
-| `omarchy/zcode/`, `claude/skills/zcode/` | `~/.local/bin/zcode` and `zcode-update`: Z.ai's ZCode TUI built from source on the desktop app's version, using its GLM Coding Plan login. Run `zcode-update` once after installing. The skill tells Claude how to drive it in herdr panes. Details: its README | Omarchy Linux |
+| `omarchy/zcode/`, `claude/skills/zcode/` | `~/.local/bin/zcode` and `zcode-update`: Z.ai's ZCode TUI built from source on the desktop app's version, using its GLM Coding Plan login. Run `zcode-update` once after installing. Its hooks report its state to herdr (Agents list, `herdr agent wait`). `zcode-usage` prints the plan's 5-hour and weekly limits. The skill tells Claude how to drive it in herdr panes. Details: its README | Omarchy Linux |
 | `omarchy/claude-rules.md` | `~/.claude/rules/omarchy.md`: Claude Code rules for Omarchy only (root via `pkexec`) | Omarchy Linux |
 | `omarchy/keyd/` | `/etc/keyd/default.conf` (copied, needs sudo) | Omarchy Linux |
 | `omarchy/modprobe/` | `/etc/modprobe.d/hid_apple.conf` (copied, needs sudo; rebuilds the boot image): the US Magic Keyboard's `` ` `` `~` key types `<` `>` without it | Omarchy Linux |
@@ -184,6 +184,7 @@ Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its 
 | `CLAUDE.md` | Working style instructions |
 | `settings.json` | Hooks, `@` file suggestions, `~/agent-docs` access, worktree base |
 | `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
+| `statusline.sh` | Status line: model, context use, and the plan's 5-hour / 7-day usage. Saves that usage to `~/.cache/claude-usage.json` (with `updated_at`) for scripts; it's as fresh as the last reply in any session, and only on Pro/Max plans |
 | `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
 | `skills/` | `review-comments`, `decision-questions`, `caveman` |
 | `rules/comments.md` | Comment standard for `.ts`/`.tsx` files |

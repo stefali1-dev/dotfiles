@@ -6,6 +6,14 @@
   "permissions": {
     "additionalDirectories": [
       "~/agent-docs"
+    ],
+    "allow": [
+      "Bash(node /home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
+      "Bash(/home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
+      "Bash(zcode-usage:*)",
+      "Bash(/home/stefan/.local/bin/zcode-usage:*)",
+      "Read(//home/stefan/.local/share/zcode-tui/**)",
+      "Read(//home/stefan/Applications/zcode/**)"
     ]
   },
   "model": "opus",
@@ -41,5 +49,9 @@
   },
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
 }

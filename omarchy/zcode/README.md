@@ -6,6 +6,9 @@ Z.ai's official ZCode TUI, built from [source](https://github.com/zai-org/ZCode)
 |---|---|
 | `update.sh` | `~/.local/bin/zcode-update` |
 | `zcode` | `~/.local/bin/zcode`: runs the current build with the Node version its checkout pins |
+| `herdr-agent-state.sh` | `~/.local/bin/zcode-herdr-agent-state`: reports zcode's state to herdr (see below) |
+| `usage.mjs` | `~/.local/bin/zcode-usage`: the plan's 5-hour and weekly limits (used, total, reset time), as the desktop app shows them. `--json` for scripts, `--raw` for the API response |
+| `hooks.json` | the `hooks` block of `~/.zcode/cli/config.json`, merged in by `install.sh` (zcode rewrites that file, so it can't be a link) |
 
 Driving it from Claude in herdr panes: the `zcode` skill (`claude/skills/zcode/`).
 
@@ -16,6 +19,14 @@ Driving it from Claude in herdr panes: the `zcode` skill (`claude/skills/zcode/`
 - `zcode -c`: resume the last session in this folder.
 - `zcode -p "..." --mode plan`: headless, prints only the answer. **Without `--mode` it's yolo** (every tool, no approval).
 - If `zcode` runs something else: `command -v zcode`. `~/.local/bin` is late in `$PATH`, so an npm-global `zcode` wins.
+
+## herdr
+
+Inside herdr, zcode shows in the Agents list as idle, working or blocked (approval dialog), and `herdr agent wait|get|read` work on it. zcode's hooks (`hooks.json`) call `herdr-agent-state.sh`; the `zcode` launcher reports idle at start and releases the pane on exit. Headless runs and subcommands don't report, so `zcode -p` from Claude's pane leaves Claude's state alone. Outside herdr it does nothing.
+
+- Esc (interrupt) fires no zcode hook, so the pane stays "working" until the next prompt.
+- `herdr agent prompt` and `agent start` only take agent kinds herdr knows; type with `herdr pane send-text` and `send-keys enter`.
+- Plan usage isn't in the TUI (the footer only shows context use): run `zcode-usage`. It decrypts the desktop login's API key from `~/.zcode/v2/credentials.json` with zcode's own cipher and calls `api.z.ai/api/monitor/usage/quota/limit`. Limits come back as credits; an entry it doesn't know (like a token bundle) prints with its raw type and unit.
 
 ## Update and roll back
 
