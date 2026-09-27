@@ -8,10 +8,17 @@
       "~/agent-docs"
     ],
     "allow": [
-      "Bash(node /home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
-      "Bash(/home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
-      "Bash(zcode-usage:*)",
+      "Bash(/Users/stefan/.local/bin/agent-usage:*)",
+      "Bash(/Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
+      "Bash(/home/stefan/.local/bin/agent-usage:*)",
       "Bash(/home/stefan/.local/bin/zcode-usage:*)",
+      "Bash(/home/stefan/dotfiles/claude/agent-usage.mjs:*)",
+      "Bash(/home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
+      "Bash(agent-usage:*)",
+      "Bash(node /Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
+      "Bash(node /home/stefan/dotfiles/claude/agent-usage.mjs:*)",
+      "Bash(node /home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
+      "Bash(zcode-usage:*)",
       "Read(//home/stefan/.local/share/zcode-tui/**)",
       "Read(//home/stefan/Applications/zcode/**)"
     ]

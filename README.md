@@ -184,6 +184,7 @@ Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its 
 | `CLAUDE.md` | Working style instructions |
 | `settings.json` | Hooks, `@` file suggestions, `~/agent-docs` access, worktree base |
 | `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
+| `agent-usage.mjs` | `~/.local/bin/agent-usage`: Claude and Z.ai (zcode) plan usage in one shape: 5-hour and weekly used % and reset time; `--json` for orchestrator agents. Claude is live from the endpoint behind `/usage` (reads the login token, never refreshes it), falling back to `statusline.sh`'s cache; zcode comes from `zcode-usage` |
 | `statusline.sh` | Status line: model, context use, and the plan's 5-hour / 7-day usage. Saves that usage to `~/.cache/claude-usage.json` (with `updated_at`) for scripts; it's as fresh as the last reply in any session, and only on Pro/Max plans |
 | `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
 | `skills/` | `review-comments`, `decision-questions`, `caveman` |
