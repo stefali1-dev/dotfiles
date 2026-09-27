@@ -34,6 +34,9 @@ bindkey '^[[3~' delete-char
 
 # Tools, as Omarchy sets them up for bash
 command -v mise &>/dev/null && eval "$(mise activate zsh)"
+# Update Claude Code before each start. mise caches the release list for an hour, so this rarely touches the
+# network. Not Omarchy's ~/.local/bin/claude launcher: PATH order skips it, and its `mise use` would pin a version.
+claude() { MISE_MINIMUM_RELEASE_AGE=0 mise up --quiet claude; command claude "$@"; }
 [[ $TERM != dumb ]] && command -v starship &>/dev/null && eval "$(starship init zsh)"
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 command -v fzf &>/dev/null && source <(fzf --zsh)
