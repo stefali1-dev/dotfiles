@@ -92,6 +92,37 @@ ide() {
   ) &>/dev/null &!
 }
 
+# Shut down once no herdr agent has worked for 10 minutes, or at a time limit
+# either way (`shutdown-when-agents-done 90m`, default 3h). Leave it running in
+# a terminal; Ctrl+C cancels. An agent waiting for approval counts as done: it
+# won't move until morning anyway.
+shutdown-when-agents-done() {
+  local limit=${1:-3h} seconds quiet=0
+  case $limit in
+    <->h) seconds=$(( ${limit%h} * 3600 )) ;;
+    <->m) seconds=$(( ${limit%m} * 60 )) ;;
+    *) echo "Usage: shutdown-when-agents-done [<hours>h | <minutes>m]" >&2; return 1 ;;
+  esac
+  local deadline=$(( SECONDS + seconds ))
+  echo "Shutting down once no agent has worked for 10 minutes, or at $(date -d "+$seconds seconds" +%H:%M). Ctrl+C cancels."
+
+  while (( SECONDS < deadline && quiet < 10 )); do
+    if herdr agent list | jq -e '.result.agents | all(.agent_status | IN("idle", "done", "blocked"))' >/dev/null; then
+      (( quiet++ ))
+    else
+      quiet=0
+    fi
+    sleep 60
+  done
+
+  notify-send -u critical "Shutting down in 60 seconds" "Ctrl+C in the terminal running shutdown-when-agents-done cancels"
+  echo "Shutting down in 60 seconds. Ctrl+C cancels."
+  sleep 60
+  # Stay Awake would otherwise still be on after the next boot.
+  omarchy toggle idle allow-idle >/dev/null
+  omarchy system shutdown
+}
+
 # Plugins. Syntax highlighting must be sourced last.
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
