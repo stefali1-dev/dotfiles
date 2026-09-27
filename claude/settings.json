@@ -6,7 +6,24 @@
   "permissions": {
     "allow": [
       "Bash(agent-usage:*)",
+      "Bash(git -C * branch -d:*)",
+      "Bash(git -C * diff:*)",
+      "Bash(git -C * log:*)",
+      "Bash(git -C * merge --ff-only:*)",
+      "Bash(git -C * merge-base:*)",
+      "Bash(git -C * status:*)",
+      "Bash(git -C * worktree add:*)",
+      "Bash(git -C * worktree list:*)",
+      "Bash(git -C * worktree remove:*)",
       "Bash(herdr agent start:*)",
+      "Bash(herdr agent:*)",
+      "Bash(herdr pane:*)",
+      "Bash(herdr status:*)",
+      "Bash(herdr tab close:*)",
+      "Bash(herdr tab create:*)",
+      "Bash(herdr tab list:*)",
+      "Bash(herdr workspace list:*)",
+      "Bash(sleep:*)",
       "Read(//home/stefan/.local/share/zcode-tui/**)",
       "Read(//home/stefan/Applications/zcode/**)"
     ],
@@ -77,11 +94,11 @@
   },
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "medium"
+      "effortLevel": "high"
     }
   },
+  "skipDangerousModePermissionPrompt": true,
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "agentPushNotifEnabled": true
 }
