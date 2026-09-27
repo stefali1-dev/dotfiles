@@ -38,6 +38,7 @@ Ask in a sentence or two, with a recommendation. Several choices at once, or whe
 ## Plans and notes
 - Plans live in `~/agent-docs/<repo>/work/<feature>/plan.md`, where `<repo>` is the main checkout's folder name, also inside a worktree.
 - Write there by that full path. The `agent-docs` link in a checkout is for reading.
+- Keep the feature's decisions in `decisions.md` beside the plan, updated as you go and short: it's the file I read; the plan is for agents.
 - A plan starts with a `**Status:**` line (`active`, `done` or `dropped`); keep it current.
 - After a compaction, re-read the plan you are working from.
 - When a plan is done, move its lasting decisions to `~/agent-docs/<repo>/decisions.md` and open follow-ups to `todos.md` beside it. Deleting the work folder is my call.

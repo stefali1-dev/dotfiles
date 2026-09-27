@@ -182,7 +182,7 @@ Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its 
 
 | Path | What it does |
 |---|---|
-| `CLAUDE.md` | Working style instructions |
+| `CLAUDE.md` | Working style instructions; on Omarchy also zcode's `~/.zcode/AGENTS.md` |
 | `settings.json` | Hooks, `@` file suggestions, `~/agent-docs` access, worktree base |
 | `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
 | `agent-usage.mjs` | `~/.local/bin/agent-usage`: Claude and Z.ai (zcode) plan usage in one shape: 5-hour and weekly used % and reset time; `--json` for orchestrator agents. Claude is live from the endpoint behind `/usage` (reads the login token, never refreshes it); zcode comes from `zcode-usage` |
