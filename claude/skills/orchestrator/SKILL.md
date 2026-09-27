@@ -47,7 +47,7 @@ A request unclear enough that the answer changes what gets built: ask the captai
 
 1. Worktree: `git -C <main> worktree add -b <task> <main>/../<repo>.worktrees/<task> <base>`. Reviewers get no worktree: they open in the worker's.
 2. Write `F/briefs/<task>.md`.
-3. Tab: `herdr tab create --cwd <worktree> --label <task> --env ORCH_WORKER=1 --no-focus`. The pane is `.result.root_pane.pane_id`. `ORCH_WORKER=1` keeps workers from ringing the captain's notification sound.
+3. Tab: `herdr tab create --workspace "$HERDR_WORKSPACE_ID" --cwd <worktree> --label <task> --env ORCH_WORKER=1 --no-focus`. The pane is `.result.root_pane.pane_id`. `ORCH_WORKER=1` keeps workers from ringing the captain's notification sound. Always pass `--workspace`: without it the tab lands in whatever workspace the captain has focused.
 4. Start the worker and send it the brief:
    - Claude:
      ```
