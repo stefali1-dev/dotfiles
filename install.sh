@@ -108,7 +108,7 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/herdr, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/herdr, ~/.config/voxtype, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
@@ -132,6 +132,8 @@ install_omarchy() {
     echo "  removed /etc/brave/policies/managed"
   fi
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
+  # The whole folder: `voxtype config set` replaces config.toml instead of writing through a link.
+  link "$DOTFILES/omarchy/voxtype" "$HOME/.config/voxtype"
   link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
   link "$DOTFILES/omarchy/zcode/zcode" "$HOME/.local/bin/zcode"
