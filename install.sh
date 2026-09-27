@@ -133,7 +133,14 @@ install_omarchy() {
   fi
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
   # The whole folder: `voxtype config set` replaces config.toml instead of writing through a link.
-  link "$DOTFILES/omarchy/voxtype" "$HOME/.config/voxtype"
+  link "$DOTFILES/voxtype" "$HOME/.config/voxtype"
+  if command -v voxtype >/dev/null; then
+    voxtype setup --download --model small.en --quiet
+    # Whisper on the Radeon (Vulkan): ~1 s per dictation instead of 3-6 s. A Voxtype reinstall resets it.
+    [ "$(readlink /usr/bin/voxtype)" = /usr/lib/voxtype/voxtype-vulkan ] || sudo voxtype setup gpu --enable
+  else
+    echo "  voxtype not installed; skipping its model and GPU (omarchy voxtype install, then re-run)"
+  fi
   link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
   link "$DOTFILES/omarchy/zcode/zcode" "$HOME/.local/bin/zcode"
