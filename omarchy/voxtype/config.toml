@@ -44,7 +44,7 @@ pause_media = true
 # .en models are English-only but faster and more accurate for English
 # large-v3-turbo is faster than large-v3 with minimal accuracy loss (recommended for GPU)
 # Or provide absolute path to a custom .bin model file
-model = "base.en"
+model = "small.en"
 
 # Language for transcription
 # Use "en" for English, "auto" for auto-detection
@@ -57,7 +57,14 @@ translate = false
 # Number of CPU threads for inference (omit for auto-detection)
 # threads = 4
 
+# Names Whisper can't know; it spells them this way when it hears something close
+initial_prompt = "Claude Code, ZCode, herdr, Omarchy, Hyprland, Voxtype, skill, agent, subagent, orchestrator."
+
 [output]
+# Separates back-to-back recordings, which are otherwise typed glued together.
+# Not "\n": it is typed as Enter and submits a Claude Code prompt (shift_enter_newlines skips it).
+append_text = " "
+
 # Primary output mode: "type" or "clipboard"
 # - type: Simulates keyboard input at cursor position (requires ydotool)
 # - clipboard: Copies text to clipboard (requires wl-copy)
@@ -97,4 +104,4 @@ on_transcription = false
 # spoken_punctuation = false
 #
 # Custom word replacements (case-insensitive, whole words)
-replacements = { "hyper land" = "Hyprland", "her dr" = "herdr", "one-lay" = "one-line", "one lay" = "one line" }
+replacements = { "hyper land" = "Hyprland", "her dr" = "herdr", "one-lay" = "one-line", "one lay" = "one line", "cloud code" = "Claude Code", "z code" = "ZCode", "omarci" = "Omarchy", "orchestra scale" = "orchestrator skill", "orchestrator scale" = "orchestrator skill", "orchestra" = "orchestrator" }

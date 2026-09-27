@@ -1,5 +1,7 @@
 # How I work
 
+My prompts are often dictated: expect speech-to-text slips (orchestra → orchestrator, scale → skill) and read for intent.
+
 ## Simple
 - Simple and easy to read: no more code, files or concepts than the task needs.
 - Typical misses:
