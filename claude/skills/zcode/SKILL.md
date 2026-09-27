@@ -42,7 +42,7 @@ The dialog (`Approval required: <Tool>`) starts on Deny. Options: Allow once, Al
 
 - Stop a running turn with `esc`. zcode fires no hook on an interrupt, so the state stays `working`: reset it with `HERDR_PANE_ID="$pane" zcode-herdr-agent-state start`. Never send `ctrl+c` except to quit: one Ctrl+C quits at once, even mid-task.
 - Clear the prompt box with `ctrl+u`.
-- Model: `/model` lists them (a picker: Enter selects the highlighted one, Esc closes it); `/model account:zai-individual-coding-plan/GLM-5.3` switches. Effort: `/effort list`, `/effort low|high|max`. Effort is per model: switching model resets it. Send these like a prompt; they don't change the herdr state.
+- Model: `/model` lists them (a picker: Enter selects the highlighted one, Esc closes it); `/model account:zai-individual-coding-plan/GLM-5.3` switches. Effort: `/effort list`, `/effort low|high|max`. Effort is per model: switching model resets it. Send these like a prompt; they don't change the herdr state. After `/model`, the picker stays open and the command text stays in the box: send `esc`, then `ctrl+u`, before the next prompt.
 - Only the visible screen is readable (alternate screen, no scrollback). For long results, ask zcode to write them to a file and read the file.
 - Keep the pane at least 50 columns; below about 45 the right edge is cut off.
 - `zcode -c` resumes the folder's last session but shows a blank transcript; wait for `Type a prompt`, not the account footer.

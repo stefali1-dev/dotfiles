@@ -4,9 +4,6 @@
     "command": "~/.claude/file-suggestion.sh"
   },
   "permissions": {
-    "additionalDirectories": [
-      "~/agent-docs"
-    ],
     "allow": [
       "Bash(/Users/stefan/.local/bin/agent-usage:*)",
       "Bash(/Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
@@ -15,12 +12,16 @@
       "Bash(/home/stefan/dotfiles/claude/agent-usage.mjs:*)",
       "Bash(/home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
       "Bash(agent-usage:*)",
+      "Bash(herdr agent start:*)",
       "Bash(node /Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
       "Bash(node /home/stefan/dotfiles/claude/agent-usage.mjs:*)",
       "Bash(node /home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
       "Bash(zcode-usage:*)",
       "Read(//home/stefan/.local/share/zcode-tui/**)",
       "Read(//home/stefan/Applications/zcode/**)"
+    ],
+    "additionalDirectories": [
+      "~/agent-docs"
     ]
   },
   "model": "opus",
@@ -44,6 +45,41 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/agent-sound.sh done",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/agent-sound.sh request",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/agent-sound.sh request",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "worktree": {
@@ -56,5 +92,6 @@
   },
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "skipDangerousModePermissionPrompt": true
 }
