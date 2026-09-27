@@ -58,7 +58,7 @@ translate = false
 # threads = 4
 
 # Names Whisper can't know; it spells them this way when it hears something close
-initial_prompt = "Claude Code, ZCode, herdr, Omarchy, Hyprland, Voxtype, skill, agent, subagent, orchestrator."
+initial_prompt = "Claude Code, CLAUDE.md, ZCode, herdr, Omarchy, Hyprland, Voxtype, dotfiles, worktree, diff, grep, grepping, decisions.md, concise, concisely, skill, agent, subagent, orchestrator."
 
 [output]
 # Separates back-to-back recordings, which are otherwise typed glued together.
@@ -104,4 +104,27 @@ on_transcription = false
 # spoken_punctuation = false
 #
 # Custom word replacements (case-insensitive, whole words)
-replacements = { "hyper land" = "Hyprland", "her dr" = "herdr", "one-lay" = "one-line", "one lay" = "one line", "cloud code" = "Claude Code", "z code" = "ZCode", "omarci" = "Omarchy", "orchestra scale" = "orchestrator skill", "orchestrator scale" = "orchestrator skill", "orchestra" = "orchestrator" }
+[text.replacements]
+"hyper land" = "Hyprland"
+"her dr" = "herdr"
+"herder" = "herdr"
+"one-lay" = "one-line"
+"one lay" = "one line"
+"cloud code" = "Claude Code"
+"clod.md" = "CLAUDE.md"
+"clod" = "Claude"
+"z code" = "ZCode"
+"omarci" = "Omarchy"
+"orchestra scale" = "orchestrator skill"
+"orchestrator scale" = "orchestrator skill"
+"orchestra" = "orchestrator"
+"lk-cirritor" = "orchestrator"
+"decisions that md" = "decisions.md"
+"decision that md" = "decisions.md"
+"decisions at md" = "decisions.md"
+"decision is that md" = "decisions.md"
+"work 3" = "worktree"
+"work tree" = "worktree"
+"dot files" = "dotfiles"
+"ai slope" = "AI slop"
+"consciously" = "concisely"
