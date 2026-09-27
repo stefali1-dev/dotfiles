@@ -8,6 +8,7 @@ Z.ai's official ZCode TUI, built from [source](https://github.com/zai-org/ZCode)
 | `zcode` | `~/.local/bin/zcode`: runs the current build with the Node version its checkout pins |
 | `herdr-agent-state.sh` | `~/.local/bin/zcode-herdr-agent-state`: reports zcode's state to herdr (see below) |
 | `usage.mjs` | `~/.local/bin/zcode-usage`: the plan's 5-hour and weekly limits (used, total, reset time), as the desktop app shows them. `--json` for scripts, `--raw` for the API response |
+| `zcode-usage.service`, `zcode-usage.timer` | `~/.config/systemd/user/`: every 15 minutes, `zcode-usage --omarchy-record` writes `~/.local/state/omarchy/agents/usage/zcode.json`, which gives Omarchy's agents panel (bar) a ZCode tab. The panel's own refresh (`r`) doesn't update it. If an Omarchy update changes the panel's record format, the tab breaks: compare with Claude's record in that folder |
 | `hooks.json` | the `hooks` block of `~/.zcode/cli/config.json`, merged in by `install.sh` (zcode rewrites that file, so it can't be a link) |
 
 Driving it from Claude in herdr panes: the `zcode` skill (`claude/skills/zcode/`).

@@ -138,6 +138,11 @@ install_omarchy() {
   link "$DOTFILES/omarchy/zcode/update.sh" "$HOME/.local/bin/zcode-update"
   link "$DOTFILES/omarchy/zcode/herdr-agent-state.sh" "$HOME/.local/bin/zcode-herdr-agent-state"
   link "$DOTFILES/omarchy/zcode/usage.mjs" "$HOME/.local/bin/zcode-usage"
+  # Puts zcode in Omarchy's agents panel; omarchy-agent-usage-update only runs Omarchy's own collectors.
+  link "$DOTFILES/omarchy/zcode/zcode-usage.service" "$HOME/.config/systemd/user/zcode-usage.service"
+  link "$DOTFILES/omarchy/zcode/zcode-usage.timer" "$HOME/.config/systemd/user/zcode-usage.timer"
+  systemctl --user daemon-reload
+  systemctl --user enable --now zcode-usage.timer
   # zcode rewrites its config.json (temp file + rename), so the hooks are merged in, not linked.
   zcode_config="$HOME/.zcode/cli/config.json"
   mkdir -p "$(dirname "$zcode_config")"

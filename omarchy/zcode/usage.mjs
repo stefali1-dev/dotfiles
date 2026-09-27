@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// Prints the Z.ai Coding Plan usage limits the ZCode desktop app shows. `--json` for scripts, `--raw` for the API response.
+// Prints the Z.ai Coding Plan usage limits the ZCode desktop app shows. `--json` for scripts, `--raw` for the API response,
+// `--omarchy-record` writes them for Omarchy's agents panel (run by zcode-usage.timer).
 import { createDecipheriv, createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readFileSync, renameSync, writeFileSync } from "node:fs";
 import { homedir, platform, userInfo } from "node:os";
 
 /** zcode's credential cipher (apps/zcode-cli/packages/adapters/src/auth/credential-cipher.ts). */
@@ -48,7 +49,25 @@ const limits = body.data.limits.map((limit) => ({
   ...(limit.usageDetails?.length ? { byModel: limit.usageDetails } : {}),
 }));
 
-if (process.argv.includes("--json")) {
+if (process.argv.includes("--omarchy-record")) {
+  // Omarchy's agents panel record (schemaVersion 1, /usr/share/omarchy/shell/plugins/agents): an Omarchy update may change it.
+  const labels = { "5-hour": "Session (5-hour)", weekly: "Weekly (7-day)" };
+  const record = {
+    schemaVersion: 1,
+    id: "zcode",
+    name: "ZCode",
+    updatedAt: new Date().toISOString(),
+    ready: true,
+    hasLocalStats: false,
+    tierLabel: body.data.level[0].toUpperCase() + body.data.level.slice(1),
+    limits: limits.map((limit) => ({ label: labels[limit.window] ?? limit.window, percent: limit.used / limit.total, resetsAt: limit.resetsAt })),
+    usageStatusText: "",
+    authHelpText: "Sign in again in the ZCode desktop app.",
+  };
+  const file = `${homedir()}/.local/state/omarchy/agents/usage/zcode.json`;
+  writeFileSync(`${file}.tmp`, `${JSON.stringify(record, null, 2)}\n`);
+  renameSync(`${file}.tmp`, file);
+} else if (process.argv.includes("--json")) {
   console.log(JSON.stringify({ plan: body.data.level, email, limits }, null, 2));
 } else {
   console.log(`Z.ai Coding Plan · ${body.data.level} · ${email}`);
