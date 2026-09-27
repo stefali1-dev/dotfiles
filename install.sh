@@ -35,6 +35,7 @@ install_claude() {
 
   link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
   link "$DOTFILES/claude/agent-usage.mjs" "$HOME/.local/bin/agent-usage"
+  link "$DOTFILES/claude/ccswitch" "$HOME/.local/bin/ccswitch"
 
   # Per skill, so skills installed by other tools (e.g. Omarchy's) stay alongside.
   for item in "$DOTFILES"/claude/skills/*/; do

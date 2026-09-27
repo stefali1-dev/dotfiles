@@ -187,6 +187,7 @@ Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its 
 | `hooks/agent-docs.sh` | SessionStart hook: links `~/agent-docs/<repo>` into the checkout |
 | `hooks/agent-sound.sh` | Stop, permission and question hooks (and zcode's state hook): herdr's done/request sound for the agent tab you're not looking at. Silent in orchestrator worker tabs (`ORCH_WORKER=1`), and wherever herdr's own sound is still on (the Mac), so nothing rings twice |
 | `agent-usage.mjs` | `~/.local/bin/agent-usage`: Claude and Z.ai (zcode) plan usage in one shape: 5-hour and weekly used % and reset time; `--json` for orchestrator agents. Claude is live from the endpoint behind `/usage` (reads the login token, never refreshes it); zcode comes from `zcode-usage` |
+| `ccswitch` | `~/.local/bin/ccswitch`: switch the Claude Code login between saved accounts in `~/.claude-accounts/` (machine-local, never committed): `add <name>` captures the current login, `ccswitch [name]` saves-then-switches (fzf picker), `list` shows refresh-token days left. Refuses while a claude session runs (`--force` overrides). Swaps `~/.claude/.credentials.json` on Linux, the Keychain on macOS | any |
 | `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
 | `skills/` | `review-comments`, `decision-questions`, `caveman`, `orchestrator` (`/orchestrator`: hands tasks to Claude and zcode workers in their own worktree and herdr tab; decisions in `~/agent-docs/orchestrator/`) |
 | `rules/comments.md` | Comment standard for `.ts`/`.tsx` files |

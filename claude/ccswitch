@@ -1,0 +1,97 @@
+#!/usr/bin/env zsh
+# ccswitch — switch the Claude Code login between saved accounts.
+#
+#   ccswitch add <name>    save the current login under <name>
+#   ccswitch [name]        save current login, then switch to <name>
+#                          (fzf picker when name omitted; --force skips the
+#                          running-session guard)
+#   ccswitch list          show saved logins and refresh-token days left
+#
+# Logins live in ~/.claude-accounts/<name>.json (machine-local, never in
+# dotfiles). Linux swaps ~/.claude/.credentials.json; macOS's login lives in
+# the Keychain ("Claude Code-credentials" service), so the swap goes through
+# `security`. Tokens auto-refresh while an account is in use and the current
+# login is re-saved before every switch, so a saved copy only goes stale if
+# its account sits unused for ~25 days.
+
+setopt NO_UNSET
+
+ACC_DIR="$HOME/.claude-accounts"
+
+die() { print -u2 "ccswitch: $1"; exit 1 }
+
+if [[ $(uname) == Darwin ]]; then
+  KC_SERVICE="Claude Code-credentials"
+  live_exists() { security find-generic-password -s "$KC_SERVICE" -w >/dev/null 2>&1 }
+  live_read()   { security find-generic-password -s "$KC_SERVICE" -w }
+  live_load()   { # $1 = saved json; reuse the existing item's account so -U updates it
+    local acct
+    acct=$(security find-generic-password -s "$KC_SERVICE" 2>/dev/null | sed -n 's/.*"acct"<blob>="\(.*\)".*/\1/p')
+    security add-generic-password -s "$KC_SERVICE" -a "${acct:-$USER}" -w "$(cat "$1")" -U
+  }
+else
+  CRED="$HOME/.claude/.credentials.json"
+  live_exists() { [[ -f $CRED ]] }
+  live_read()   { cat "$CRED" }
+  live_load()   { install -m 600 "$1" "$CRED" }
+fi
+
+save_login() { # $1 = destination file
+  live_read >| "$1.tmp" || { rm -f "$1.tmp"; die "could not read the current login" }
+  chmod 600 "$1.tmp" && mv -f "$1.tmp" "$1"
+}
+
+live_exists || die "no Claude Code login found — log in once first"
+
+case "${1:-}" in
+  add)
+    [[ -n "${2:-}" ]] || die "usage: ccswitch add <name>"
+    mkdir -p "$ACC_DIR"
+    save_login "$ACC_DIR/$2.json"
+    print -r -- "$2" >| "$ACC_DIR/.current"
+    echo "saved current login as '$2'"
+    ;;
+
+  list)
+    for f in "$ACC_DIR"/*.json(N); do
+      name=${f:t:r}
+      exp=$(jq -r '.claudeAiOauth.refreshTokenExpiresAt // 0' "$f")
+      cur=""
+      [[ -e $ACC_DIR/.current && $name == $(<"$ACC_DIR/.current") ]] && cur="  ← current"
+      if (( exp )); then
+        printf '%-12s refresh token: %3d days left%s\n' "$name" $(( (exp / 1000 - $(date +%s)) / 86400 )) "$cur"
+      else
+        printf '%-12s (unreadable token file)%s\n' "$name" "$cur"
+      fi
+    done
+    ;;
+
+  *)
+    tgt=""; force=0
+    for a in "$@"; do [[ $a == --force || $a == -f ]] && force=1 || tgt=$a; done
+    [[ -d $ACC_DIR ]] || die "no saved logins yet — first one: ccswitch add <name>"
+
+    if (( ! force )); then
+      busy=$(pgrep -x claude | while read -r p; do
+        a=$(ps -p "$p" -o args=)
+        [[ $a == *chrome-native-host* || $a == *" daemon"* ]] || print $p
+      done)
+      [[ -n $busy ]] && die "claude is running (pid ${busy//$'\n'/ }) — close it first, or: ccswitch --force ${tgt:-<name>}"
+    fi
+
+    if [[ -z $tgt ]]; then
+      for f in "$ACC_DIR"/*.json(N); do print -r -- ${f:t:r}; done | fzf --prompt='claude account> ' || exit 0
+    fi
+    [[ -f $ACC_DIR/$tgt.json ]] || die "no saved login '$tgt' — log into it, then: ccswitch add $tgt"
+
+    cur=""
+    [[ -e $ACC_DIR/.current ]] && cur=$(<"$ACC_DIR/.current")
+    if [[ $tgt == $cur ]]; then echo "already on '$tgt'"; exit 0; fi
+
+    # re-save the login we're leaving so its refresh token stays fresh
+    [[ -n $cur ]] && save_login "$ACC_DIR/$cur.json"
+    live_load "$ACC_DIR/$tgt.json"
+    print -r -- "$tgt" >| "$ACC_DIR/.current"
+    echo "switched: ${cur:-<unset>} → $tgt"
+    ;;
+esac
