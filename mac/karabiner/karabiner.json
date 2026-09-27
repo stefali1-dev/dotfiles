@@ -106,6 +106,32 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "description": "Hold F9 to dictate with Voxtype, as on Omarchy",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "f9",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/opt/homebrew/bin/voxtype record start"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "shell_command": "/opt/homebrew/bin/voxtype record stop"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }

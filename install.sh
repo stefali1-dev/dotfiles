@@ -36,10 +36,16 @@ install_claude() {
   link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
   link "$DOTFILES/claude/agent-usage.mjs" "$HOME/.local/bin/agent-usage"
   link "$DOTFILES/claude/ccswitch" "$HOME/.local/bin/ccswitch"
+  link "$DOTFILES/zcode/zcode" "$HOME/.local/bin/zcode"
+  link "$DOTFILES/zcode/update.sh" "$HOME/.local/bin/zcode-update"
+  # zcode's global instructions file: the same rules as Claude Code.
+  link "$DOTFILES/claude/CLAUDE.md" "$HOME/.zcode/AGENTS.md"
 
   # Per skill, so skills installed by other tools (e.g. Omarchy's) stay alongside.
   for item in "$DOTFILES"/claude/skills/*/; do
     item="${item%/}"
+    # The work Mac's Falcon kills any process whose arguments name herdr, which would stop this script. herdr isn't used there.
+    [ "$(uname -s)" = Darwin ] && [ "${item##*/}" = herdr ] && continue
     link "$item" "$HOME/.claude/skills/$(basename "$item")"
   done
 }
@@ -61,14 +67,21 @@ install_nvim() {
 }
 
 install_mac() {
-  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty,herdr}, ~/Applications/Yazi.app, macOS preferences"
+  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty}, ~/Applications/Yazi.app, macOS preferences"
   link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
   link "$DOTFILES/mac/aerospace.toml" "$HOME/.config/aerospace/aerospace.toml"
   # The whole folder: Karabiner rewrites karabiner.json and doesn't follow a symlinked file.
   link "$DOTFILES/mac/karabiner" "$HOME/.config/karabiner"
   link "$DOTFILES/mac/ghostty/config" "$HOME/.config/ghostty/config"
-  link "$DOTFILES/mac/herdr/config.toml" "$HOME/.config/herdr/config.toml"
-  command -v herdr >/dev/null || brew install herdr
+  # macOS keeps Voxtype's models beside its config, so only the file is linked.
+  link "$DOTFILES/voxtype/config.toml" "$HOME/Library/Application Support/voxtype/config.toml"
+  if command -v voxtype >/dev/null; then
+    voxtype setup --download --model small.en --quiet
+    # The app bundle, not launchd: only an app gets the microphone and Accessibility permissions.
+    [ -d /Applications/Voxtype.app ] || voxtype setup app-bundle
+  else
+    echo "  voxtype not installed; skipping its model and login item (brew install --cask peteonrails/voxtype/voxtype, then re-run)"
+  fi
 
   # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
   local app="$HOME/Applications/Yazi.app"
@@ -123,8 +136,8 @@ install_omarchy() {
   "$DOTFILES/brave/web-theme/generate.sh"
   link "$DOTFILES/omarchy/theme-export.sh" "$HOME/.config/omarchy/hooks/theme-set.d/theme-export.sh"
   "$DOTFILES/omarchy/theme-export.sh"
-  # Omarchy's herdr config verbatim: the Mac's config, and the baseline omarchy/herdr/config.toml diffs against. Commit what this changes.
-  install -Dm644 /usr/share/omarchy/config/herdr/config.toml "$DOTFILES/mac/herdr/config.toml"
+  # Omarchy's herdr config verbatim: the baseline omarchy/herdr/config.toml diffs against. Commit what this changes.
+  install -Dm644 /usr/share/omarchy/config/herdr/config.toml "$DOTFILES/omarchy/herdr/omarchy-default.toml"
   link "$DOTFILES/omarchy/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
   # Without this folder, Omarchy's theme switch stops forcing its one-color (gray) policy on Brave, which would block the theme above.
@@ -144,12 +157,7 @@ install_omarchy() {
   fi
   link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
-  link "$DOTFILES/omarchy/zcode/zcode" "$HOME/.local/bin/zcode"
-  link "$DOTFILES/omarchy/zcode/update.sh" "$HOME/.local/bin/zcode-update"
   link "$DOTFILES/omarchy/zcode/herdr-agent-state.sh" "$HOME/.local/bin/zcode-herdr-agent-state"
-  link "$DOTFILES/omarchy/zcode/usage.mjs" "$HOME/.local/bin/zcode-usage"
-  # zcode's global instructions file: the same rules as Claude Code.
-  link "$DOTFILES/claude/CLAUDE.md" "$HOME/.zcode/AGENTS.md"
   # Puts zcode in Omarchy's agents panel; omarchy-agent-usage-update only runs Omarchy's own collectors.
   link "$DOTFILES/omarchy/zcode/zcode-usage.service" "$HOME/.config/systemd/user/zcode-usage.service"
   link "$DOTFILES/omarchy/zcode/zcode-usage.timer" "$HOME/.config/systemd/user/zcode-usage.timer"

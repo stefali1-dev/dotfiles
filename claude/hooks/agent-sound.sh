@@ -5,7 +5,7 @@
 [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ] || exit 0
 # Orchestrator workers report to the orchestrator, not to you.
 [ "${ORCH_WORKER:-}" = 1 ] && exit 0
-# Where herdr still rings by itself (the Mac's config), don't ring twice.
+# Where herdr still rings by itself (Omarchy's default config), don't ring twice.
 awk '/^\[/ { in_sound = ($0 == "[ui.sound]") } in_sound && /^enabled *= *false/ { off = 1 } END { exit !off }' \
   "$HOME/.config/herdr/config.toml" || exit 0
 

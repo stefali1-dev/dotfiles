@@ -5,18 +5,8 @@
   },
   "permissions": {
     "allow": [
-      "Bash(/Users/stefan/.local/bin/agent-usage:*)",
-      "Bash(/Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
-      "Bash(/home/stefan/.local/bin/agent-usage:*)",
-      "Bash(/home/stefan/.local/bin/zcode-usage:*)",
-      "Bash(/home/stefan/dotfiles/claude/agent-usage.mjs:*)",
-      "Bash(/home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
       "Bash(agent-usage:*)",
       "Bash(herdr agent start:*)",
-      "Bash(node /Users/stefan/dotfiles/claude/agent-usage.mjs:*)",
-      "Bash(node /home/stefan/dotfiles/claude/agent-usage.mjs:*)",
-      "Bash(node /home/stefan/dotfiles/omarchy/zcode/usage.mjs:*)",
-      "Bash(zcode-usage:*)",
       "Read(//home/stefan/.local/share/zcode-tui/**)",
       "Read(//home/stefan/Applications/zcode/**)"
     ],
@@ -40,7 +30,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/herdr-agent-state.sh session",
+            "command": "~/.claude/hooks/session-state.sh session",
             "timeout": 10
           }
         ]

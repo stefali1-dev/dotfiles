@@ -5,11 +5,11 @@ description: "Spawn and drive ZCode (Z.ai's GLM coding agent TUI, the `zcode` co
 
 # ZCode in Herdr panes
 
-`zcode` is the ZCode TUI (setup: `~/dotfiles/omarchy/zcode/README.md`). Its hooks report its state to herdr (`omarchy/zcode/herdr-agent-state.sh`), so `herdr agent wait|get|read` work on it: idle, working, blocked (approval dialog), done. `herdr agent prompt` and `agent start` don't (herdr doesn't know it as an agent kind): type into it with `herdr pane ...`. Follow the herdr skill's rules on layout and focus.
+`zcode` is the ZCode TUI (setup: `~/dotfiles/zcode/README.md`). Its hooks report its state to herdr (`omarchy/zcode/herdr-agent-state.sh`), so `herdr agent wait|get|read` work on it: idle, working, blocked (approval dialog), done. `herdr agent prompt` and `agent start` don't (herdr doesn't know it as an agent kind): type into it with `herdr pane ...`. Follow the herdr skill's rules on layout and focus.
 
 ## Usage left
 
-`zcode-usage --json`: the plan's 5-hour and weekly limits (`usedPercent`, `resetsAt`). Check it before handing zcode a big task.
+`agent-usage zcode --json`: the plan's 5-hour and weekly limits (`usedPercent`, `resetsAt`). Check it before handing zcode a big task.
 
 ## Start, prompt, wait
 
