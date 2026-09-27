@@ -107,7 +107,7 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/herdr, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
@@ -121,8 +121,9 @@ install_omarchy() {
   "$DOTFILES/brave/web-theme/generate.sh"
   link "$DOTFILES/omarchy/theme-export.sh" "$HOME/.config/omarchy/hooks/theme-set.d/theme-export.sh"
   "$DOTFILES/omarchy/theme-export.sh"
-  # Omarchy ships herdr and its config; the Mac uses the same config. Commit what this changes.
+  # Omarchy's herdr config verbatim: the Mac's config, and the baseline omarchy/herdr/config.toml diffs against. Commit what this changes.
   install -Dm644 /usr/share/omarchy/config/herdr/config.toml "$DOTFILES/mac/herdr/config.toml"
+  link "$DOTFILES/omarchy/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
   # Without this folder, Omarchy's theme switch stops forcing its one-color (gray) policy on Brave, which would block the theme above.
   if [ -d /etc/brave/policies/managed ]; then
