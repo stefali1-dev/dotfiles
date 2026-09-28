@@ -60,10 +60,19 @@ translate = false
 # Names Whisper can't know; it spells them this way when it hears something close
 initial_prompt = "Claude Code, CLAUDE.md, ZCode, herdr, Omarchy, Hyprland, Voxtype, dotfiles, worktree, diff, grep, grepping, decisions.md, concise, concisely, skill, agent, subagent, orchestrator."
 
+[vad]
+# Skips silent recordings, which Whisper otherwise types as "." or "Thank you."; the log then says "No speech detected".
+enabled = true
+backend = "energy"
+
 [output]
 # Separates back-to-back recordings, which are otherwise typed glued together.
 # Not "\n": it is typed as Enter and submits a Claude Code prompt (shift_enter_newlines skips it).
 append_text = " "
+
+# macOS ignores append_text (Voxtype 0.7.5), so this types the space there; Omarchy lacks osascript and skips it.
+# HACK: remove once a Voxtype release makes macOS output honour append_text (check on each upgrade).
+post_output_command = "command -v osascript >/dev/null && osascript -e 'tell application \"System Events\" to keystroke \" \"' || true"
 
 # Primary output mode: "type" or "clipboard"
 # - type: Simulates keyboard input at cursor position (requires ydotool)
