@@ -27,3 +27,6 @@ defaults write -g KeyRepeat -int 2
 # left alone everywhere else so Romanian text still works. Ghostty repeats either way, so it needs
 # nothing. Letters without accents, the arrows and Backspace always repeat.
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+# Shottr's OCR shortcut (select a region, copy the text): Cmd+Shift+1, matching Omarchy.
+defaults write cc.ffitch.shottr KeyboardShortcuts_ocr '{"carbonModifiers":768,"carbonKeyCode":18}'
