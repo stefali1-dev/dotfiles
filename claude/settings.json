@@ -94,11 +94,14 @@
   },
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "medium"
     }
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  }
 }
