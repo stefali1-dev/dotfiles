@@ -82,6 +82,13 @@ install_mac() {
   else
     echo "  voxtype not installed; skipping its model and login item (brew install --cask peteonrails/voxtype/voxtype, then re-run)"
   fi
+  # The waveform strip Voxtype only draws on Linux; AeroSpace starts it.
+  if [ "$DOTFILES/voxtype/overlay/main.swift" -nt "$HOME/.local/bin/voxtype-overlay" ]; then
+    mkdir -p "$HOME/.local/bin"
+    swiftc -O "$DOTFILES/voxtype/overlay/main.swift" -o "$HOME/.local/bin/voxtype-overlay"
+    pkill -x voxtype-overlay || true
+    nohup "$HOME/.local/bin/voxtype-overlay" >/dev/null 2>&1 &
+  fi
 
   # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
   local app="$HOME/Applications/Yazi.app"

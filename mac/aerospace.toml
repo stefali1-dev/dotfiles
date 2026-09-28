@@ -2,8 +2,9 @@
 
 config-version = 2
 
-# Accent-colored border around the focused window, as Hyprland draws (reads ~/.config/borders/bordersrc).
-after-startup-command = ['exec-and-forget borders']
+# Accent-colored border around the focused window, as Hyprland draws (reads ~/.config/borders/bordersrc),
+# and the Voxtype waveform strip (voxtype/overlay/).
+after-startup-command = ['exec-and-forget borders', 'exec-and-forget ~/.local/bin/voxtype-overlay']
 start-at-login = true
 
 enable-normalization-flatten-containers = true
