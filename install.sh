@@ -122,7 +122,7 @@ install_mac() {
 }
 
 install_omarchy() {
-  echo "omarchy -> ~/.config/hypr, ~/.config/herdr, ~/.config/voxtype, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
+  echo "omarchy -> ~/.config/hypr, ~/.config/herdr, ~/.config/voxtype, ~/.config/brave-flags.conf, Brave and theme-export hooks, ~/.config/mpv, ~/.config/wireplumber, ~/.local/share/applications, nvim theme, ~/.claude/rules, /etc/keyd"
   link "$DOTFILES/omarchy/hypr/input.lua" "$HOME/.config/hypr/input.lua"
   link "$DOTFILES/omarchy/hypr/bindings.lua" "$HOME/.config/hypr/bindings.lua"
   link "$DOTFILES/omarchy/hypr/monitors.lua" "$HOME/.config/hypr/monitors.lua"
@@ -146,6 +146,7 @@ install_omarchy() {
     echo "  removed /etc/brave/policies/managed"
   fi
   link "$DOTFILES/omarchy/mpv/scripts/onepiece.lua" "$HOME/.config/mpv/scripts/onepiece.lua"
+  link "$DOTFILES/omarchy/wireplumber/internal-mic.conf" "$HOME/.config/wireplumber/wireplumber.conf.d/internal-mic.conf"
   # The whole folder: `voxtype config set` replaces config.toml instead of writing through a link.
   link "$DOTFILES/voxtype" "$HOME/.config/voxtype"
   if command -v voxtype >/dev/null; then
