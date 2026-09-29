@@ -111,6 +111,29 @@ o.bind("SUPER + SHIFT + Z", "Redo", mac_shortcut("CTRL SHIFT", "Z"))
 o.bind("SUPER + R", "Reload", mac_shortcut("CTRL", "R"))
 o.bind("SUPER + F", "Find", mac_shortcut("CTRL", "F", send_shortcut_once("CTRL SHIFT", "R")))
 
+-- SUPER + K is Cmd + K: web apps' command palette, and the browser's search,
+-- since CTRL + K switches tabs in Brave (below).
+hl.unbind("SUPER + K") -- was: Show key bindings (now SUPER + ALT + K)
+o.bind("SUPER + ALT + K", "Show key bindings", "omarchy menu keybindings")
+o.bind("SUPER + K", "Command palette", mac_shortcut("CTRL", "K"))
+
+-- CTRL + J/K switch to the next/previous tab in Brave, like moving down/up in
+-- Vim (vertical tabs), as on the Mac. Other windows, Brave web apps included,
+-- get the key unchanged.
+local function brave_tab_shortcut(tab_key, own_key)
+  return function()
+    local window = hl.get_active_window()
+    if window and window.class == "brave-browser" then
+      send_shortcut_once("CTRL", tab_key)()
+    else
+      send_shortcut_once("CTRL", own_key)()
+    end
+  end
+end
+
+o.bind("CTRL + J", "Next tab in Brave", brave_tab_shortcut("Page_Down", "J"), { repeating = true })
+o.bind("CTRL + K", "Previous tab in Brave", brave_tab_shortcut("Page_Up", "K"), { repeating = true })
+
 -- Mac-style word editing: ALT + arrows jump words, ALT + Backspace/Delete delete
 -- them, and SHIFT selects. Apps do this with CTRL, so they get the CTRL version;
 -- terminals already handle ALT (zsh, Claude Code), so they get the ALT key back.
