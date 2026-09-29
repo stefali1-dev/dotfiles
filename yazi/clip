@@ -1,0 +1,43 @@
+#!/bin/sh
+# Finder-style file copy and paste for Yazi, on macOS and Omarchy (Wayland).
+# Usage: clip copy <file>...   put the files themselves on the system clipboard
+#        clip paste            copy the files on the clipboard into the current folder
+set -eu
+
+case "$1" in
+copy)
+  shift
+  if [ "$(uname -s)" = Darwin ]; then
+    osascript -l JavaScript -e '
+      function run(paths) {
+        ObjC.import("AppKit")
+        const urls = $.NSMutableArray.array
+        paths.forEach(path => urls.addObject($.NSURL.fileURLWithPath(path)))
+        $.NSPasteboard.generalPasteboard.clearContents
+        $.NSPasteboard.generalPasteboard.writeObjects(urls)
+        // Exiting at once keeps only the first file: the clipboard takes the rest a moment later.
+        delay(0.1)
+      }' "$@"
+  else
+    # Percent-encoded, so names with spaces, # or ? survive.
+    python3 -c 'import pathlib, sys; print("\n".join(pathlib.Path(p).absolute().as_uri() for p in sys.argv[1:]))' "$@" |
+      wl-copy -t text/uri-list
+  fi
+  ;;
+paste)
+  if [ "$(uname -s)" = Darwin ]; then
+    osascript -l JavaScript -e '
+      ObjC.import("AppKit")
+      const urls = $.NSPasteboard.generalPasteboard.readObjectsForClassesOptions($([$.NSURL]), $())
+      const paths = []
+      for (let i = 0; i < urls.count; i++) if (urls.objectAtIndex(i).isFileURL) paths.push(urls.objectAtIndex(i).path.js)
+      paths.join("\n")'
+  else
+    wl-paste --no-newline --type text/uri-list |
+      python3 -c 'import sys, urllib.parse; [print(urllib.parse.unquote(urllib.parse.urlparse(u.strip()).path)) for u in sys.stdin if u.startswith("file:")]'
+  fi | while IFS= read -r path; do
+    # Never overwrite: a file with the same name here is left alone.
+    [ -e "./${path##*/}" ] || cp -R "$path" .
+  done
+  ;;
+esac

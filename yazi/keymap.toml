@@ -1,0 +1,11 @@
+# Ctrl+C / Ctrl+V copy and paste the files themselves, through the system clipboard, like Finder.
+# Replaces Yazi's Ctrl+C (close tab or quit); q still does that.
+[[mgr.prepend_keymap]]
+on = "<C-c>"
+run = 'shell -- ~/.config/yazi/clip copy "$@"'
+desc = "Copy files to the system clipboard"
+
+[[mgr.prepend_keymap]]
+on = "<C-v>"
+run = "shell -- ~/.config/yazi/clip paste"
+desc = "Paste files from the system clipboard"
