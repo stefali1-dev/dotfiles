@@ -68,6 +68,61 @@ zd() {
   fi
 }
 
+# Neovim workspace: replaces every window on this AeroSpace workspace, including this
+# terminal, with two Ghostty windows: Neovim (2/3) | claude (1/3), both in a directory
+# (`ide`, `ide git/app`, `ide app` via zoxide). Detached, so it survives closing this
+# terminal. Each window is a shell that starts its program, so quitting one leaves a shell.
+ide() {
+  local dir
+  if (( $# == 0 )); then
+    dir=$PWD
+  elif [[ -d $1 ]]; then
+    dir=${1:a}
+  else
+    dir=$(zoxide query -- "$@") || { echo "Error: Directory not found"; return 1 }
+  fi
+
+  (
+    # Closing this terminal moves focus to another workspace, so the workspace is fixed up front.
+    workspace=$(aerospace list-workspaces --focused)
+    windows() { aerospace list-windows --workspace $workspace --format '%{window-id}' }
+
+    # Opens a Ghostty window running $1 and waits until AeroSpace tiles it, so the windows open in order.
+    open_tile() {
+      aerospace workspace $workspace
+      osascript - "$dir" "$1" <<'EOF'
+on run argv
+	tell application "Ghostty"
+		set tileConfig to new surface configuration
+		set initial working directory of tileConfig to item 1 of argv
+		set command of tileConfig to "/bin/zsh -lic '" & item 2 of argv & "; exec zsh'"
+		new window with configuration tileConfig
+		activate
+	end tell
+end run
+EOF
+      until (( $(windows | wc -l) == $2 )); do sleep 0.05; done
+    }
+
+    for id in $(windows); do aerospace close --window-id $id; done
+    # An app can refuse to close, e.g. to ask about unsaved work.
+    for i in {1..60}; do [[ -z $(windows) ]] && break; sleep 0.05; done
+    if [[ -n $(windows) ]]; then
+      osascript -e 'display notification "A window on this workspace didn'\''t close" with title "ide"'
+      exit 1
+    fi
+
+    open_tile "nvim ." 1
+    editor=$(windows)
+    open_tile claude 2
+
+    # Two even tiles of width w: grow Neovim by a third of one to make it 2/3.
+    width=$(osascript -e 'tell application "System Events" to get item 1 of (get size of front window of process "Ghostty")')
+    aerospace resize --window-id $editor width +$(( width / 3 ))
+    aerospace focus --window-id $editor
+  ) &>/dev/null &!
+}
+
 # Shut down once no Claude Code session has worked for 10 minutes, or at a time limit either way
 # (`shutdown-when-agents-done 90m`, default 3h). Omarchy's version asks herdr, which this Mac can't run;
 # this reads ~/.claude/sessions/<pid>.json, where Claude Code (undocumented) keeps "status": "busy" while
