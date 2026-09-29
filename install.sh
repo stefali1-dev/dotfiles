@@ -75,12 +75,21 @@ install_mac() {
   link "$DOTFILES/mac/ghostty/config" "$HOME/.config/ghostty/config"
   # macOS keeps Voxtype's models beside its config, so only the file is linked.
   link "$DOTFILES/voxtype/config.toml" "$HOME/Library/Application Support/voxtype/config.toml"
-  if command -v voxtype >/dev/null; then
+  # Voxtype 1.x ships as an app in the release .dmg; the Homebrew cask is stuck at 0.7.5. Karabiner's F9 calls this path.
+  # HACK: back to the cask once peteonrails/voxtype/voxtype passes 0.7.5 (check on each upgrade).
+  if [ -d /Applications/Voxtype.app ]; then
+    # The release .dmg leaves the bundle unsigned, so macOS forgets its Microphone grant and asks on every take.
+    # Signed as `voxtype setup app-bundle` does; grant Microphone and Accessibility again afterwards.
+    if ! codesign -v /Applications/Voxtype.app 2>/dev/null; then
+      codesign --force --sign - /Applications/Voxtype.app/Contents/MacOS/voxtype-bin
+      codesign --force --deep --sign - /Applications/Voxtype.app
+    fi
+    ln -sf /Applications/Voxtype.app/Contents/MacOS/voxtype-bin /opt/homebrew/bin/voxtype
     voxtype setup --download --model small.en --quiet
-    # The app bundle, not launchd: only an app gets the microphone and Accessibility permissions.
-    [ -d /Applications/Voxtype.app ] || voxtype setup app-bundle
+    # A login item, not launchd: only an app gets the microphone and Accessibility permissions.
+    osascript -e 'tell application "System Events" to if not (exists login item "Voxtype") then make login item at end with properties {path:"/Applications/Voxtype.app", hidden:true}' >/dev/null
   else
-    echo "  voxtype not installed; skipping its model and login item (brew install --cask peteonrails/voxtype/voxtype, then re-run)"
+    echo "  Voxtype.app not installed; skipping its model and login item (drag it to Applications from the .dmg at github.com/peteonrails/voxtype/releases/latest, then re-run)"
   fi
   # The waveform strip Voxtype only draws on Linux; AeroSpace starts it.
   if [ "$DOTFILES/voxtype/overlay/main.swift" -nt "$HOME/.local/bin/voxtype-overlay" ]; then
