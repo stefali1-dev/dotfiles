@@ -24,6 +24,7 @@ cat >"$out/manifest.json" <<EOF
       "frame": $(rgb dark_background),
       "frame_inactive": $(rgb dark_background),
       "toolbar": $(rgb background),
+      "background_tab": $(rgb muted),
       "tab_text": $(rgb bright_foreground),
       "tab_background_text": $(rgb foreground),
       "tab_background_text_inactive": $(rgb dark_foreground),
