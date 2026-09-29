@@ -51,8 +51,14 @@ install_claude() {
 }
 
 install_git() {
-  echo "git -> ~/.config/git/ignore"
+  echo "git -> ~/.config/git/ignore, lazygit config"
   link "$DOTFILES/git/ignore" "$HOME/.config/git/ignore"
+  if [ "$(uname -s)" = Darwin ]; then
+    link "$DOTFILES/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+  else
+    link "$DOTFILES/lazygit/config.yml" "$HOME/.config/lazygit/config.yml"
+  fi
+  command -v delta >/dev/null || echo "  delta not installed; lazygit needs it for diffs (brew install git-delta, or omarchy-pkg-add git-delta)"
 }
 
 install_zsh() {

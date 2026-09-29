@@ -1,0 +1,17 @@
+gui:
+  theme:
+    selectedLineBgColor:
+      - '#3e4451'
+    selectedRangeBgColor:
+      - '#3e4451'
+    activeBorderColor:
+      - '#98c379'
+      - bold
+    inactiveBorderColor:
+      - '#abb2bf'
+    optionsTextColor:
+      - '#61afef'
+git:
+  diffRenderers:
+    # base16 colours code from the terminal palette, so it follows the Omarchy theme.
+    - command: delta --dark --paging=never --syntax-theme=base16
