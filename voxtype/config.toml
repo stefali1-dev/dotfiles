@@ -71,7 +71,7 @@ backend = "energy"
 append_text = " "
 
 # macOS ignores append_text (still in Voxtype 1.1.0), so this types the space there; Omarchy lacks osascript and skips it.
-# HACK: remove once a Voxtype release makes macOS output honour append_text (check on each upgrade).
+# HACK: remove once peteonrails/voxtype#811 is fixed (check on each upgrade).
 post_output_command = "command -v osascript >/dev/null && osascript -e 'tell application \"System Events\" to keystroke \" \"' || true"
 
 # Primary output mode: "type" or "clipboard"

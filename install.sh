@@ -79,7 +79,7 @@ install_mac() {
   # HACK: back to the cask once peteonrails/voxtype/voxtype passes 0.7.5 (check on each upgrade).
   if [ -d /Applications/Voxtype.app ]; then
     # The release .dmg leaves the bundle unsigned, so macOS forgets its Microphone grant and asks on every take.
-    # Signed as `voxtype setup app-bundle` does; grant Microphone and Accessibility again afterwards.
+    # HACK: signed as `voxtype setup app-bundle` does, until peteonrails/voxtype#810 is fixed; grant Microphone and Accessibility again afterwards.
     if ! codesign -v /Applications/Voxtype.app 2>/dev/null; then
       codesign --force --sign - /Applications/Voxtype.app/Contents/MacOS/voxtype-bin
       codesign --force --deep --sign - /Applications/Voxtype.app
