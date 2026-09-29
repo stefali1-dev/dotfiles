@@ -139,6 +139,7 @@ install_mac() {
     printf 'color_theme = "current"\ntheme_background = False\n' >>"$HOME/.config/btop/btop.conf"
   fi
   "$DOTFILES/mac/theme-set.sh"
+  "$DOTFILES/brave/extensions.sh" apply
 
   "$DOTFILES/mac/defaults.sh"
 }
@@ -156,6 +157,7 @@ install_omarchy() {
   "$DOTFILES/brave/theme.sh"
   link "$DOTFILES/brave/web-theme/generate.sh" "$HOME/.config/omarchy/hooks/theme-set.d/web-theme.sh"
   "$DOTFILES/brave/web-theme/generate.sh"
+  "$DOTFILES/brave/extensions.sh" apply
   link "$DOTFILES/omarchy/theme-export.sh" "$HOME/.config/omarchy/hooks/theme-set.d/theme-export.sh"
   "$DOTFILES/omarchy/theme-export.sh"
   # Omarchy's herdr config verbatim: the baseline omarchy/herdr/config.toml diffs against. Commit what this changes.

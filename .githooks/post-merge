@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
-# After a pull that changed theme/, apply the new Omarchy theme to this Mac's apps.
-# Omarchy applies its own themes, so this is macOS-only.
+# After a pull: apply a changed theme/ to this Mac (Omarchy applies its own themes), and a changed
+# Brave extension list on either machine.
 set -euo pipefail
 
-[ "$(uname -s)" = Darwin ] || exit 0
-
 root="$(git rev-parse --show-toplevel)"
-[ -x "$root/mac/theme-set.sh" ] || exit 0
 
 # What HEAD was before this merge. A fast-forward pull doesn't always leave ORIG_HEAD behind.
 before=$(git rev-parse --verify --quiet ORIG_HEAD || git rev-parse --verify --quiet 'HEAD@{1}' || true)
 [ -n "$before" ] || exit 0
+changed=$(git diff-tree -r --name-only --no-commit-id "$before" HEAD)
 
-if git diff-tree -r --name-only --no-commit-id "$before" HEAD | grep -q '^theme/'; then
+if [ "$(uname -s)" = Darwin ] && grep -q '^theme/' <<<"$changed"; then
   echo "theme/ changed; applying it to this Mac"
   "$root/mac/theme-set.sh"
+fi
+
+if grep -qx 'brave/extensions.txt' <<<"$changed"; then
+  echo "brave/extensions.txt changed; Brave picks it up on its next start"
+  "$root/brave/extensions.sh" apply
 fi
