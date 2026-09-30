@@ -58,7 +58,7 @@ translate = false
 # threads = 4
 
 # Names Whisper can't know; it spells them this way when it hears something close
-initial_prompt = "Claude Code, CLAUDE.md, ZCode, herdr, Omarchy, Hyprland, Voxtype, dotfiles, worktree, diff, grep, grepping, decisions.md, concise, concisely, skill, agent, subagent, orchestrator, Karabiner, Graphite, Shottr, Neo-tree, yank."
+initial_prompt = "Claude Code, CLAUDE.md, herdr, Omarchy, Hyprland, Voxtype, dotfiles, worktree, diff, grep, grepping, decisions.md, concise, concisely, skill, agent, subagent, orchestrator, Karabiner, Graphite, Shottr, Neo-tree, yank."
 
 [vad]
 # Skips silent recordings, which Whisper otherwise types as "." or "Thank you."; the log then says "No speech detected".
@@ -122,7 +122,6 @@ on_transcription = false
 "cloud code" = "Claude Code"
 "clod.md" = "CLAUDE.md"
 "clod" = "Claude"
-"z code" = "ZCode"
 "omarci" = "Omarchy"
 "orchestra scale" = "orchestrator skill"
 "orchestrator scale" = "orchestrator skill"

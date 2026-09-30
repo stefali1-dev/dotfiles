@@ -1,6 +1,0 @@
-[Unit]
-Description=Write the Z.ai Coding Plan usage for Omarchy's agents panel
-
-[Service]
-Type=oneshot
-ExecStart=%h/.local/share/mise/shims/node %h/.local/bin/agent-usage --omarchy-record

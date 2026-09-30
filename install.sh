@@ -36,19 +36,6 @@ install_claude() {
   link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
   link "$DOTFILES/claude/agent-usage.mjs" "$HOME/.local/bin/agent-usage"
   link "$DOTFILES/claude/ccswitch" "$HOME/.local/bin/ccswitch"
-  # ZCode's global instructions file: the same rules as Claude Code.
-  link "$DOTFILES/claude/CLAUDE.md" "$HOME/.zcode/AGENTS.md"
-  # ZCode reads ~/.zcode/skills and follows links. Only the skills that work for a GLM agent.
-  for item in zcode decision-questions caveman; do
-    link "$DOTFILES/claude/skills/$item" "$HOME/.zcode/skills/$item"
-  done
-
-  # zbridge: agents drive the ZCode desktop app with it (skills/zcode). The checkout you edit is the one installed.
-  local bridge="$HOME/git/zcode-bridge"
-  [ -d "$bridge" ] || git clone --quiet https://github.com/stefali1-dev/zcode-bridge.git "$bridge"
-  [ -f "$bridge/dist/index.js" ] || (cd "$bridge" && npm ci --silent && npm run build --silent)
-  link "$bridge/dist/index.js" "$HOME/.local/bin/zbridge"
-
   # Per skill, so skills installed by other tools (e.g. Omarchy's) stay alongside.
   for item in "$DOTFILES"/claude/skills/*/; do
     item="${item%/}"
@@ -201,19 +188,6 @@ install_omarchy() {
   fi
   link "$DOTFILES/omarchy/applications/yazi.desktop" "$HOME/.local/share/applications/yazi.desktop"
   link "$DOTFILES/omarchy/applications/org.gnome.Nautilus.desktop" "$HOME/.local/share/applications/org.gnome.Nautilus.desktop"
-  link "$DOTFILES/omarchy/zcode/update.sh" "$HOME/.local/bin/zcode-update"
-  # Puts ZCode in Omarchy's agents panel; omarchy-agent-usage-update only runs Omarchy's own collectors.
-  link "$DOTFILES/omarchy/zcode/zcode-usage.service" "$HOME/.config/systemd/user/zcode-usage.service"
-  link "$DOTFILES/omarchy/zcode/zcode-usage.timer" "$HOME/.config/systemd/user/zcode-usage.timer"
-  systemctl --user daemon-reload
-  systemctl --user enable --now zcode-usage.timer
-  # Deprecated terminal ZCode (replaced by zbridge), kept for now; its herdr hooks are cleared out.
-  link "$DOTFILES/zcode/zcode" "$HOME/.local/bin/zcode"
-  rm -f "$HOME/.local/bin/zcode-herdr-agent-state"
-  zcode_config="$HOME/.zcode/cli/config.json"
-  if [ -f "$zcode_config" ] && jq -e '.hooks' "$zcode_config" >/dev/null; then
-    jq 'del(.hooks)' "$zcode_config" >"$zcode_config.tmp" && mv "$zcode_config.tmp" "$zcode_config"
-  fi
 
   # Neovim follows the Omarchy theme. Untracked (it would dangle on macOS) and relinked by Omarchy migrations, so not link().
   ln -snf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$DOTFILES/nvim/lua/plugins/theme.lua"

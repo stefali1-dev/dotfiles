@@ -23,9 +23,7 @@
       "Bash(herdr tab create:*)",
       "Bash(herdr tab list:*)",
       "Bash(herdr workspace list:*)",
-      "Bash(sleep:*)",
-      "Bash(zbridge:*)",
-      "Read(//home/stefan/Applications/zcode/**)"
+      "Bash(sleep:*)"
     ],
     "additionalDirectories": [
       "~/agent-docs"

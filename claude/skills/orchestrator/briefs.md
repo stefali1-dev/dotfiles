@@ -25,7 +25,6 @@ This session is run by an orchestrator agent. It works for the captain, the pers
 ## Task
 - Goal: <the change, and why>
 - You're in the worktree <path>, on branch <task>.
-  <GLM instead: Your shell starts outside the worktree <path> (branch <task>): use absolute paths, `git -C <path>` for git, and `cd <path> &&` before other commands.>
 - Start from: <files>. These are hints, not a fence.
 - Done when: <check>
 - Out of scope: <what not to touch>
@@ -36,7 +35,7 @@ This session is run by an orchestrator agent. It works for the captain, the pers
 ```
 ## Task
 - Question: <what to find out>
-- You're in a scratch worktree <path>: run and try anything, nothing is kept. <GLM: your shell starts outside it; use absolute paths and `cd <path> &&`.>
+- You're in a scratch worktree <path>: run and try anything, nothing is kept.
 - Start from: <files>. These are hints, not a fence.
 - Done when: the report answers the question.
 - Don't fix anything. If the fix is obvious, describe it in the report.
