@@ -16,6 +16,11 @@ if [[ $installed == "$version" ]]; then
   echo "ZCode $version already installed"
   exit 0
 fi
+# Tags can trail the CDN (3.14.4 shipped while the newest tag was v3.14.3): never downgrade by default.
+if [[ -z ${1:-} && $installed != none && $(printf '%s\n' "$installed" "$version" | sort -V | tail -n 1) == "$installed" ]]; then
+  echo "ZCode $installed installed, newer than the newest tag ($version); pass a version to change it"
+  exit 0
+fi
 if pgrep -f "^$app/zcode" >/dev/null; then
   echo "Quit the ZCode app first ($installed is running, updating to $version)" >&2
   exit 1
