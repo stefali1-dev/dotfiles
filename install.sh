@@ -201,9 +201,9 @@ install_omarchy() {
   link "$DOTFILES/omarchy/zcode/zcode-usage.timer" "$HOME/.config/systemd/user/zcode-usage.timer"
   systemctl --user daemon-reload
   systemctl --user enable --now zcode-usage.timer
-  # TODO: remove once this ran on Omarchy: clears out the terminal ZCode (replaced by zbridge) and its herdr hooks.
-  rm -f "$HOME/.local/bin/zcode" "$HOME/.local/bin/zcode-herdr-agent-state"
-  rm -rf "$HOME/.local/share/zcode-tui"
+  # Deprecated terminal ZCode (replaced by zbridge), kept for now; its herdr hooks are cleared out.
+  link "$DOTFILES/zcode/zcode" "$HOME/.local/bin/zcode"
+  rm -f "$HOME/.local/bin/zcode-herdr-agent-state"
   zcode_config="$HOME/.zcode/cli/config.json"
   if [ -f "$zcode_config" ] && jq -e '.hooks' "$zcode_config" >/dev/null; then
     jq 'del(.hooks)' "$zcode_config" >"$zcode_config.tmp" && mv "$zcode_config.tmp" "$zcode_config"
