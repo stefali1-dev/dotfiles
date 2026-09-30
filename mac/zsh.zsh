@@ -68,6 +68,13 @@ zd() {
   fi
 }
 
+# Pick one of this repo's git worktrees and open Neovim in it.
+wt() {
+  local dir
+  dir=$(git worktree list | fzf --height 40% --reverse | awk '{print $1}')
+  [[ -n $dir ]] && builtin cd "$dir" && nvim .
+}
+
 # Neovim workspace: replaces every window on this AeroSpace workspace, including this
 # terminal, with two Ghostty windows: Neovim (2/3) | claude (1/3), both in a directory
 # (`ide`, `ide git/app`, `ide app` via zoxide). Detached, so it survives closing this

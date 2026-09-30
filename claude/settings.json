@@ -92,6 +92,9 @@
   "worktree": {
     "baseRef": "head"
   },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  },
   "modelSettings": {
     "claude-opus-5-5": {
       "effortLevel": "medium"
@@ -100,8 +103,5 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:omarchy",
   "switchModelsOnFlag": true,
-  "agentPushNotifEnabled": true,
-  "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true
-  }
+  "agentPushNotifEnabled": true
 }
