@@ -110,6 +110,12 @@ install_mac() {
   else
     echo "  Voxtype.app not installed; skipping its model and login item (drag it to Applications from the .dmg at github.com/peteonrails/voxtype/releases/latest, then re-run)"
   fi
+  # BetterCapture has no "open at login" of its own, and its Cmd+Shift+3 (set in defaults.sh) only works while it runs.
+  if [ -d /Applications/BetterCapture.app ]; then
+    osascript -e 'tell application "System Events" to if not (exists login item "BetterCapture") then make login item at end with properties {path:"/Applications/BetterCapture.app", hidden:true}' >/dev/null
+  else
+    echo "  BetterCapture.app not installed; skipping its login item (brew install --cask bettercapture, then re-run)"
+  fi
   # The waveform strip Voxtype only draws on Linux; AeroSpace starts it.
   if [ "$DOTFILES/voxtype/overlay/main.swift" -nt "$HOME/.local/bin/voxtype-overlay" ]; then
     mkdir -p "$HOME/.local/bin"

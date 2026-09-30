@@ -8,8 +8,11 @@ set -euo pipefail
 # Ctrl+Down's App Exposé (33), and Switch to Desktop 1-5 (118-122), which would otherwise take the
 # Cmd+1-4 that aerospace.toml uses for workspaces.
 # Ctrl+Shift+Left/Right (80, 82) stay on.
+# Also Keyboard > Screenshots' "Save picture of screen as a file" (28), whose Cmd+Shift+3 goes to
+# BetterCapture below.
 for shortcut in "79 123 8650752" "81 124 8650752" "32 126 8650752" "34 126 8781824" "33 125 8650752" \
-  "118 18 1048576" "119 19 1048576" "120 20 1048576" "121 21 1048576" "122 23 1048576"; do
+  "118 18 1048576" "119 19 1048576" "120 20 1048576" "121 21 1048576" "122 23 1048576" \
+  "28 20 1179648"; do
   set -- $shortcut
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$1" \
     "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>$2</integer><integer>$3</integer></array><key>type</key><string>standard</string></dict></dict>"
@@ -29,4 +32,13 @@ defaults write -g KeyRepeat -int 2
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
 # Shottr's OCR shortcut (select a region, copy the text): Cmd+Shift+1, matching Omarchy.
-defaults write cc.ffitch.shottr KeyboardShortcuts_ocr '{"carbonModifiers":768,"carbonKeyCode":18}'
+defaults write cc.ffitch.shottr KeyboardShortcuts_ocr -string '{"carbonModifiers":768,"carbonKeyCode":18}'
+
+# BetterCapture's Toggle Recording on Cmd+Shift+3, in Select Area mode: the first press picks the
+# area, the next starts, the next stops. The area stays picked, so later presses record it again
+# (the menu bar icon picks a new one). System audio is on by default, the microphone off.
+# BetterCapture reads these at launch, so it is quit first.
+osascript -e 'quit app "BetterCapture"' 2>/dev/null || true
+defaults write com.sattlerjoshua.BetterCapture KeyboardShortcuts_toggleRecording -string '{"carbonModifiers":768,"carbonKeyCode":20}'
+defaults write com.sattlerjoshua.BetterCapture contentSelectionMode selectArea
+open -ga BetterCapture 2>/dev/null || true
