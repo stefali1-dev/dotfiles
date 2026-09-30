@@ -95,30 +95,19 @@ ide() {
   ) &>/dev/null &!
 }
 
-# Shut down once no herdr agent has worked for 10 minutes, or at a time limit
-# either way (`shutdown-when-agents-done 90m`, default 3h). Leave it running in
-# a terminal; Ctrl+C cancels. An agent waiting for approval counts as done: it
-# won't move until morning anyway.
-shutdown-when-agents-done() {
-  local limit=${1:-3h} seconds quiet=0
-  case $limit in
-    <->h) seconds=$(( ${limit%h} * 3600 )) ;;
-    <->m) seconds=$(( ${limit%m} * 60 )) ;;
-    *) echo "Usage: shutdown-when-agents-done [<hours>h | <minutes>m]" >&2; return 1 ;;
+# Shut down after a set time (`shutdown-in 90m`). Leave it running in a
+# terminal; Ctrl+C cancels.
+shutdown-in() {
+  local seconds
+  case $1 in
+    <->h) seconds=$(( ${1%h} * 3600 )) ;;
+    <->m) seconds=$(( ${1%m} * 60 )) ;;
+    *) echo "Usage: shutdown-in <hours>h | <minutes>m" >&2; return 1 ;;
   esac
-  local deadline=$(( SECONDS + seconds ))
-  echo "Shutting down once no agent has worked for 10 minutes, or at $(date -d "+$seconds seconds" +%H:%M). Ctrl+C cancels."
+  echo "Shutting down at $(date -d "+$(( seconds + 60 )) seconds" +%H:%M), with a warning a minute before. Ctrl+C cancels."
+  sleep $seconds
 
-  while (( SECONDS < deadline && quiet < 10 )); do
-    if herdr agent list | jq -e '.result.agents | all(.agent_status | IN("idle", "done", "blocked"))' >/dev/null; then
-      (( quiet++ ))
-    else
-      quiet=0
-    fi
-    sleep 60
-  done
-
-  notify-send -u critical "Shutting down in 60 seconds" "Ctrl+C in the terminal running shutdown-when-agents-done cancels"
+  notify-send -u critical "Shutting down in 60 seconds" "Ctrl+C in the terminal running shutdown-in cancels"
   echo "Shutting down in 60 seconds. Ctrl+C cancels."
   sleep 60
   # Stay Awake would otherwise still be on after the next boot.

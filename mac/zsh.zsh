@@ -130,34 +130,21 @@ EOF
   ) &>/dev/null &!
 }
 
-# Shut down once no Claude Code session has worked for 10 minutes, or at a time limit either way
-# (`shutdown-when-agents-done 90m`, default 3h). Omarchy's version asks herdr, which this Mac can't run;
-# this reads ~/.claude/sessions/<pid>.json, where Claude Code (undocumented) keeps "status": "busy" while
-# it works. A session waiting for approval counts as done: it won't move until morning anyway.
-shutdown-when-agents-done() {
-  local limit=${1:-3h} seconds quiet=0 busy file
-  case $limit in
-    <->h) seconds=$(( ${limit%h} * 3600 )) ;;
-    <->m) seconds=$(( ${limit%m} * 60 )) ;;
-    *) echo "Usage: shutdown-when-agents-done [<hours>h | <minutes>m]" >&2; return 1 ;;
+# Shut down after a set time (`shutdown-in 90m`). Leave it running in a terminal; Ctrl+C cancels.
+shutdown-in() {
+  local seconds
+  case $1 in
+    <->h) seconds=$(( ${1%h} * 3600 )) ;;
+    <->m) seconds=$(( ${1%m} * 60 )) ;;
+    *) echo "Usage: shutdown-in <hours>h | <minutes>m" >&2; return 1 ;;
   esac
-  local deadline=$(( SECONDS + seconds ))
   # Keeps the Mac awake until then. The EXIT trap also runs on Ctrl+C; -w ends it if the terminal closes.
   caffeinate -i -w $$ &!
   trap "kill $!" EXIT
-  echo "Shutting down once no Claude session has worked for 10 minutes, or at $(date -v+${seconds}S +%H:%M). Ctrl+C cancels."
+  echo "Shutting down at $(date -v+$(( seconds + 60 ))S +%H:%M), with a warning a minute before. Ctrl+C cancels."
+  sleep $seconds
 
-  while (( SECONDS < deadline && quiet < 10 )); do
-    busy=0
-    for file in ~/.claude/sessions/*.json(N); do
-      # Skips files a crashed session left behind.
-      kill -0 ${file:t:r} 2>/dev/null && [[ $(jq -r .status $file) == busy ]] && busy=1
-    done
-    if (( busy )); then quiet=0; else (( quiet++ )); fi
-    sleep 60
-  done
-
-  osascript -e 'display notification "Ctrl+C in the terminal running shutdown-when-agents-done cancels" with title "Shutting down in 60 seconds"'
+  osascript -e 'display notification "Ctrl+C in the terminal running shutdown-in cancels" with title "Shutting down in 60 seconds"'
   echo "Shutting down in 60 seconds. Ctrl+C cancels."
   sleep 60
   # Needs no password, unlike `shutdown`. An app with unsaved work can still stop it.
