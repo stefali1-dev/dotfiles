@@ -1,7 +1,7 @@
 #!/bin/bash
 # Plays herdr's done/request sound for agents that talk to you: agent-sound.sh done|request.
 # herdr's own sound is off in omarchy/herdr/config.toml because it also rang for every orchestrator worker.
-# Called by Claude Code's hooks and by zcode's herdr-agent-state.sh.
+# Called by Claude Code's hooks.
 [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ] || exit 0
 # Orchestrator workers report to the orchestrator, not to you.
 [ "${ORCH_WORKER:-}" = 1 ] && exit 0

@@ -24,7 +24,7 @@
       "Bash(herdr tab list:*)",
       "Bash(herdr workspace list:*)",
       "Bash(sleep:*)",
-      "Read(//home/stefan/.local/share/zcode-tui/**)",
+      "Bash(zbridge:*)",
       "Read(//home/stefan/Applications/zcode/**)"
     ],
     "additionalDirectories": [

@@ -25,6 +25,7 @@ This session is run by an orchestrator agent. It works for the captain, the pers
 ## Task
 - Goal: <the change, and why>
 - You're in the worktree <path>, on branch <task>.
+  <GLM instead: Your shell starts outside the worktree <path> (branch <task>): use absolute paths, `git -C <path>` for git, and `cd <path> &&` before other commands.>
 - Start from: <files>. These are hints, not a fence.
 - Done when: <check>
 - Out of scope: <what not to touch>
@@ -35,7 +36,7 @@ This session is run by an orchestrator agent. It works for the captain, the pers
 ```
 ## Task
 - Question: <what to find out>
-- You're in a scratch worktree <path>: run and try anything, nothing is kept.
+- You're in a scratch worktree <path>: run and try anything, nothing is kept. <GLM: your shell starts outside it; use absolute paths and `cd <path> &&`.>
 - Start from: <files>. These are hints, not a fence.
 - Done when: the report answers the question.
 - Don't fix anything. If the fix is obvious, describe it in the report.
@@ -45,7 +46,7 @@ This session is run by an orchestrator agent. It works for the captain, the pers
 
 ```
 ## Task
-Review the change on branch <task> in <path>: `git diff <base>...<task>`. You didn't write it.
+Review the change on branch <task> in <path>: `git -C <path> diff <base>...<task>`. You didn't write it.
 <Or, for a plan: review <plan path>.>
 Also read <~/agent-docs/<repo>/work/<feature>/decisions.md>. You may question those decisions too.
 
@@ -64,7 +65,7 @@ List each finding in the report:
 - Bugs: show the bug happening (a failing test or a command) before fixing it.
 - Run only the tests for your change, plus fast checks (lint, types). Not the full suite.
 - Commit on your branch. Don't merge, push or rebase unless the orchestrator asks.
-- Never create or remove worktrees or switch branches. If `git rev-parse --show-toplevel` isn't <path>, stop and report.
+- Never create or remove worktrees or switch branches. If `git -C <path> branch --show-current` isn't <task>, stop and report.
 - Stuck on the same obstacle twice: stop and report. A question only the captain can answer: stop and ask in the report.
 - The task turns out much bigger than this brief: stop and report before going on.
 ```
