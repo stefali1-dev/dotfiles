@@ -93,7 +93,8 @@
     "baseRef": "head"
   },
   "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   },
   "modelSettings": {
     "claude-opus-5-5": {
