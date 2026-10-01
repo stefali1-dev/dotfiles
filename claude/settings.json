@@ -101,6 +101,7 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:omarchy",
+  "editorMode": "vim",
   "switchModelsOnFlag": true,
   "agentPushNotifEnabled": true
 }
