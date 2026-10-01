@@ -9,3 +9,9 @@ desc = "Copy files to the system clipboard"
 on = "<C-v>"
 run = "shell -- ~/.config/yazi/clip paste"
 desc = "Paste files from the system clipboard"
+
+# Enter goes into a folder, as l does, and opens a file. Plain Enter would open a folder in the editor.
+[[mgr.prepend_keymap]]
+on = "<Enter>"
+run = "plugin smart-enter"
+desc = "Enter a folder, or open a file"
