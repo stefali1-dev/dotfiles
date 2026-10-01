@@ -12,6 +12,8 @@ You plan, hand out tasks, check results and report. You never edit project code,
 
 Workers start differently per machine: read [workers-mac.md](workers-mac.md) on macOS, [workers-omarchy.md](workers-omarchy.md) on Omarchy, now.
 
+A machine can add workers from outside this repo: read every file in `~/.claude/orchestrator.d/` now, if the folder exists. Where one differs from this file, it wins.
+
 ## Your files
 
 The repo is the main checkout's folder name. Pick a short feature name from the captain's request. Feature folder `F=~/agent-docs/<repo>/work/<feature>/`:

@@ -196,7 +196,7 @@ Screenshots on Omarchy use Omasnap (installed by `install.sh`); macOS keeps its 
 | `agent-usage.mjs` | `~/.local/bin/agent-usage`: Claude plan usage: 5-hour and weekly used % and reset time; `--json` for orchestrator agents. Live from the endpoint behind `/usage` (reads the login token, never refreshes it) |
 | `ccswitch` | `~/.local/bin/ccswitch`: switch the Claude Code login between saved accounts in `~/.claude-accounts/` (machine-local, never committed): `add <name>` captures the current login, `ccswitch [name]` saves-then-switches (fzf picker), `list` shows refresh-token days left. Refuses while a claude session runs (`--force` overrides). Swaps `~/.claude/.credentials.json` on Linux, the Keychain on macOS | any |
 | `file-suggestion.sh` | `@` picker: tracked files plus agent docs and local notes |
-| `skills/` | `review-comments`, `decision-questions`, `caveman`, `orchestrator` (`/orchestrator`: hands tasks to Claude workers, each on its own worktree; they run in herdr tabs on Omarchy and as subagents on the Mac; decisions in `~/agent-docs/orchestrator/`) |
+| `skills/` | `review-comments`, `decision-questions`, `caveman`, `orchestrator` (`/orchestrator`: hands tasks to Claude workers, each on its own worktree; they run in herdr tabs on Omarchy and as subagents on the Mac; decisions in `~/agent-docs/orchestrator/`; a machine adds its own workers with files in `~/.claude/orchestrator.d/`, outside this repo) |
 | `rules/comments.md` | Comment standard for `.ts`/`.tsx` files |
 | `agents/reviewer.md` | Fresh-context reviewer used by `review-comments` |
 | `commands/q.md` | `/q` queues a follow-up |
