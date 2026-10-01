@@ -1,0 +1,3 @@
+# Open text files in Neovim, whatever $EDITOR is (Yazi.app starts a login shell that never reads .zshrc).
+[opener]
+edit = [{ run = 'nvim "$@"', block = true, for = "unix" }]
