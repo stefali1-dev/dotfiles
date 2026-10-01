@@ -85,6 +85,17 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/skill-mention.sh",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "worktree": {

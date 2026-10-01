@@ -73,8 +73,9 @@ install_yazi() {
 }
 
 install_mac() {
-  echo "mac -> ~/.claude/rules, ~/.config/{aerospace,karabiner,ghostty}, ~/Applications/Yazi.app, macOS preferences"
+  echo "mac -> ~/.claude/{rules,orchestrator.d}, ~/.config/{aerospace,karabiner,ghostty}, ~/Applications/Yazi.app, macOS preferences"
   link "$DOTFILES/mac/claude-rules.md" "$HOME/.claude/rules/mac.md"
+  link "$DOTFILES/mac/orchestrator-cursor.md" "$HOME/.claude/orchestrator.d/cursor.md"
   link "$DOTFILES/mac/aerospace.toml" "$HOME/.config/aerospace/aerospace.toml"
   # The whole folder: Karabiner rewrites karabiner.json and doesn't follow a symlinked file.
   link "$DOTFILES/mac/karabiner" "$HOME/.config/karabiner"
