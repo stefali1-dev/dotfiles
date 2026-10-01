@@ -74,8 +74,9 @@ on-mode-changed = []
     ctrl-cmd-4 = 'move-node-to-workspace --focus-follows-window 4'
     # ctrl-cmd-5 = 'move-node-to-workspace --focus-follows-window 5' # Workspace 5 disabled for now.
 
-    # New terminal: a window in the running Ghostty, rather than a second copy of the app.
-    cmd-enter = '''exec-and-forget osascript -e 'if application "Ghostty" is running then' -e 'tell application "Ghostty" to new window' -e 'else' -e 'tell application "Ghostty" to activate' -e 'end if' '''
+    # New terminal: a window in the running Ghostty, rather than a second copy of the app,
+    # always in the home directory instead of the focused terminal's.
+    cmd-enter = '''exec-and-forget osascript -e 'set home to POSIX path of (path to home folder)' -e 'if application "Ghostty" is running then' -e 'tell application "Ghostty"' -e 'set c to new surface configuration' -e 'set initial working directory of c to home' -e 'new window with configuration c' -e 'end tell' -e 'else' -e 'tell application "Ghostty" to activate' -e 'end if' '''
 
     # As on Omarchy. Cmd+Ctrl+F would otherwise be macOS full screen, which moves the window to its own Space.
     cmd-alt-t = 'layout floating tiling'

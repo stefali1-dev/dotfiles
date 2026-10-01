@@ -18,3 +18,6 @@ end, { desc = "Copy directory path relative to project root" })
 vim.keymap.set("n", "<leader>fD", function()
   vim.fn.setreg("+", vim.fn.expand("%:p:h"))
 end, { desc = "Copy full directory path" })
+
+-- Cmd+C copies the selection, as in Ghostty (which passes Cmd+C through when it has no selection).
+vim.keymap.set("v", "<D-c>", '"+y', { desc = "Copy selection" })
