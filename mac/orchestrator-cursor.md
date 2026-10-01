@@ -20,6 +20,8 @@ The JSON's `session_id` is the handle. Its `usage.cacheReadTokens` is the cost: 
 
 The same command with `--resume <session_id>` and the message as the prompt. Only that task's session: a new task gets a new session, or its context (and cost) keeps growing.
 
+At most one message back per worker or reviewer, and none when you can avoid it: every resume re-reads the whole session. Put everything in that one message (all findings, all questions). The brief's "done" names every check up front, integration tests included, so nothing is found later.
+
 ## See what it's doing
 
 Nothing until it stops: `git -C <worktree> status` and the report file.
