@@ -1,0 +1,3 @@
+#!/bin/sh
+# BROWSER helper: Claude Code runs $BROWSER with the URL as its only argument.
+exec open -a "Brave Browser" "$1"

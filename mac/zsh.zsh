@@ -153,3 +153,6 @@ shutdown-in() {
 
 # sudo -A asks for the password in a dialog, so Claude Code can run sudo without a terminal.
 export SUDO_ASKPASS=${${(%):-%x}:A:h}/bin/sudo-askpass
+
+# Claude Code opens login URLs with $BROWSER, otherwise macOS `open` (Chrome). Omarchy already points BROWSER at Brave.
+export BROWSER=${${(%):-%x}:A:h}/bin/open-in-brave
