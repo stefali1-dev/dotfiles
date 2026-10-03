@@ -1,0 +1,23 @@
+#!/bin/zsh
+# Leaving macOS native fullscreen puts Chrome back as a new tile (50/50, on the right):
+# this restores Chrome 2/3 on the left, but only when the tiles are one Chrome and one Obsidian.
+
+ws=$(aerospace list-workspaces --focused)
+tiles=$(aerospace list-windows --workspace "$ws" --format '%{window-id}|%{app-name}|%{window-layout}' | grep -E '_(tiles|accordion)$')
+[[ $(print -r -- "$tiles" | cut -d'|' -f2 | sort | tr '\n' ,) == 'Google Chrome,Obsidian,' ]] || exit 0
+chrome=$(print -r -- "$tiles" | grep '|Google Chrome|' | cut -d'|' -f1)
+
+aerospace flatten-workspace-tree --workspace "$ws"
+aerospace layout --window-id "$chrome" tiles horizontal >/dev/null
+aerospace move --window-id "$chrome" --boundaries workspace --boundaries-action stop left
+
+# AeroSpace can't report sizes; system_profiler names the built-in screen "Color LCD".
+monitor=$(aerospace list-monitors --focused --format '%{monitor-name}')
+[[ $monitor == Built-in* ]] && monitor='Color LCD'
+width=$(system_profiler SPDisplaysDataType | awk -v m="$monitor:" '
+    $0 ~ /^        [^ ]/ { inside = ($0 ~ "^ +" m "$") }
+    inside && /Looks like:/ { print $4; exit }')
+[[ -n $width ]] || exit 1
+
+# The gaps in aerospace.toml: outer 12 + 12, inner 8.
+aerospace resize --window-id "$chrome" width $(( (width - 32) * 2 / 3 ))

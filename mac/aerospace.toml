@@ -3,8 +3,12 @@
 config-version = 2
 
 # Accent-colored border around the focused window, as Hyprland draws (reads ~/.config/borders/bordersrc),
-# and the Voxtype waveform strip (voxtype/overlay/).
-after-startup-command = ['exec-and-forget borders', 'exec-and-forget ~/.local/bin/voxtype-overlay']
+# the Voxtype waveform strip (voxtype/overlay/), and the Chrome + Obsidian layout fix after native fullscreen.
+after-startup-command = [
+    'exec-and-forget borders',
+    'exec-and-forget ~/.local/bin/voxtype-overlay',
+    'exec-and-forget ~/.local/bin/space-watch ~/dotfiles/mac/bin/aerospace-study-layout',
+]
 start-at-login = true
 
 enable-normalization-flatten-containers = true
@@ -82,8 +86,11 @@ on-mode-changed = []
     cmd-alt-t = 'layout floating tiling'
     cmd-ctrl-f = 'fullscreen'
 
+    # Chrome back to 2/3 beside Obsidian; space-watch does this by itself after native fullscreen.
+    cmd-shift-semicolon = 'exec-and-forget ~/dotfiles/mac/bin/aerospace-study-layout'
+
     # Small service mode for maintenance.
-    cmd-shift-semicolon = 'mode service'
+    cmd-alt-semicolon = 'mode service'
 
 [mode.service.binding]
     esc = ['reload-config', 'mode main']

@@ -111,6 +111,13 @@ install_mac() {
     pkill -x voxtype-overlay || true
     nohup "$HOME/.local/bin/voxtype-overlay" >/dev/null 2>&1 &
   fi
+  # Native fullscreen exits; AeroSpace starts it.
+  if [ "$DOTFILES/mac/space-watch.swift" -nt "$HOME/.local/bin/space-watch" ]; then
+    mkdir -p "$HOME/.local/bin"
+    swiftc -O "$DOTFILES/mac/space-watch.swift" -o "$HOME/.local/bin/space-watch"
+    pkill -x space-watch || true
+    nohup "$HOME/.local/bin/space-watch" "$DOTFILES/mac/bin/aerospace-study-layout" >/dev/null 2>&1 &
+  fi
 
   # Yazi.app, rebuilt when its script changes. Opening folders makes it a folder handler (set in defaults.sh).
   local app="$HOME/Applications/Yazi.app"

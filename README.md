@@ -46,6 +46,8 @@ Existing files are moved to `<file>.bak.<timestamp>`, never deleted. Re-running 
 | `mac/borders/bordersrc` | `~/.config/borders/bordersrc`: JankyBorders draws the accent-colored border Hyprland draws on Omarchy. Started by AeroSpace | macOS |
 | `mac/theme-set.sh` | Not linked; run by `install.sh` and by `.githooks/post-merge` when a pull changes `theme/`: applies the theme to Brave, Ghostty, VS Code, Obsidian, btop, the border, the wallpaper and the text-selection color | macOS |
 | `mac/yazi.applescript` | Compiled by `install.sh` into `~/Applications/Yazi.app`: opens Yazi in a Ghostty window, on a folder if it gets one. Reachable from Cmd + Shift + F, Spotlight, a folder's "Open With" and `open -a Yazi <dir>`. It can't become the default for folders: macOS 26 refuses to reassign `public.folder` or the `file:` scheme, even to Finder itself, so double-clicking a folder and "Show in folder" stay Finder. First use asks to let Yazi control Ghostty | macOS |
+| `mac/bin/aerospace-study-layout` | Run by `space-watch` and by AeroSpace on Cmd + Shift + ;: when the focused workspace's tiles are one Chrome and one Obsidian, puts Chrome back on the left at 2/3. macOS native fullscreen (Udemy's F key, the green button) loses a window's place, and AeroSpace re-adds it 50/50 on the right | macOS |
+| `mac/space-watch.swift` | `install.sh` compiles it to `~/.local/bin/space-watch`, which AeroSpace starts: runs `aerospace-study-layout` on every macOS Space change, which with AeroSpace means a window entering or leaving native fullscreen (AeroSpace has no callback for that) | macOS |
 | `mac/bin/sudo-askpass` | Used by `sudo -A`: a password dialog showing the command | macOS |
 | `mac/claude-rules.md` | `~/.claude/rules/mac.md`: Claude Code rules for macOS only (root via `sudo -A`) | macOS |
 | `mac/orchestrator-cursor.md` | `~/.claude/orchestrator.d/cursor.md`: lets the orchestrator skill run Cursor agents (`cursor-agent`) as workers and reviewers. Mac only: Omarchy has no Cursor | macOS |
@@ -163,7 +165,8 @@ where those keys already mean something (bold, Find in Files) keep them.
 | Launcher | Cmd + Space | Cmd + Space (Spotlight) |
 | Scratchpad, and moving a window to it | Cmd + Alt + S, Cmd + Shift + Alt + S | – |
 | List all bindings | Cmd + K | – |
-| Service mode (reload, flatten, layout) | – | Cmd + Shift + ; |
+| Restore Chrome 2/3 beside Obsidian | – | Cmd + Shift + ; |
+| Service mode (reload, flatten, layout) | – | Cmd + Alt + ; |
 
 On Omarchy, Cmd + C/V/X/A/Z/Shift+Z/S/F/R/N/T/Shift+T/W send the matching Ctrl shortcut to the app
 (terminals get a terminal-safe action instead); macOS apps already use Cmd for these. Cmd + 0 is
